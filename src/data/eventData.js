@@ -1,8 +1,15 @@
+import aug2nd25 from '../images/aug2nd25.png'
+import feb26_25 from '../images/26feb25.png'
+import feb5_25 from '../images/5feb25.png'
+import dec11_24 from '../images/11dec24.png'
+import dec5_24 from '../images/5dec24.png'
+import feb28_24 from '../images/28feb24.png'
+
 export const eventData = {
   title: "AniArchive Coventry",
   date: "Saturday, 2nd August 2025",
   time: "10:00 AM - 6:00 PM",
-  image: "src/images/aug2nd25.png",
+  image: aug2nd25,
   venue: {
     name: "The Box - Fargo Village",
     address: "Far Gosford Street , Coventry, UK. CV1 5ED",
@@ -32,23 +39,23 @@ export const eventData = {
   pastEvents: [
     {
       title: "AniArchive 2025",
-      image: "src/images/26feb25.png"
+      image: feb26_25
     },
     {
       title: "AniArchive 2025",
-      image: "src/images/5feb25.png"
+      image: feb5_25
     },
     {
       title: "AniArchive 2024",
-      image: "src/images/11dec24.png"
+      image: dec11_24
     },
     {
       title: "AniArchive 2024",
-      image: "src/images/5dec24.png"
+      image: dec5_24
     },
     {
       title: "AniArchive 2024",
-      image: "src/images/28feb24.png"
+      image: feb28_24
     }
   ]
 } 

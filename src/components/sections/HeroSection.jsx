@@ -6,6 +6,12 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import RSVPModal from '../common/RSVPModal'
 
+import igGif from '../../images/IG.gif'
+import fbGif from '../../images/FB.gif'
+import sgGif from '../../images/sg.gif'
+import logo from '../../images/logo.png'
+import bg from '../../images/wispers.gif'
+
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -187,6 +193,10 @@ const EventTitleTab = ({ isMobile }) => {
             width: '100%',
             position: 'relative',
             padding: { xs: '20px', md: '0px' },
+            backgroundImage: `url(${logo})`,
+            backgroundPosition: 'left',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
         }}>
             <Box sx={{
                 height: '100%',
@@ -680,14 +690,14 @@ const SocialsTab = ({ isMobile }) => {
         {
             name: 'Instagram',
             url: eventData.socialMedia.instagram,
-            image: '/src/images/IG.gif',
+            image: igGif,
             color: '#F21877',
             description: 'Follow us on Instagram for event updates, behind-the-scenes content, and cosplay highlights!'
         },
         {
             name: 'Facebook',
             url: eventData.socialMedia.facebook,
-            image: '/src/images/FB.gif',
+            image: fbGif,
             color: '#1877F2',
             description: 'We just joined Facebook! Join our community for discussions, event updates, and more!'
         }
@@ -842,7 +852,7 @@ const SocialsTab = ({ isMobile }) => {
 
             {/* Floating GIF */}
             {!isMobile && (
-                <img src='/src/images/sg.gif'
+                <img src={sgGif}
                     style={{
                         position: 'absolute',
                         right: '-100px',
@@ -929,6 +939,10 @@ const HeroSection = () => {
                 minHeight: isMobile ? 'auto' : '600px',
                 width: '100%',
                 maxWidth: '1200px',
+                backgroundImage: `url(${bg})`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
             }}>
             <Box>
                 <Paper sx={{
