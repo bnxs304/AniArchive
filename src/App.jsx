@@ -10,11 +10,14 @@ import ProtectedRoute from './components/admin/ProtectedRoute'
 import { Routes, Route } from 'react-router-dom'
 import './styles/mobile.css'
 import analytics from './utils/analytics'
+import usePageTracking from './hooks/usePageTracking'
 
 // Initialize analytics
 analytics;
 
 function App() {
+  usePageTracking();
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <CssBaseline />
