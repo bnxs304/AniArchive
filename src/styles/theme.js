@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles'
+import blueBackground from '../images/blue.jpg'
 
 const theme = createTheme({
     breakpoints: {
@@ -46,7 +47,7 @@ const theme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    backgroundImage: 'url(/src/images/blue.jpg)',
+                    backgroundImage: `url(${blueBackground})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
