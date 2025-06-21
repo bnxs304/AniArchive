@@ -24,52 +24,26 @@ import {
   Stack,
   Divider
 } from '@mui/material'
-import { getRSVPCount, getRSVPStats } from '../../services/rsvpService'
+import { Link } from 'react-router-dom'
+import { getRSVPStats } from '../../services/rsvpService'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
-import { db, adminLogout, getCurrentUser, onAuthChange } from '../../config/firebase'
+import { db, adminLogout } from '../../config/firebase'
 import RaffleDrawer from './RaffleDrawer'
-import AdminLogin from './AdminLogin'
 
 const RSVPAdmin = () => {
   const [rsvps, setRsvps] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [totalCount, setTotalCount] = useState(0)
   const [stats, setStats] = useState({ total: 0, today: 0, thisWeek: 0 })
   const [activeTab, setActiveTab] = useState(0)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
   
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
-    // Set up authentication listener
-    const unsubscribe = onAuthChange((user) => {
-      if (user) {
-        setIsAuthenticated(true)
-        fetchRSVPs()
-        fetchStats()
-      } else {
-        setIsAuthenticated(false)
-        setRsvps([])
-        setStats({ total: 0, today: 0, thisWeek: 0 })
-        setActiveTab(0)
-      }
-      setLoading(false)
-    })
-
-    // Check if user is already authenticated
-    const currentUser = getCurrentUser()
-    if (currentUser) {
-      setIsAuthenticated(true)
-      fetchRSVPs()
-      fetchStats()
-    } else {
-      setLoading(false)
-    }
-
-    return () => unsubscribe()
+    fetchRSVPs()
+    fetchStats()
   }, [])
 
   const fetchRSVPs = async () => {
@@ -85,7 +59,6 @@ const RSVPAdmin = () => {
       }))
       
       setRsvps(rsvpData)
-      setTotalCount(rsvpData.length)
     } catch (error) {
       console.error('Error fetching RSVPs:', error)
       setError('Failed to load RSVP data')
@@ -108,20 +81,22 @@ const RSVPAdmin = () => {
     const csvContent = [
       headers.join(','),
       ...rsvps.map(rsvp => [
-        rsvp.email,
-        rsvp.raffleCode,
-        rsvp.timestamp.toLocaleString(),
-        rsvp.eventTitle,
-        rsvp.eventDate
+        `"${rsvp.email}"`,
+        `"${rsvp.raffleCode}"`,
+        `"${rsvp.timestamp.toLocaleString()}"`,
+        `"${rsvp.eventTitle}"`,
+        `"${rsvp.eventDate}"`
       ].join(','))
     ].join('\n')
 
-    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
     a.download = `rsvp-data-${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(a)
     a.click()
+    document.body.removeChild(a)
     window.URL.revokeObjectURL(url)
   }
 
@@ -136,24 +111,13 @@ const RSVPAdmin = () => {
 
   const handleLogout = async () => {
     try {
-      const result = await adminLogout()
-      if (result.success) {
-        sessionStorage.removeItem('adminAuthenticated')
-        setIsAuthenticated(false)
-        setRsvps([])
-        setStats({ total: 0, today: 0, thisWeek: 0 })
-        setActiveTab(0)
-      } else {
-        console.error('Logout error:', result.error)
-      }
+      await adminLogout()
+      sessionStorage.removeItem('adminAuthenticated')
+      window.location.reload()
     } catch (error) {
       console.error('Logout error:', error)
+      setError('Failed to log out. Please try again.')
     }
-  }
-
-  // Show login screen if not authenticated
-  if (!isAuthenticated) {
-    return <AdminLogin onLogin={() => setIsAuthenticated(true)} />
   }
 
   if (loading) {
@@ -332,7 +296,6 @@ const RSVPAdmin = () => {
 
   const renderRSVPManagement = () => (
     <>
-      {/* Statistics Cards */}
       <Grid container spacing={isMobile ? 2 : 3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={4}>
           <Card sx={{ 
@@ -441,279 +404,162 @@ const RSVPAdmin = () => {
         </Grid>
       </Grid>
       
-      {/* Action Bar */}
       <Box sx={{ 
-        mb: 4, 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        flexWrap: 'wrap', 
-        gap: 2,
-        p: isMobile ? 2 : 3,
+        mb: 2, 
+        p: 2,
         background: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: '20px',
-        backdropFilter: 'blur(10px)',
+        borderRadius: '15px',
+        backdropFilter: 'blur(5px)',
         border: '1px solid rgba(255, 255, 255, 0.2)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-        flexDirection: isSmallMobile ? 'column' : 'row',
+        flexWrap: 'wrap',
+        gap: 2
       }}>
-        <Typography variant={isMobile ? "h6" : "h5"} sx={{ 
+        <Typography variant="h6" sx={{ 
           color: 'white', 
-          fontFamily: 'Freeman, sans-serif',
-          fontWeight: 'bold',
-          textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-          textAlign: isSmallMobile ? 'center' : 'left',
+          fontFamily: 'Freeman',
           fontSize: { xs: '1rem', sm: '1.25rem' }
         }}>
-          Total RSVPs: {totalCount}
+          Total RSVPs: {rsvps.length}
         </Typography>
-        <Stack 
-          direction={isSmallMobile ? 'column' : 'row'} 
-          spacing={2} 
-          sx={{ width: isSmallMobile ? '100%' : 'auto' }}
-        >
-          <Button
-            variant="contained"
-            onClick={refreshData}
-            fullWidth={isSmallMobile}
-            sx={{
-              background: 'linear-gradient(135deg, #667eea, #764ba2)',
-              color: 'white',
-              fontFamily: 'Freeman, sans-serif',
-              borderRadius: '25px',
-              padding: isMobile ? '10px 20px' : '12px 24px',
-              textTransform: 'uppercase',
-              boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)',
-              transition: 'all 0.3s ease',
-              fontSize: { xs: '0.75rem', sm: '0.8rem', md: '0.9rem' },
-              minHeight: isMobile ? '44px' : 'auto',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #764ba2, #667eea)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 6px 20px rgba(102, 126, 234, 0.6)',
-              },
-            }}
-          >
-            Refresh Data
-          </Button>
-          <Button
-            variant="contained"
-            onClick={exportToCSV}
-            fullWidth={isSmallMobile}
-            sx={{
-              background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
-              color: 'white',
-              fontFamily: 'Freeman, sans-serif',
-              borderRadius: '25px',
-              padding: isMobile ? '10px 20px' : '12px 24px',
-              textTransform: 'uppercase',
-              boxShadow: '0 4px 15px rgba(255, 107, 107, 0.4)',
-              transition: 'all 0.3s ease',
-              fontSize: { xs: '0.75rem', sm: '0.8rem', md: '0.9rem' },
-              minHeight: isMobile ? '44px' : 'auto',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #FF4757, #FF6B6B)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 6px 20px rgba(255, 107, 107, 0.6)',
-              },
-            }}
-          >
-            Export CSV
-          </Button>
+        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+          <Button variant="contained" onClick={refreshData}>Refresh Data</Button>
+          <Button variant="outlined" onClick={exportToCSV} sx={{ color: 'white', borderColor: 'white', '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' } }}>Export CSV</Button>
         </Stack>
       </Box>
 
-      {/* RSVP Data Display */}
       {isMobile ? (
-        // Mobile Card Layout
-        <Box>
-          {rsvps.length > 0 ? (
-            rsvps.map((rsvp) => (
-              <MobileRSVPCard key={rsvp.id} rsvp={rsvp} />
-            ))
-          ) : (
-            <Box sx={{ 
-              textAlign: 'center', 
-              mt: 4,
-              p: 4,
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '20px',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}>
-              <Typography variant="h6" sx={{ 
-                color: 'white', 
-                fontFamily: 'Freeman, sans-serif',
-                mb: 2,
-                fontSize: { xs: '1.1rem', sm: '1.25rem' }
-              }}>
-                No RSVPs Found Yet
-              </Typography>
-              <Typography variant="body2" sx={{ 
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontFamily: 'Freeman, sans-serif',
-                fontSize: { xs: '0.9rem', sm: '1rem' }
-              }}>
-                RSVPs will appear here once people start registering for events.
-              </Typography>
-            </Box>
-          )}
-        </Box>
+        rsvps.map(rsvp => (
+          <MobileRSVPCard key={rsvp.id} rsvp={rsvp} />
+        ))
       ) : (
-        // Desktop Table Layout
-        <>
-          <TableContainer component={Paper} sx={{ 
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
-            borderRadius: '20px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            overflow: 'hidden',
-          }}>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ background: 'linear-gradient(135deg, #FF8E8E, #B56BFF, #FF8E8E)' }}>
+        <TableContainer component={Paper} sx={{
+          background: 'rgba(255, 255, 255, 0.95)',
+          borderRadius: '20px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          overflow: 'hidden',
+        }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ background: 'linear-gradient(135deg, #FF8E8E, #B56BFF, #FF8E8E)' }}>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  color: 'white',
+                  fontFamily: 'Freeman, sans-serif',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}>
+                  Email
+                </TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  color: 'white',
+                  fontFamily: 'Freeman, sans-serif',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}>
+                  Raffle Code
+                </TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  color: 'white',
+                  fontFamily: 'Freeman, sans-serif',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}>
+                  Timestamp
+                </TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  color: 'white',
+                  fontFamily: 'Freeman, sans-serif',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}>
+                  Event Title
+                </TableCell>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  color: 'white',
+                  fontFamily: 'Freeman, sans-serif',
+                  fontSize: '1rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px'
+                }}>
+                  Event Date
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rsvps.map((rsvp, index) => (
+                <TableRow 
+                  key={rsvp.id}
+                  sx={{
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                      transform: 'scale(1.01)',
+                    },
+                    '&:nth-of-type(even)': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    },
+                  }}
+                >
                   <TableCell sx={{ 
-                    fontWeight: 'bold', 
-                    color: 'white',
                     fontFamily: 'Freeman, sans-serif',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
+                    fontSize: '0.9rem'
                   }}>
-                    Email
+                    {rsvp.email}
+                  </TableCell>
+                  <TableCell>
+                    <Chip 
+                      label={rsvp.raffleCode} 
+                      size="small" 
+                      sx={{ 
+                        background: 'linear-gradient(135deg, #4ECDC4, #44A08D)',
+                        color: 'white',
+                        fontFamily: 'monospace',
+                        fontWeight: 'bold',
+                        boxShadow: '0 2px 8px rgba(78, 205, 196, 0.3)',
+                        '&:hover': {
+                          transform: 'scale(1.05)',
+                          transition: 'transform 0.2s ease',
+                        }
+                      }} 
+                    />
                   </TableCell>
                   <TableCell sx={{ 
-                    fontWeight: 'bold', 
-                    color: 'white',
                     fontFamily: 'Freeman, sans-serif',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
+                    fontSize: '0.9rem'
                   }}>
-                    Raffle Code
+                    {rsvp.timestamp.toLocaleString()}
                   </TableCell>
                   <TableCell sx={{ 
-                    fontWeight: 'bold', 
-                    color: 'white',
                     fontFamily: 'Freeman, sans-serif',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold'
                   }}>
-                    Timestamp
+                    {rsvp.eventTitle}
                   </TableCell>
                   <TableCell sx={{ 
-                    fontWeight: 'bold', 
-                    color: 'white',
                     fontFamily: 'Freeman, sans-serif',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
+                    fontSize: '0.9rem'
                   }}>
-                    Event Title
-                  </TableCell>
-                  <TableCell sx={{ 
-                    fontWeight: 'bold', 
-                    color: 'white',
-                    fontFamily: 'Freeman, sans-serif',
-                    fontSize: '1rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px'
-                  }}>
-                    Event Date
+                    {rsvp.eventDate}
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {rsvps.map((rsvp, index) => (
-                  <TableRow 
-                    key={rsvp.id}
-                    sx={{
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                        transform: 'scale(1.01)',
-                      },
-                      '&:nth-of-type(even)': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                      },
-                    }}
-                  >
-                    <TableCell sx={{ 
-                      fontFamily: 'Freeman, sans-serif',
-                      fontSize: '0.9rem'
-                    }}>
-                      {rsvp.email}
-                    </TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={rsvp.raffleCode} 
-                        size="small" 
-                        sx={{ 
-                          background: 'linear-gradient(135deg, #4ECDC4, #44A08D)',
-                          color: 'white',
-                          fontFamily: 'monospace',
-                          fontWeight: 'bold',
-                          boxShadow: '0 2px 8px rgba(78, 205, 196, 0.3)',
-                          '&:hover': {
-                            transform: 'scale(1.05)',
-                            transition: 'transform 0.2s ease',
-                          }
-                        }} 
-                      />
-                    </TableCell>
-                    <TableCell sx={{ 
-                      fontFamily: 'Freeman, sans-serif',
-                      fontSize: '0.9rem'
-                    }}>
-                      {rsvp.timestamp.toLocaleString()}
-                    </TableCell>
-                    <TableCell sx={{ 
-                      fontFamily: 'Freeman, sans-serif',
-                      fontSize: '0.9rem',
-                      fontWeight: 'bold'
-                    }}>
-                      {rsvp.eventTitle}
-                    </TableCell>
-                    <TableCell sx={{ 
-                      fontFamily: 'Freeman, sans-serif',
-                      fontSize: '0.9rem'
-                    }}>
-                      {rsvp.eventDate}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {rsvps.length === 0 && (
-            <Box sx={{ 
-              textAlign: 'center', 
-              mt: 4,
-              p: 4,
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '20px',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-            }}>
-              <Typography variant="h5" sx={{ 
-                color: 'white', 
-                fontFamily: 'Freeman, sans-serif',
-                mb: 2
-              }}>
-                No RSVPs Found Yet
-              </Typography>
-              <Typography variant="body1" sx={{ 
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontFamily: 'Freeman, sans-serif'
-              }}>
-                RSVPs will appear here once people start registering for events.
-              </Typography>
-            </Box>
-          )}
-        </>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
     </>
   )
@@ -725,7 +571,6 @@ const RSVPAdmin = () => {
       margin: '0 auto',
       minHeight: '100vh',
     }}>
-      {/* Header */}
       <Box sx={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
@@ -752,40 +597,43 @@ const RSVPAdmin = () => {
         }}>
           RSVP Admin Panel
         </Typography>
-        <Button
-          variant="outlined"
-          onClick={handleLogout}
-          sx={{
-            color: 'white',
-            borderColor: 'rgba(255, 255, 255, 0.5)',
-            fontFamily: 'Freeman, sans-serif',
-            borderRadius: '25px',
-            padding: isMobile ? '8px 16px' : '10px 20px',
-            textTransform: 'uppercase',
-            transition: 'all 0.3s ease',
-            fontSize: { xs: '0.8rem', sm: '0.9rem' },
-            minHeight: isMobile ? '44px' : 'auto',
-            '&:hover': {
-              borderColor: 'white',
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              transform: 'translateY(-2px)',
-              boxShadow: '0 4px 15px rgba(255, 255, 255, 0.2)',
-            },
-          }}
-        >
-          Logout
-        </Button>
+        <Stack direction="row" spacing={2} sx={{ width: isSmallMobile ? '100%' : 'auto', justifyContent: 'center' }}>
+          <Button component={Link} to="/analytics" variant="contained" color="secondary" sx={{
+              fontFamily: 'Freeman, sans-serif',
+              borderRadius: '25px',
+              padding: isMobile ? '10px 20px' : '12px 24px',
+          }}>
+            View Analytics
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleLogout}
+            sx={{
+              color: 'white',
+              borderColor: 'rgba(255, 255, 255, 0.5)',
+              fontFamily: 'Freeman, sans-serif',
+              borderRadius: '25px',
+              padding: isMobile ? '8px 16px' : '10px 20px',
+              textTransform: 'uppercase',
+              transition: 'all 0.3s ease',
+              fontSize: { xs: '0.8rem', sm: '0.9rem' },
+              minHeight: isMobile ? '44px' : 'auto',
+              '&:hover': {
+                borderColor: 'white',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 15px rgba(255, 255, 255, 0.2)',
+              },
+            }}
+          >
+            Logout
+          </Button>
+        </Stack>
       </Box>
       
-      {/* Tabs */}
       <Paper sx={{ 
         mb: 4, 
         backgroundColor: 'transparent',
-        borderRadius: '20px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-        backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        overflow: 'hidden'
       }}>
         <Tabs 
           value={activeTab} 
@@ -818,9 +666,9 @@ const RSVPAdmin = () => {
       </Paper>
 
       {activeTab === 0 && renderRSVPManagement()}
-      {activeTab === 1 && <RaffleDrawer />}
+      {activeTab === 1 && <RaffleDrawer rsvps={rsvps}/>}
     </Box>
   )
 }
 
-export default RSVPAdmin 
+export default RSVPAdmin

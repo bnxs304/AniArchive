@@ -6,6 +6,7 @@ import HeroSection from './components/sections/HeroSection'
 import AboutSection from './components/sections/AboutSection'
 import RSVPAdmin from './components/admin/RSVPAdmin'
 import AnalyticsDashboard from './components/admin/AnalyticsDashboard'
+import ProtectedRoute from './components/admin/ProtectedRoute'
 import { Routes, Route } from 'react-router-dom'
 import './styles/mobile.css'
 import analytics from './utils/analytics'
@@ -18,13 +19,27 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <CssBaseline />
       <Header />
-      <main style={{ flex: 1 }}>
+      <main style={{ flex: 1, paddingTop: '100px' }}>
         {/* default route set as <HeroSection /> */}
         <Routes>
           <Route path="/" element={<HeroSection />} />
           <Route path="/about" element={<AboutSection />} />
-          <Route path="/admin" element={<RSVPAdmin />} />
-          <Route path="/analytics" element={<AnalyticsDashboard />} />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute>
+                <RSVPAdmin />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/analytics" 
+            element={
+              <ProtectedRoute>
+                <AnalyticsDashboard />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </main>
       <Footer />

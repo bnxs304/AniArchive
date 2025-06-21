@@ -201,10 +201,166 @@
   }
 }
 
-/* Mobile landscape orientation adjustments */
+/* Analytics Dashboard Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Analytics dashboard specific mobile styles */
+  .analytics-dashboard {
+    padding: 8px !important;
+  }
+  
+  /* Mobile-optimized stat cards */
+  .MuiCard-root[data-analytics="stat-card"] {
+    margin-bottom: 16px !important;
+    border-radius: 16px !important;
+  }
+  
+  /* Mobile-optimized metric cards */
+  .MuiCard-root[data-analytics="metric-card"] {
+    margin-bottom: 12px !important;
+  }
+  
+  /* Mobile table improvements */
+  .MuiTableContainer-root {
+    font-size: 0.875rem !important;
+  }
+  
+  .MuiTableCell-root {
+    padding: 8px 4px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Mobile chip improvements */
+  .MuiChip-root {
+    font-size: 0.7rem !important;
+    height: 24px !important;
+  }
+  
+  /* Mobile progress bar improvements */
+  .MuiLinearProgress-root {
+    height: 4px !important;
+  }
+  
+  /* Mobile avatar improvements */
+  .MuiAvatar-root {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  
+  /* Mobile button improvements */
+  .MuiButton-root[data-analytics="action-button"] {
+    padding: 8px 16px !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Mobile icon button improvements */
+  .MuiIconButton-root[data-analytics="toolbar-button"] {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  /* Mobile header improvements */
+  .analytics-header {
+    flex-direction: column !important;
+    gap: 16px !important;
+    text-align: center !important;
+  }
+  
+  /* Mobile section spacing */
+  .analytics-section {
+    margin-bottom: 20px !important;
+  }
+  
+  /* Mobile grid improvements */
+  .MuiGrid-container[data-analytics="metrics-grid"] {
+    gap: 12px !important;
+  }
+  
+  /* Mobile paper improvements */
+  .MuiPaper-root[data-analytics="dashboard-paper"] {
+    padding: 16px !important;
+    border-radius: 16px !important;
+  }
+  
+  /* Mobile typography improvements */
+  .analytics-title {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .analytics-subtitle {
+    font-size: 0.875rem !important;
+  }
+  
+  /* Mobile badge improvements */
+  .MuiBadge-root {
+    transform: scale(0.8) !important;
+  }
+  
+  /* Mobile tooltip improvements */
+  .MuiTooltip-tooltip {
+    font-size: 0.75rem !important;
+    padding: 4px 8px !important;
+  }
+  
+  /* Mobile loading improvements */
+  .MuiLinearProgress-root[data-analytics="loading-bar"] {
+    height: 3px !important;
+    border-radius: 2px !important;
+  }
+  
+  /* Mobile empty state improvements */
+  .analytics-empty-state {
+    padding: 32px 16px !important;
+    text-align: center !important;
+  }
+  
+  /* Mobile hover effects disabled */
+  .MuiCard-root:hover {
+    transform: none !important;
+  }
+  
+  /* Mobile touch feedback */
+  .MuiCard-root:active {
+    transform: scale(0.98) !important;
+  }
+  
+  .MuiButton-root:active {
+    transform: scale(0.95) !important;
+  }
+  
+  /* Mobile table row improvements */
+  .MuiTableRow-root:hover {
+    background-color: transparent !important;
+  }
+  
+  .MuiTableRow-root:active {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+/* Tablet-specific analytics improvements */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .analytics-dashboard {
+    padding: 16px !important;
+  }
+  
+  .MuiCard-root[data-analytics="stat-card"] {
+    margin-bottom: 20px !important;
+  }
+  
+  .MuiGrid-container[data-analytics="metrics-grid"] {
+    gap: 16px !important;
+  }
+  
+  .analytics-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Landscape mobile optimizations */
 @media (max-width: 768px) and (orientation: landscape) {
   .hero-section {
-    min-height: auto !important;
+    padding: 5px !important;
   }
   
   .MuiBox-root {
@@ -212,8 +368,51 @@
   }
   
   .tab-bar-container {
-    position: sticky !important;
-    top: 60px !important;
-    z-index: 1000 !important;
+    margin: 10px auto !important;
+  }
+  
+  /* Analytics dashboard landscape improvements */
+  .analytics-dashboard {
+    padding: 4px !important;
+  }
+  
+  .MuiCard-root[data-analytics="stat-card"] {
+    margin-bottom: 12px !important;
+  }
+  
+  .analytics-section {
+    margin-bottom: 16px !important;
+  }
+  
+  .MuiPaper-root[data-analytics="dashboard-paper"] {
+    padding: 12px !important;
+  }
+}
+
+/* High DPI mobile optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .MuiCard-root {
+    border: 0.5px solid rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .MuiPaper-root {
+    border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .MuiCard-root:hover {
+    transform: none !important;
+  }
+  
+  .MuiButton-root:hover {
+    transform: none !important;
   }
 } 
