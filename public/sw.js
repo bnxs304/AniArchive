@@ -20,12 +20,31 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
+  // Ignore non-GET requests
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Ignore requests to third-party domains (e.g., Google Analytics)
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      })
+    caches.open(CACHE_NAME).then(async (cache) => {
+      try {
+        // Network-first strategy
+        const networkResponse = await fetch(event.request);
+        if (networkResponse.ok) {
+          cache.put(event.request, networkResponse.clone());
+        }
+        return networkResponse;
+      } catch (error) {
+        // Fallback to cache if network fails
+        const cachedResponse = await cache.match(event.request);
+        return cachedResponse || Response.error();
+      }
+    })
   );
 });
 
