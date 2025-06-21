@@ -19,7 +19,7 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <CssBaseline />
       <Header />
-      <main style={{ flex: 1, paddingTop: '100px' }}>
+      <main style={{ flex: 1 }}>
         {/* default route set as <HeroSection /> */}
         <Routes>
           <Route path="/" element={<HeroSection />} />

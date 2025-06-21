@@ -2,16 +2,8 @@ const CACHE_NAME = 'aniarchive-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/src/index.jsx',
-  '/src/App.jsx',
-  '/src/components/common/Header.jsx',
-  '/src/components/common/Footer.jsx',
-  '/src/components/sections/HeroSection.jsx',
-  '/src/components/sections/AboutSection.jsx',
-  '/src/images/logo.png',
-  '/src/images/aug2nd25.png',
-  '/src/styles/mobile.css',
-  '/src/styles/fonts.css',
+  '/images/logo.png',
+  '/images/aug2nd25.png',
   '/manifest.json'
 ];
 

@@ -312,7 +312,6 @@ const MoreInfoTab = ({ isMobile }) => {
             justifyContent: 'space-between',
             gap: '10px',
             position: 'relative',
-            gap: '10px',
             padding: '10px',
             minHeight: isMobile ? 'auto' : '700px',
             width: '100%',
@@ -503,7 +502,6 @@ const MapTab = ({ isMobile }) => {
             height: '100%',
             padding: '20px',
             minHeight: isMobile ? 'auto' : '700px',
-            width: '100%',
             position: 'relative',
 
         }}>
@@ -931,7 +929,7 @@ const HeroSection = () => {
     }
 
     return (
-        <main id="hero" className="hero-section" role="main" aria-label="AniArchive Coventry Event">
+        <main id="hero" className="hero-section" role="main" aria-label="AniArchive Coventry Event" style={{ padding: '0px' }}>
             <Box sx={{
                 padding: '0px',
                 minHeight: isMobile ? 'auto' : '600px',

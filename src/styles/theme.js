@@ -48,9 +48,9 @@ const theme = createTheme({
             styleOverrides: {
                 body: {
                     backgroundImage: `url(${blueBackground})`,
-                    backgroundSize: 'auto',
+                    backgroundSize: 'cover',
                     backgroundPosition: 'center top',
-                    backgroundRepeat: 'repeat-y',
+                    backgroundRepeat: 'no-repeat',
                     backgroundAttachment: 'fixed',
                     display: 'flex',
                     flexDirection: 'column',
@@ -61,9 +61,6 @@ const theme = createTheme({
 
                     '@media (max-width: 768px)': {
                         marginTop: '50px',
-                        backgroundAttachment: 'fixed',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     },
                     '@media (max-width: 600px)': {
