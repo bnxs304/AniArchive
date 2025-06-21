@@ -1,0 +1,219 @@
+/* Mobile-specific styles for AniArchive */
+
+/* Touch-friendly button sizes */
+@media (max-width: 768px) {
+  .MuiButton-root {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  .MuiIconButton-root {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  
+  .MuiListItemButton-root {
+    min-height: 44px !important;
+  }
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 600px) {
+  .header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .nav-items {
+    justify-content: space-around !important;
+  }
+  
+  .nav-item {
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Mobile map optimizations */
+@media (max-width: 768px) {
+  .leaflet-container {
+    touch-action: manipulation;
+  }
+  
+  .leaflet-control-zoom {
+    transform: scale(1.2);
+  }
+  
+  .leaflet-popup-content-wrapper {
+    max-width: 280px;
+  }
+}
+
+/* Mobile modal improvements */
+@media (max-width: 600px) {
+  .MuiModal-root .MuiBox-root {
+    margin: 10px !important;
+    padding: 15px !important;
+  }
+}
+
+/* Mobile card improvements */
+@media (max-width: 768px) {
+  .MuiCard-root {
+    margin: 10px 0 !important;
+  }
+  
+  .MuiCardContent-root {
+    padding: 16px !important;
+  }
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 600px) {
+  .MuiTypography-h6 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  .MuiTypography-body1,
+  .MuiTypography-body2 {
+    line-height: 1.6 !important;
+  }
+}
+
+/* Mobile spacing improvements */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 10px !important;
+  }
+  
+  .MuiBox-root {
+    gap: 15px !important;
+  }
+}
+
+/* Mobile image optimizations */
+@media (max-width: 768px) {
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Mobile scroll improvements */
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  .MuiBox-root {
+    overflow-x: hidden;
+  }
+}
+
+/* Mobile tab bar improvements */
+@media (max-width: 768px) {
+  .tab-bar-container {
+    position: relative !important;
+    margin: 20px auto !important;
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+  
+  .tab-bar-list {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  .tab-bar-item {
+    width: 100% !important;
+    margin: 5px 0 !important;
+  }
+}
+
+/* Mobile social links improvements */
+@media (max-width: 768px) {
+  .social-card {
+    margin: 15px 0 !important;
+    transform: none !important;
+  }
+  
+  .social-card:hover {
+    transform: scale(1.02) !important;
+  }
+}
+
+/* Mobile past events improvements */
+@media (max-width: 768px) {
+  .past-events-container {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+  
+  .past-event-item {
+    width: 150px !important;
+    height: 150px !important;
+  }
+}
+
+/* Mobile footer improvements */
+@media (max-width: 600px) {
+  footer {
+    padding: 1rem 0 !important;
+    margin-top: 2rem !important;
+  }
+  
+  footer .social-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+  }
+}
+
+/* Mobile accessibility improvements */
+@media (max-width: 768px) {
+  /* Increase touch targets */
+  a, button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve focus indicators */
+  *:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+  }
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  /* Disable complex transforms on mobile */
+  .perspective-transform {
+    transform: none !important;
+  }
+}
+
+/* Mobile landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    min-height: auto !important;
+  }
+  
+  .MuiBox-root {
+    gap: 10px !important;
+  }
+  
+  .tab-bar-container {
+    position: sticky !important;
+    top: 60px !important;
+    z-index: 1000 !important;
+  }
+} 
