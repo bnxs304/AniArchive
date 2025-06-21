@@ -6,11 +6,13 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import RSVPModal from '../common/RSVPModal'
 
+// Import images properly for Vite
+import wispersGif from '../../images/wispers.gif'
+import sfGif from '../../images/sf.gif'
+import mntGif from '../../images/mnt.gif'
 import igGif from '../../images/IG.gif'
 import fbGif from '../../images/FB.gif'
 import sgGif from '../../images/sg.gif'
-import logo from '../../images/logo.png'
-import bg from '../../images/wispers.gif'
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl
@@ -193,10 +195,6 @@ const EventTitleTab = ({ isMobile }) => {
             width: '100%',
             position: 'relative',
             padding: { xs: '20px', md: '0px' },
-            backgroundImage: `url(${logo})`,
-            backgroundPosition: 'left',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'contain',
         }}>
             <Box sx={{
                 height: '100%',
@@ -279,7 +277,7 @@ const EventTitleTab = ({ isMobile }) => {
                 marginTop: isMobile ? '20px' : '0px',
             }}/>
             {!isMobile && (
-                <img src= '/src/images/wispers.gif'
+                <img src= {wispersGif}
                 style={{
                     position: 'absolute',
                     left: '-100px',
@@ -381,7 +379,7 @@ const MoreInfoTab = ({ isMobile }) => {
             ))}
             </Box>
             {!isMobile && (
-                <img src= '/src/images/sf.gif'
+                <img src= {sfGif}
                 style={{
                     position: 'absolute',
                     left: '-100px',
@@ -670,7 +668,7 @@ const MapTab = ({ isMobile }) => {
 
             </Box>
             {!isMobile && (
-                <img src= '/src/images/mnt.gif'
+                <img src= {mntGif}
                 style={{
                     position: 'absolute',
                     left: '0',
@@ -939,10 +937,6 @@ const HeroSection = () => {
                 minHeight: isMobile ? 'auto' : '600px',
                 width: '100%',
                 maxWidth: '1200px',
-                backgroundImage: `url(${bg})`,
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
             }}>
             <Box>
                 <Paper sx={{
