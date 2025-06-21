@@ -5,20 +5,26 @@ import Footer from './components/common/Footer'
 import HeroSection from './components/sections/HeroSection'
 import AboutSection from './components/sections/AboutSection'
 import RSVPAdmin from './components/admin/RSVPAdmin'
+import AnalyticsDashboard from './components/admin/AnalyticsDashboard'
 import { Routes, Route } from 'react-router-dom'
 import './styles/mobile.css'
+import analytics from './utils/analytics'
+
+// Initialize analytics
+analytics;
 
 function App() {
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <CssBaseline />
       <Header />
-      <main>
+      <main style={{ flex: 1 }}>
         {/* default route set as <HeroSection /> */}
         <Routes>
           <Route path="/" element={<HeroSection />} />
           <Route path="/about" element={<AboutSection />} />
           <Route path="/admin" element={<RSVPAdmin />} />
+          <Route path="/analytics" element={<AnalyticsDashboard />} />
         </Routes>
       </main>
       <Footer />

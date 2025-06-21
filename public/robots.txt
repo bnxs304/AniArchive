@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://theaniarchive.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin
+Disallow: /admin/
+
+# Allow all other content
+Allow: /src/
+Allow: /images/
+Allow: /styles/
+
+# Crawl delay (optional - be respectful to server)
+Crawl-delay: 1 

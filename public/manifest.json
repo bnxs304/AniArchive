@@ -1,0 +1,37 @@
+{
+  "name": "AniArchive Coventry - Anime & Gaming Event",
+  "short_name": "AniArchive",
+  "description": "Join AniArchive Coventry on Saturday, 2nd August 2025 at The Box - Fargo Village. Experience retro gaming, cosplay competitions, artist alley, TCG stalls, workshops, and amazing giveaways.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FF6B6B",
+  "theme_color": "#FF6B6B",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["entertainment", "events", "gaming", "anime"],
+  "icons": [
+    {
+      "src": "/src/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/src/images/aug2nd25.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "AniArchive Coventry Event"
+    }
+  ]
+} 

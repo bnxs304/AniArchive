@@ -199,6 +199,10 @@ const RSVPModal = ({ open, onClose }) => {
           {raffleCode && (
             <Box
               sx={{
+                textAlign: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 'auto',
                 mb: 3,
                 p: 2,
                 backgroundColor: 'rgba(76, 175, 80, 0.1)',
@@ -207,8 +211,9 @@ const RSVPModal = ({ open, onClose }) => {
               }}
             >
               <Typography
-                variant="h6"
                 sx={{
+                  fontSize: { xs: '1.2rem', md: '1.5rem' },
+                  fontFamily: 'Rubik Vinyl',
                   color: '#4CAF50',
                   fontWeight: 'bold',
                   marginBottom: '5px',

@@ -931,91 +931,117 @@ const HeroSection = () => {
     }
 
     return (
-        <section id="hero" className="hero-section">
+        <main id="hero" className="hero-section" role="main" aria-label="AniArchive Coventry Event">
             <Box sx={{
                 padding: '0px',
                 minHeight: isMobile ? 'auto' : '600px',
                 width: '100%',
                 maxWidth: '1200px',
             }}>
-            <Box>
-                <Paper sx={{
-                    backgroundColor: 'transparent',
-                    boxShadow: 'none',  
-
-                }}>
-                    {renderTabContent()}
-                </Paper>
+                <Box>
+                    <Paper sx={{
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',  
+                    }}>
+                        {renderTabContent()}
+                    </Paper>
                 </Box>
                 <Box ref={tabBarRef}
                     className="tab-bar-container"
+                    role="navigation"
+                    aria-label="Event information navigation"
                     sx={{
-                    position: isMobile ? 'relative' : 'sticky',
-                    left: isMobile ? '0px' : '100px',
-                    bottom: '0',
-                    zIndex: 1000,
-                    scale: isMobile ? '1' : '1.1',
-                    borderRadius: '10px',
-                    //background: 'rgba(169, 237, 255, 0.2)',
-                    //boxShadow: '0 -2px 8px rgba(0,0,0,0.2)',
-                     width: 'fit-content',
-                     margin: isMobile ? '20px auto' : '0px',
-                }}>
+                        position: isMobile ? 'relative' : 'sticky',
+                        left: isMobile ? '0px' : '100px',
+                        bottom: '0',
+                        zIndex: 1000,
+                        scale: isMobile ? '1' : '1.1',
+                        borderRadius: '10px',
+                        width: 'fit-content',
+                        margin: isMobile ? '20px auto' : '0px',
+                    }}>
                     <TabBar activeTab={activeTab} setActiveTab={setActiveTab} isMobile={isMobile} />
                 </Box>
             </Box>
 
-            <Box sx={{ mt: 4, overflow: 'visible' }}>
-                <Typography variant="h5" sx={{ 
-                    mb: 2,
-                    textAlign: 'center',
-                    fontSize: { xs: '1.5rem', md: '2rem' },
-                    fontWeight: 'bold',
-                    textShadow: '1px 1px 2px #FFBBA9',
-                    textTransform: 'uppercase',
-                    color: 'white',
-                    }}>
+            <section aria-labelledby="past-events-heading">
+                <Box sx={{ mt: 4, overflow: 'visible' }}>
+                    <Typography 
+                        id="past-events-heading"
+                        variant="h2" 
+                        component="h2"
+                        sx={{ 
+                            mb: 2,
+                            textAlign: 'center',
+                            fontSize: { xs: '1.5rem', md: '2rem' },
+                            fontWeight: 'bold',
+                            textShadow: '1px 1px 2px #FFBBA9',
+                            textTransform: 'uppercase',
+                            color: 'white',
+                        }}
+                    >
                         Past Events
                     </Typography>
-                <Box sx={{
-                    marginBlock: '50px',
-                    display: 'flex',
-                    gap: { xs: '20px', md: '50px' },
-                    justifyContent: 'center',
-                    flexDirection: { xs: 'column', md: 'row' },
-                    alignItems: 'center',
-                    overflow: 'visible',
-                }} className="past-events-container">
-                    {eventData.pastEvents.map((event, index) => (
-                        <Paper key={index} elevation={2} sx={{ 
-                            overflow: 'visible',
-                            marginBlock: '50px',
-                            height: { xs: '100px', md: '280px' },
-                            objectFit: 'cover',    
-                            cursor: 'pointer',
+                    <Box sx={{
+                        marginBlock: '50px',
+                        display: 'flex',
+                        gap: { xs: '20px', md: '50px' },
+                        justifyContent: 'center',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        alignItems: 'center',
+                        overflow: 'visible',
+                    }} 
+                    className="past-events-container"
+                    role="list"
+                    aria-label="Gallery of past AniArchive events"
+                    >
+                        {eventData.pastEvents.map((event, index) => (
+                            <Paper 
+                                key={index} 
+                                elevation={2} 
+                                component="article"
+                                role="listitem"
+                                sx={{ 
+                                    overflow: 'visible',
+                                    marginBlock: '50px',
+                                    height: { xs: '100px', md: '280px' },
+                                    objectFit: 'cover',    
+                                    cursor: 'pointer',
 
-                            '&:hover': {
-                                scale: '1.1',
-                                transition: 'transform 0.3s ease-in-out',
-                            },
-                        }}
-                        className="past-event-item"
-                        onClick={() => handleEventClick(event)}
-                        >
-                            <img 
-                                src={event.image} 
-                                alt={event.title} 
-                                style={{ width: '100%', height: '100%'}}
-                            />
-                        </Paper>
-                    ))}
+                                    '&:hover': {
+                                        scale: '1.1',
+                                        transition: 'transform 0.3s ease-in-out',
+                                    },
+                                }}
+                                className="past-event-item"
+                                onClick={() => handleEventClick(event)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault()
+                                        handleEventClick(event)
+                                    }
+                                }}
+                                tabIndex={0}
+                                aria-label={`View details for ${event.title}`}
+                            >
+                                <img 
+                                    src={event.image} 
+                                    alt={`${event.title} event poster`}
+                                    style={{ width: '100%', height: '100%'}}
+                                    loading="lazy"
+                                />
+                            </Paper>
+                        ))}
+                    </Box>
                 </Box>
-            </Box>
+            </section>
 
             {/* Event Modal */}
             <Modal
                 open={!!selectedEvent}
                 onClose={handleCloseModal}
+                aria-labelledby="event-modal-title"
+                aria-describedby="event-modal-description"
                 sx={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1026,6 +1052,8 @@ const HeroSection = () => {
                 <Box
                     ref={modalRef}
                     onMouseMove={handleMouseMove}
+                    role="dialog"
+                    aria-modal="true"
                     sx={{
                         position: 'relative',
                         background: 'rgba(0, 0, 0, 0.9)',
@@ -1042,6 +1070,7 @@ const HeroSection = () => {
                 >
                     <IconButton
                         onClick={handleCloseModal}
+                        aria-label="Close event details"
                         sx={{
                             position: 'absolute',
                             top: '10px',
@@ -1063,52 +1092,56 @@ const HeroSection = () => {
                         alignItems: 'center',
                         gap: '20px',
                     }}>
-                        <Typography variant="h4" sx={{
-                            color: 'white',
-                            fontWeight: 'bold',
-                            textAlign: 'center',
-                            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
-                            marginBottom: '10px',
-                            fontSize: { xs: '1.5rem', md: '2rem' },
-                        }}>
-                            {selectedEvent?.title}
-                        </Typography>
-                        
-                        <Box sx={{
-                            position: 'relative',
-                            borderRadius: '15px',
-                            overflow: 'hidden',
-                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
-                            maxWidth: '100%',
-                            maxHeight: '70vh',
-                        }}>
-                            <img 
-                                src={selectedEvent?.image} 
-                                alt={selectedEvent?.title}
-                                style={{
-                                    width: '100%',
-                                    height: 'auto',
-                                    maxHeight: '70vh',
-                                    objectFit: 'contain',
-                                    display: 'block',
-                                }}
-                            />
-                        </Box>
-                        
-                        {selectedEvent?.date && (
-                            <Typography variant="h6" sx={{
-                                color: 'rgba(255, 255, 255, 0.8)',
+                        <Typography 
+                            id="event-modal-title"
+                            variant="h3" 
+                            component="h3"
+                            sx={{
+                                color: 'white',
+                                fontWeight: 'bold',
                                 textAlign: 'center',
-                                fontStyle: 'italic',
-                                fontSize: { xs: '1rem', md: '1.2rem' },
+                                textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+                                marginBottom: '10px',
+                                fontSize: { xs: '1.5rem', md: '2rem' },
                             }}>
-                                {selectedEvent.date}
+                                {selectedEvent?.title}
                             </Typography>
-                        )}
+                            
+                            <Box sx={{
+                                position: 'relative',
+                                borderRadius: '15px',
+                                overflow: 'hidden',
+                                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
+                                maxWidth: '100%',
+                                maxHeight: '70vh',
+                            }}>
+                                <img 
+                                    src={selectedEvent?.image} 
+                                    alt={selectedEvent?.title}
+                                    style={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        maxHeight: '70vh',
+                                        objectFit: 'contain',
+                                        display: 'block',
+                                    }}
+                                />
+                            </Box>
+                            
+                            {selectedEvent?.date && (
+                                <Typography variant="h6" sx={{
+                                    color: 'rgba(255, 255, 255, 0.8)',
+                                    textAlign: 'center',
+                                    fontStyle: 'italic',
+                                    fontSize: { xs: '1rem', md: '1.2rem' },
+                                }}>
+                                    {selectedEvent.date}
+                                </Typography>
+                            )}
                     </Box>
                 </Box>
             </Modal>
-        </section>
+        </main>
     )
 }
 
