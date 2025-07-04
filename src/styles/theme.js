@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles'
 import blueBackground from '../images/lblue.png'
-import cloudSticker from '../images/cloudsticker.gif'
+// import cloudSticker from '../images/cloudsticker.gif'
 
 const theme = createTheme({
     breakpoints: {
@@ -67,7 +67,7 @@ const theme = createTheme({
                     '@media (max-width: 600px)': {
                         marginTop: '60px',
                         gap: '5px',
-                        backgroundImage: `url(${cloudSticker}), url(${blueBackground})`,
+                        backgroundImage: `url('/images/cloudsticker.gif'), url(${blueBackground})`,
                         backgroundSize: '100vw, cover',
                         backgroundRepeat: 'repeat, no-repeat',
                         backgroundPosition: 'top center, center top',
