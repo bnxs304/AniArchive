@@ -12,15 +12,41 @@ export const eventData = {
   time: "10:00 AM - 6:00 PM",
   image: aug2nd25Image,
   venue: {
-    name: "The Box - Fargo Village",
+    name: "The Box at Fargo Village",
     address: "Far Gosford Street , Coventry, UK. CV1 5ED",
     coordinates: {
       lat: 52.40783193692662,
       lng: -1.4939690475292444
-    }
+    },
+    parking: [
+      {
+        name: "Far Gosford St. Car Park",
+        address: "Far Gosford Street, CV1 5DT",
+        info: `Spaces: 30\nUp to 1 hour: £0.60\n1 to 2 hours: £1.10\n2 to 3 hours: £2.20\nUp to 24 hours: £5.50\nTariffs apply every day except Christmas Day and New Year's Day.\nNo charge for Blue Badge Holders.\nNote: a section of this car park is designated as 'private' and is not available for public parking during office hours Monday - Friday. Parking here may result in a fine. Warning signs are clearly displayed.`,
+        coordinates: { lat: 52.408119, lng: -1.494334 }
+      },
+      {
+        name: "Paynes Lane (Fargo) Car Park",
+        address: "Paynes Lane, CV1 5LN (Accessed via Oxford Street)",
+        info: `Spaces: 90\nMon - Sunday 10am - 10pm\nCar parking is currently free of charge.\nPlease refer to site signage for current restrictions and T&C's. Visitors park at their own risk.`,
+        coordinates: { lat: 52.409191, lng: -1.49305 }
+      },
+      {
+        name: "Whitefriars Lane/Whitefriars Street",
+        address: "Whitefriars Street, CV1 2DS",
+        info: `On-Street Car Parking` ,
+        coordinates: { lat: 52.40610, lng: -1.50600 }
+      },
+      {
+        name: "Grove St. Car Park",
+        address: "Grove Street, CV1 5PH",
+        info: `Spaces: 179 (Disabled Spaces: 5)\nUp to 1 Hour £2.20\nUp to 2 Hours £3.30\nUp to 3 Hours £4.40\nUp to 4 Hours £5.50\nUp to 5 Hours £6.60\nUp to 6 Hours £6.60\nUp to 7 Hours £7.70\nUp to 8 Hours £8.80\nUp to 9 Hours £8.80\nUp to 10 Hours £8.80\nUp to 12 Hours £8.80\nUp to 24 Hours £10.00\nCharges apply everyday except Christmas Day and New Year's Day. No Charges for Blue Badge Holders. Please refer to site signage for current restrictions and T&C's. Visitors park at their own risk.`,
+        coordinates: { lat:52.407291, lng: -1.502123}
+      }
+    ]
   },
   description:
-   "Join us for our biggest event yet! Experience retro gaming, the latest merchandise, win Prizes, join giveaways, participate in cosplay Competitions, and much more.",
+   "Join us for our biggest event yet! Experience retro gaming, anime themed trivia and challanges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
   highlights: [
     "Tabletop Gaming",
     "Trivia Competition", 
@@ -28,8 +54,9 @@ export const eventData = {
     "Artist Alley",
     "Retro Gaming Zone",
     "TCG Stalls",
-    "Workshops",
+    "Live Art",
     "Giveaways",
+    "Special Offers on Food and Drink",
     "Merchandise Market",
   ],
 

@@ -415,4 +415,10 @@
   .MuiButton-root:hover {
     transform: none !important;
   }
+}
+
+/* Remove blue highlight border on tap/click, but keep it for keyboard navigation */
+:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
 } 

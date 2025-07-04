@@ -13,6 +13,7 @@ import mntGif from '../../images/mnt.gif'
 import igGif from '../../images/IG.gif'
 import fbGif from '../../images/FB.gif'
 import sgGif from '../../images/sg.gif'
+import logoImg from '../../images/logo.png'
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl
@@ -23,20 +24,25 @@ L.Icon.Default.mergeOptions({
 })
 
 // Custom cartoon marker icon
-const createCartoonMarker = () => {
+const createCartoonMarker = (isMobile = false) => {
+    const markerSize = isMobile ? 32 : 40;
+    const fontSize = isMobile ? 12 : 16;
+    const bounceAnimation = isMobile ? 'bounceMobile' : 'bounce';
+    const pulseAnimation = isMobile ? 'pulseMobile' : 'pulse';
+    
     return L.divIcon({
         className: 'custom-cartoon-marker',
         html: `
             <div style="
-                width: 40px;
-                height: 40px;
+                width: ${markerSize}px;
+                height: ${markerSize}px;
                 background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
-                border: 3px solid #FF4757;
+                border: ${isMobile ? '2px' : '3px'} solid #FF4757;
                 border-radius: 50% 50% 50% 0;
                 transform: rotate(-45deg);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+                box-shadow: 0 ${isMobile ? '2px' : '4px'} ${isMobile ? '4px' : '8px'} rgba(0,0,0,0.3);
                 position: relative;
-                animation: bounce 2s infinite, pulse 3s ease-in-out infinite;
+                animation: ${bounceAnimation} 2s infinite, ${pulseAnimation} 3s ease-in-out infinite;
             ">
                 <div style="
                     position: absolute;
@@ -45,14 +51,55 @@ const createCartoonMarker = () => {
                     transform: translate(-50%, -50%) rotate(45deg);
                     color: white;
                     font-weight: bold;
-                    font-size: 16px;
+                    font-size: ${fontSize}px;
                     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
                 ">📍</div>
             </div>
         `,
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -40]
+        iconSize: [markerSize, markerSize],
+        iconAnchor: [markerSize/2, markerSize],
+        popupAnchor: [0, -markerSize]
+    })
+}
+
+// Custom car park icon generator
+const getCarParkIcon = (idx) => {
+    const colors = ['#4CBF8B', '#F5B183', '#D94F8A', '#4A90E2'];
+    const color = colors[idx % colors.length];
+    const svg = encodeURIComponent(`
+      <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="14" fill="${color}" stroke="white" stroke-width="2.5"/>
+        <text x="50%" y="56%" text-anchor="middle" fill="white" font-size="16" font-family="Arial Black,Arial,sans-serif" font-weight="bold" dy=".3em">P</text>
+      </svg>
+    `);
+    return L.divIcon({
+        className: 'custom-carpark-marker',
+        html: `<img src='data:image/svg+xml,${svg}' style='width:32px;height:32px;display:block;' alt='Car Park'/>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+};
+
+// Custom event logo marker icon
+const getEventLogoMarker = () => {
+    return L.divIcon({
+        className: 'custom-event-logo-marker',
+        html: `<div class='event-logo-animated' style="
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            border: 3px solid #FFD776;
+            overflow: hidden;
+        "><img src='${logoImg}' alt='AniArchive Logo' style='width:38px;height:38px;object-fit:contain;display:block;'/></div>`,
+        iconSize: [48, 48],
+        iconAnchor: [24, 48],
+        popupAnchor: [0, -48]
     })
 }
 
@@ -177,6 +224,68 @@ const EventTitleTab = ({ isMobile }) => {
                     transform: ${isMobile ? 'translateY(-5px)' : 'perspective(1000px) rotateY(-20deg) rotateX(5deg) translateY(-5px)'};
                 }
             }
+            
+            @keyframes mangaPulse {
+                0%, 100% {
+                    transform: scale(1);
+                    box-shadow: 6px 6px 0 #111, 0 4px 15px rgba(255, 107, 107, 0.2);
+                }
+                50% {
+                    transform: scale(1.05);
+                    box-shadow: 6px 6px 0 #111, 0 8px 25px rgba(255, 107, 107, 0.4);
+                }
+            }
+            
+            @keyframes mangaPulseMobile {
+                0%, 100% {
+                    transform: scale(1);
+                    box-shadow: 4px 4px 0 #111, 0 2px 8px rgba(255, 107, 107, 0.2);
+                }
+                50% {
+                    transform: scale(1.02);
+                    box-shadow: 4px 4px 0 #111, 0 4px 12px rgba(255, 107, 107, 0.3);
+                }
+            }
+            
+            @keyframes mangaFloat {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-3px);
+                }
+            }
+            
+            @keyframes mangaFloatMobile {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-1px);
+                }
+            }
+            
+            @keyframes mangaStar {
+                0%, 100% {
+                    transform: translateY(-50%) scale(1.5) rotate(-15deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-50%) scale(1.8) rotate(-5deg);
+                    opacity: 0.8;
+                }
+            }
+            
+            @keyframes mangaStarMobile {
+                0%, 100% {
+                    transform: translateY(-50%) scale(1.2) rotate(-15deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-50%) scale(1.4) rotate(-5deg);
+                    opacity: 0.8;
+                }
+            }
         `
         document.head.appendChild(style)
 
@@ -230,8 +339,9 @@ const EventTitleTab = ({ isMobile }) => {
                 width: '100%',
                 color: 'white',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                fontSize: { xs: '1.2rem', md: '1.4rem' },
             }}>
-            Let us know you're coming for a chance to win
+            Let us know you're coming. Win free merch
             in our giveaway!
             </Typography>
 
@@ -241,24 +351,56 @@ const EventTitleTab = ({ isMobile }) => {
                 onClick={() => setRsvpModalOpen(true)}
                 sx={{
                     width: 'fit-content',
+                    height: 'fit-content',
                     marginBlock: '10px',
                     marginInline: 'auto',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
-                    color: 'white',
-                    fontFamily: 'Freeman',
-                    borderRadius: '25px',
-                    padding: '12px 30px',
+                    background: 'repeating-radial-gradient(circle at 30% 30%, #fff 0px, #fff 2px, #f5f5f5 3px, #f5f5f5 8px)',
+                    color: '#111',
+                    fontFamily: '"Bangers", "Comic Sans MS", "Comic Sans", cursive',
+                    borderRadius: '18px',
+                    border: '4px solid #111',
+                    borderBottom: '8px solid #111',
+                    borderRight: '8px solid #111',
+                    padding: '16px 38px',
                     textTransform: 'uppercase',
-                    boxShadow: '0 4px 15px rgba(255, 107, 107, 0.5)',
-                    transition: 'all 0.3s ease',
-                    fontSize: { xs: '0.9rem', md: '1rem' },
+                    fontWeight: 'bold',
+                    fontSize: { xs: '1.1rem', md: '1.3rem' },
+                    letterSpacing: '2px',
+                    boxShadow: '6px 6px 0 #111, 0 4px 15px rgba(255, 107, 107, 0.2)',
+                    position: 'relative',
+                    bottom: isMobile ? '0px' : '-50px',
+                    left: isMobile ? '0px' : '100px',
+                    overflow: 'visible',
+                    transition: 'all 0.2s cubic-bezier(.4,2,.6,1)',
+                    animation: isMobile ? 'mangaPulseMobile 2s ease-in-out infinite, mangaFloatMobile 3s ease-in-out infinite' : 'mangaPulse 2s ease-in-out infinite, mangaFloat 3s ease-in-out infinite',
+                    '&:before': {
+                        content: '"✦"',
+                        position: 'absolute',
+                        left: isMobile ? '-20px' : '-28px',
+                        top: '50%',
+                        transform: 'translateY(-50%) scale(1.5) rotate(-15deg)',
+                        color: '#FF6B6B',
+                        textShadow: '2px 2px 0 #fff, 0 0 8px #FFBBA9',
+                        fontSize: isMobile ? '1.5rem' : '2rem',
+                        pointerEvents: 'none',
+                        fontFamily: 'inherit',
+                        animation: isMobile ? 'mangaStarMobile 1.5s ease-in-out infinite' : 'mangaStar 1.5s ease-in-out infinite',
+                    },
                     '&:hover': {
                         background: 'linear-gradient(135deg, #FF4757, #FF6B6B)',
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(255, 107, 107, 0.7)',
+                        color: '#fff',
+                        border: '4px solid #fff',
+                        borderBottom: '8px solid #fff',
+                        borderRight: '8px solid #fff',
+                        boxShadow: '0 0 0 #111, 0 8px 30px #FF6B6B',
+                        textShadow: '2px 2px 0 #FF6B6B',
+                        '&:before': {
+                            color: '#fff',
+                            textShadow: '2px 2px 0 #FF6B6B, 0 0 8px #fff',
+                        },
                     },
                 }}
             >
@@ -418,6 +560,18 @@ const MapTab = ({ isMobile }) => {
                 }
             }
             
+            @keyframes bounceMobile {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: rotate(-45deg) translateY(0);
+                }
+                40% {
+                    transform: rotate(-45deg) translateY(-5px);
+                }
+                60% {
+                    transform: rotate(-45deg) translateY(-2px);
+                }
+            }
+            
             @keyframes pulse {
                 0% {
                     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
@@ -430,11 +584,30 @@ const MapTab = ({ isMobile }) => {
                 }
             }
             
+            @keyframes pulseMobile {
+                0% {
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                }
+                50% {
+                    box-shadow: 0 2px 12px rgba(255, 107, 107, 0.4);
+                }
+                100% {
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                }
+            }
+            
             .leaflet-container {
                 border-radius: 15px;
                 box-shadow: 0 8px 32px rgba(0,0,0,0.3);
                 overflow: hidden;
                 animation: pulse 3s ease-in-out infinite;
+            }
+            
+            .leaflet-container-mobile {
+                border-radius: 15px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+                overflow: hidden;
+                animation: pulseMobile 3s ease-in-out infinite;
             }
             
             .leaflet-popup-content-wrapper {
@@ -492,6 +665,41 @@ const MapTab = ({ isMobile }) => {
             document.head.removeChild(style)
         }
     }, [])
+
+    // Add animation for event logo marker
+    useEffect(() => {
+        const style = document.createElement('style');
+        style.textContent = isMobile ? `
+          .event-logo-animated {
+            animation: eventLogoMobilePulse 5s ease-in-out infinite;
+          }
+          @keyframes eventLogoMobilePulse {
+            0%, 100% {
+              box-shadow: 0 2px 8px #FFD77622;
+            }
+            50% {
+              box-shadow: 0 0 12px #FFD77644, 0 4px 16px #FFD77633;
+            }
+          }
+        ` : `
+          .event-logo-animated {
+            animation: eventLogoBounce 2.2s cubic-bezier(.4,2,.6,1) infinite, eventLogoPulse 3.5s ease-in-out infinite;
+          }
+          @keyframes eventLogoBounce {
+            0%, 100% { transform: translateY(0); }
+            20% { transform: translateY(-8px); }
+            40% { transform: translateY(-4px); }
+            60% { transform: translateY(-8px); }
+            80% { transform: translateY(-2px); }
+          }
+          @keyframes eventLogoPulse {
+            0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+            50% { box-shadow: 0 8px 32px #FFD77688; }
+          }
+        `;
+        document.head.appendChild(style);
+        return () => { document.head.removeChild(style); };
+    }, [isMobile]);
 
     return (
         <Box sx={{
@@ -552,8 +760,9 @@ const MapTab = ({ isMobile }) => {
             </Box>
             
             <Box sx={{
-                height: isMobile ? '300px' : '400px',
+                height: isMobile ? '300px' : '600px',
                 width: '100%',
+                maxWidth: isMobile ? '100%' : '100vw',
                 position: 'relative',
                 margin: 'auto',
                 borderRadius: '15px',
@@ -565,6 +774,7 @@ const MapTab = ({ isMobile }) => {
                     center={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}
                     zoom={15}
                     style={{ height: '100%', width: '100%' }}
+                    className={isMobile ? 'leaflet-container-mobile' : 'leaflet-container'}
                     zoomControl={true}
                     scrollWheelZoom={true}
                     doubleClickZoom={true}
@@ -575,9 +785,10 @@ const MapTab = ({ isMobile }) => {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
                     />
+                    {/* Main event marker */}
                     <Marker 
                         position={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}
-                        icon={createCartoonMarker()}
+                        icon={getEventLogoMarker()}
                     >
                         <Popup>
                             <div style={{
@@ -616,6 +827,45 @@ const MapTab = ({ isMobile }) => {
                             </div>
                         </Popup>
                     </Marker>
+                    {/* Car park markers */}
+                    {eventData.venue.parking && eventData.venue.parking.map((carpark, idx) => (
+                        <Marker
+                            key={carpark.name + idx}
+                            position={[carpark.coordinates.lat, carpark.coordinates.lng]}
+                            icon={getCarParkIcon(idx)}
+                        >
+                            <Popup>
+                                <div style={{
+                                    textAlign: 'center',
+                                    fontFamily: 'Freeman, cursive, sans-serif',
+                                    minWidth: 180
+                                }}>
+                                    <h4 style={{
+                                        color: ['#4CBF8B', '#F5B183', '#D94F8A', '#4A90E2'][idx % 4],
+                                        margin: '0 0 5px 0',
+                                        fontWeight: 'bold',
+                                        fontSize: '1.1em',
+                                        borderBottom: `2px solid ${['#4CBF8B', '#F5B183', '#D94F8A', '#4A90E2'][idx % 4]}`,
+                                        paddingBottom: 2,
+                                        letterSpacing: 1
+                                    }}>{carpark.name}</h4>
+                                    <div style={{ fontWeight: 'bold', color: '#222', marginBottom: 4 }}>{carpark.address}</div>
+                                    <div style={{
+                                        background: '#f8f8f8',
+                                        border: `1.5px solid ${['#4CBF8B', '#F5B183', '#D94F8A', '#4A90E2'][idx % 4]}`,
+                                        borderRadius: 8,
+                                        padding: '7px 10px',
+                                        color: '#444',
+                                        fontSize: '0.95em',
+                                        textAlign: 'left',
+                                        margin: '0 auto',
+                                        whiteSpace: 'pre-line',
+                                        boxShadow: '0 2px 8px #0001'
+                                    }}>{carpark.info}</div>
+                                </div>
+                            </Popup>
+                        </Marker>
+                    ))}
                 </MapContainer>
             </Box>
             
@@ -832,7 +1082,7 @@ const SocialsTab = ({ isMobile }) => {
                     marginBottom: '15px',
                     fontSize: { xs: '1.2rem', md: '1.5rem' },
                 }}>
-                    Stay Connected!
+                    Get in touch!
                 </Typography>
                 <Typography variant="body1" sx={{
                     color: 'rgba(255, 255, 255, 0.8)',
@@ -841,8 +1091,9 @@ const SocialsTab = ({ isMobile }) => {
                     lineHeight: 1.6,
                     fontSize: { xs: '0.9rem', md: '1rem' },
                 }}>
-                    Don't miss out on exclusive announcements, early bird tickets, 
-                    and behind-the-scenes content from your favorite anime event!
+                    We love hearing from you! Share your feedback, suggestions, 
+                    or collaboration ideas — we’re always excited to connect and 
+                    work with fellow fans and businesses.
                 </Typography>
             </Box>
 
@@ -929,7 +1180,7 @@ const HeroSection = () => {
     }
 
     return (
-        <main id="hero" className="hero-section" role="main" aria-label="AniArchive Coventry Event" style={{ padding: '0px' }}>
+        <main id="hero" className="hero-section" role="main" aria-label="AniArchive Coventry Event">
             <Box sx={{
                 padding: '0px',
                 minHeight: isMobile ? 'auto' : '600px',

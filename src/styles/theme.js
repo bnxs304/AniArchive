@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles'
-import blueBackground from '../images/blue.jpg'
+import blueBackground from '../images/lblue.png'
+import cloudSticker from '../images/cloudsticker.gif'
 
 const theme = createTheme({
     breakpoints: {
@@ -49,8 +50,8 @@ const theme = createTheme({
                 body: {
                     backgroundImage: `url(${blueBackground})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center top',
                     backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center top',
                     backgroundAttachment: 'fixed',
                     display: 'flex',
                     flexDirection: 'column',
@@ -61,12 +62,25 @@ const theme = createTheme({
 
                     '@media (max-width: 768px)': {
                         marginTop: '50px',
-                        backgroundPosition: 'center',
+                        // backgroundPosition: 'center',
                     },
                     '@media (max-width: 600px)': {
                         marginTop: '60px',
                         gap: '5px',
+                        backgroundImage: `url(${cloudSticker}), url(${blueBackground})`,
+                        backgroundSize: '100vw, cover',
+                        backgroundRepeat: 'repeat, no-repeat',
+                        backgroundPosition: 'top center, center top',
                     },
+                },
+            },
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    border: 'none',
+                    boxShadow: 'none',
+                    background: 'transparent',
                 },
             },
         },

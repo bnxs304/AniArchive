@@ -26,11 +26,44 @@ const Footer = () => {
         }}
         >
           <a href="https://instagram.com/theaniarchive" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400" style={{
-            fontSize: isMobile ? '0.9rem' : '1rem',
-          }}>Instagram</a>
+            fontSize: isMobile ? '0.8rem' : '1rem',
+            fontFamily: 'Freeman, Comic Sans MS, cursive',
+            background: 'linear-gradient(90deg, #FF6B6B, #FFD776 80%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '2px 2px 0 #fff, 0 2px 8px #FF6B6B44',
+            transform: 'skew(-8deg, 0deg)',
+            transition: 'all 0.2s cubic-bezier(.4,2,.6,1)',
+          }}
+          onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #FF6B6B, 2px 2px 0 #fff'; }}
+          onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #FF6B6B44'; }}
+          >Instagram</a>
           <a href="https://facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600" style={{
-            fontSize: isMobile ? '0.9rem' : '1rem',
-          }}>Facebook</a>
+            fontSize: isMobile ? '0.8rem' : '1rem',
+            fontFamily: 'Freeman, Comic Sans MS, cursive',
+            background: 'linear-gradient(90deg, #4A90E2, #FFD776 80%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '2px 2px 0 #fff, 0 2px 8px #4A90E244',
+            transform: 'skew(-8deg, 0deg)',
+            transition: 'all 0.2s cubic-bezier(.4,2,.6,1)',
+          }}
+          onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #4A90E2, 2px 2px 0 #fff'; }}
+          onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #4A90E244'; }}
+          >Facebook</a>
+          <a href="https://www.instagram.com/sekai.senshi.uk/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400" style={{
+            fontSize: isMobile ? '0.8rem' : '1rem',
+            fontFamily: 'Freeman, Comic Sans MS, cursive',
+            background: 'linear-gradient(90deg, #D94F8A, #FFD776 80%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            textShadow: '2px 2px 0 #fff, 0 2px 8px #D94F8A44',
+            transform: 'skew(-8deg, 0deg)',
+            transition: 'all 0.2s cubic-bezier(.4,2,.6,1)',
+          }}
+          onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #D94F8A, 2px 2px 0 #fff'; }}
+          onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #D94F8A44'; }}
+          >Sekai Senshi - Walsall</a>
         </Box>
       </div>
     </footer>
