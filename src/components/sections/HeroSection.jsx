@@ -359,14 +359,13 @@ const EventTitleTab = ({ isMobile }) => {
                     alignItems: 'center',
                     background: 'repeating-radial-gradient(circle at 30% 30%, #fff 0px, #fff 2px, #f5f5f5 3px, #f5f5f5 8px)',
                     color: '#111',
-                    fontFamily: '"Bangers", "Comic Sans MS", "Comic Sans", cursive',
+                    fontFamily: '"Freeman", "Comic Sans MS", "Comic Sans", cursive',
                     borderRadius: '18px',
                     border: '4px solid #111',
                     borderBottom: '8px solid #111',
                     borderRight: '8px solid #111',
                     padding: '16px 38px',
                     textTransform: 'uppercase',
-                    fontWeight: 'bold',
                     fontSize: { xs: '1.1rem', md: '1.3rem' },
                     letterSpacing: '2px',
                     boxShadow: '6px 6px 0 #111, 0 4px 15px rgba(255, 107, 107, 0.2)',
@@ -404,7 +403,7 @@ const EventTitleTab = ({ isMobile }) => {
                     },
                 }}
             >
-                RSVP Now
+                Click Here
             </Button>
             </Box>
             <img src={eventData.image} alt="Event Poster"
