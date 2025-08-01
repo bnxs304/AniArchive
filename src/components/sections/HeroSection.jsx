@@ -15,7 +15,7 @@ import fbGif from '../../images/FB.gif'
 import sgGif from '../../images/sg.gif'
 import logoImg from '../../images/logo.png'
 
-// Fix for default markers in react-leaflet
+// Fix for default markers in react-leafletj
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -337,6 +337,33 @@ const EventTitleTab = ({ isMobile }) => {
             <Typography variant="body1" sx={{
                 textAlign: 'center',
                 width: '100%',
+                fontSize: { xs: '0.8rem', md: '1rem' },
+            }}>{eventData.venue.name}</Typography>
+            <Typography variant="body1" sx={{
+                marginInline: isMobile ? '0px' : '150px',
+                marginTop: '20px',
+                paddingInline: isMobile ? '0px' : '100px',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: 'white',
+                textTransform: 'uppercase',
+                letterSpacing: '2px',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+                fontFamily: '"Freeman", "Comic Sans MS", "Comic Sans", cursive',
+                width: '100%',
+                fontSize: { xs: '1rem', md: '1.25rem' },
+            }}> RSVP Giveaway is now closed!
+                <br/>
+                Good luck! to everyone who entered!
+                <br/>
+                See You There!
+                <br/>
+                <br/>
+                {eventData.venue.address}
+            </Typography>
+            {/*<Typography variant="body1" sx={{
+                textAlign: 'center',
+                width: '100%',
                 color: 'white',
                 textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
                 fontSize: { xs: '1.2rem', md: '1.4rem' },
@@ -404,7 +431,7 @@ const EventTitleTab = ({ isMobile }) => {
                 }}
             >
                 Click Here
-            </Button>
+            </Button> */}
             </Box>
             <img src={eventData.image} alt="Event Poster"
             style={{
@@ -457,6 +484,13 @@ const MoreInfoTab = ({ isMobile }) => {
             minHeight: isMobile ? 'auto' : '700px',
             width: '100%',
         }}>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'left',
+                gap: '10px',
+            }}>
             <Typography variant="h6"
             sx={{
                 flex: 1,
@@ -468,6 +502,19 @@ const MoreInfoTab = ({ isMobile }) => {
                 fontSize: isMobile ? '1.5rem' : '5rem',  
             }}
             >More Information</Typography>
+            <Typography variant="body1" sx={{
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: '#FFD776',
+                textShadow: '2px 2px 4px rgba(94, 0, 245, 0.3)',
+                fontFamily: '"Freeman", "Comic Sans MS", "Comic Sans", cursive',
+                marginLeft: isMobile ? '0px' : '100px',
+                fontSize: { xs: '1.4rem', md: '1.5rem' },
+            }}> 
+            Full official event details can be found on the instagram or facebook event pages.
+            <br/>
+            </Typography>
+            </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -477,6 +524,8 @@ const MoreInfoTab = ({ isMobile }) => {
                 width: isMobile ? '100%' : '50%',
                 transform: isMobile ? 'none' : 'perspective(1500px) rotateY(-20deg) rotateX(5deg)',
                 padding: { xs: '20px', md: '0px' },
+
+                
 
             }}>
             <Typography variant="body1" sx={{
