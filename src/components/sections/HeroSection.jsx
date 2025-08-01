@@ -309,7 +309,7 @@ const EventTitleTab = ({ isMobile }) => {
                 height: '100%',
                 gap: '10px',
                 position: 'relative',
-                top: isMobile ? '25px' : '-110px',
+                top: isMobile ? '25px' : '-50px',
                 zIndex: 1,  
                 maxWidth: { xs: '100%', md: '50%' },
                 padding: { xs: '20px', md: '0px' },
@@ -341,8 +341,8 @@ const EventTitleTab = ({ isMobile }) => {
             }}>{eventData.venue.name}</Typography>
             <Typography variant="body1" sx={{
                 marginInline: isMobile ? '0px' : '150px',
-                marginTop: '20px',
                 paddingInline: isMobile ? '0px' : '100px',
+                marginTop: '10px',
                 textAlign: 'center',
                 fontWeight: 'bold',
                 color: 'white',
