@@ -46,7 +46,7 @@ export const eventData = {
     ]
   },
   description:
-   "Join us for our biggest event yet! Experience retro gaming, anime themed trivia and challanges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
+   "Join us for our biggest event yet! Experience retro gaming, anime themed trivia and challenges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
   highlights: [
     "Tabletop Gaming",
     "Trivia Competition", 
