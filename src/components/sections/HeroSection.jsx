@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { eventData } from '../../data/eventData'
+import { getCurrentEvent } from '../../data/eventData'
+import { getCurrentSubdomain } from '../../utils/subdomain'
 import { Box, Typography, Paper, List, ListItem, ListItemButton, ListItemText, Fade, Button, IconButton, Card, CardContent, Grid, Modal, useTheme, useMediaQuery } from '@mui/material'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
@@ -103,7 +104,35 @@ const getEventLogoMarker = () => {
     })
 }
 
-const TabBar = ({ activeTab, setActiveTab, isMobile }) => {
+const TabBar = ({ activeTab, setActiveTab, isMobile, eventData }) => {
+    const SidebarItems = [
+        {
+            key: 0,
+            title: eventData?.title || 'Event',
+            id: "event-title"
+        },
+        {
+            key: 1,
+            title: "More Info",
+            id: "more-info"
+        },
+        {
+            key: 2,
+            title: "Map",
+            id: "map"
+        },
+        {
+            key: 3,
+            title: "Tickets",
+            id: "tickets"
+        },
+        {
+            key: 4,
+            title: "Socials",
+            id: "socials"
+        }
+    ]
+
     return (
         <Paper elevation={3} sx={{ 
             background: 'transparent',
@@ -183,28 +212,6 @@ const TabBar = ({ activeTab, setActiveTab, isMobile }) => {
     )
 }
 
-const SidebarItems = [
-    {
-        key: 0,
-        title: eventData.title,
-        id: "event-title"
-    },
-    {
-        key: 1,
-        title: "More Info",
-        id: "more-info"
-    },
-    {
-        key: 2,
-        title: "Map",
-        id: "map"
-    },
-    {
-        key: 3,
-        title: "Socials",
-        id: "socials"
-    }
-]
 
 const EventTitleTab = ({ isMobile }) => {   
     const [rsvpModalOpen, setRsvpModalOpen] = useState(false)
@@ -1165,6 +1172,20 @@ const SocialsTab = ({ isMobile }) => {
 const HeroSection = () => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const currentSubdomain = getCurrentSubdomain()
+    const eventData = getCurrentEvent(currentSubdomain)
+    
+    // Safety check - if no event data, return early
+    if (!eventData) {
+        return (
+            <Box sx={{ p: 4, textAlign: 'center' }}>
+                <Typography variant="h4" color="text.secondary">
+                    No event data available
+                </Typography>
+            </Box>
+        )
+    }
+    
     const [activeTab, setActiveTab] = useState('event-title')
     const [showFloatingTabBar, setShowFloatingTabBar] = useState(false)
     const [selectedEvent, setSelectedEvent] = useState(null)
@@ -1257,7 +1278,7 @@ const HeroSection = () => {
                         width: 'fit-content',
                         margin: isMobile ? '20px auto' : '0px',
                     }}>
-                    <TabBar activeTab={activeTab} setActiveTab={setActiveTab} isMobile={isMobile} />
+                    <TabBar activeTab={activeTab} setActiveTab={setActiveTab} isMobile={isMobile} eventData={eventData} />
                 </Box>
             </Box>
 

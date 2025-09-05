@@ -1,14 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Box, useTheme, useMediaQuery } from '@mui/material'
+import { Box, useTheme, useMediaQuery, Menu, MenuItem, Button } from '@mui/material'
+import { getCurrentSubdomain, getNavigationItems, getGetInvolvedItems, getMainDomainUrl } from '../../utils/subdomain'
 
 const Header = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const currentSubdomain = getCurrentSubdomain()
+  const navItems = getNavigationItems(currentSubdomain)
+  const getInvolvedItems = getGetInvolvedItems()
   
-  const navItems = [
-    { label: 'About', href: '/about', ariaLabel: 'Learn more about AniArchive'},
-  ]
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleGetInvolvedClick = (event) => {
+    if (event.target.textContent === 'Get Involved') {
+      event.preventDefault()
+      handleClick(event)
+    }
+  }
 
   return (
     <header 
@@ -46,7 +64,7 @@ const Header = () => {
         >
           <div className="nav-brand">
             <Link 
-              to="/"
+              to={currentSubdomain ? `/${currentSubdomain}` : "/"}
               className="nav-brand-link"
               aria-label="AniArchive - Home"
               style={{
@@ -65,7 +83,7 @@ const Header = () => {
                 e.target.style.transition = 'color 0.2s ease-in-out';
               }}
             >
-              Home
+              {currentSubdomain ? `Anime Con ${currentSubdomain.charAt(0).toUpperCase() + currentSubdomain.slice(1)}` : 'Home'}
             </Link>
           </div>
           
@@ -81,28 +99,96 @@ const Header = () => {
           >
             {navItems.map((item, index) => (
               <li key={index}>
-                <Link 
-                  to={item.href}
-                  className="nav-item font-medium"
-                  aria-label={item.ariaLabel}
-                  style={{
-                    textDecoration: 'none',
-                    color: 'black',
-                    fontSize: isMobile ? '1.2rem' : '1.5rem',
-                    transition: 'color 0.2s ease-in-out',
-                    fontWeight: 'bold',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = '#ffe6a9';
-                    e.target.style.transition = 'color 0.2s ease-in-out';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.color = 'black';
-                    e.target.style.transition = 'color 0.2s ease-in-out';
-                  }}
-                >
-                  {item.label}
-                </Link>
+                {item.hasDropdown ? (
+                  <>
+                    <Button
+                      onClick={handleClick}
+                      className="nav-item font-medium"
+                      aria-label={item.ariaLabel}
+                      style={{
+                        textDecoration: 'none',
+                        color: 'black',
+                        fontSize: isMobile ? '1.2rem' : '1.5rem',
+                        transition: 'color 0.2s ease-in-out',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        minWidth: 'auto',
+                        padding: '0',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.color = '#ffe6a9';
+                        e.target.style.transition = 'color 0.2s ease-in-out';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.color = 'black';
+                        e.target.style.transition = 'color 0.2s ease-in-out';
+                      }}
+                    >
+                      {item.label} ▼
+                    </Button>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        'aria-labelledby': 'get-involved-button',
+                      }}
+                      PaperProps={{
+                        style: {
+                          backgroundColor: 'rgba(169, 237, 255, 0.95)',
+                          borderRadius: '10px',
+                          boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                        }
+                      }}
+                    >
+                      {getInvolvedItems.map((dropdownItem, idx) => (
+                        <MenuItem 
+                          key={idx} 
+                          onClick={handleClose}
+                          style={{
+                            fontSize: isMobile ? '1rem' : '1.2rem',
+                            fontWeight: 'bold',
+                            color: 'black',
+                          }}
+                        >
+                          <Link 
+                            to={dropdownItem.href}
+                            style={{
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              width: '100%',
+                            }}
+                          >
+                            {dropdownItem.label}
+                          </Link>
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </>
+                ) : (
+                  <Link 
+                    to={item.href}
+                    className="nav-item font-medium"
+                    aria-label={item.ariaLabel}
+                    style={{
+                      textDecoration: 'none',
+                      color: 'black',
+                      fontSize: isMobile ? '1.2rem' : '1.5rem',
+                      transition: 'color 0.2s ease-in-out',
+                      fontWeight: 'bold',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#ffe6a9';
+                      e.target.style.transition = 'color 0.2s ease-in-out';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = 'black';
+                      e.target.style.transition = 'color 0.2s ease-in-out';
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>

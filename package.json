@@ -5,6 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:leicester": "vite --port 3005",
+    "dev:coventry": "vite --port 3001",
+    "dev:birmingham": "vite --port 3002",
+    "dev:london": "vite --port 3003",
+    "dev:manchester": "vite --port 3004",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",

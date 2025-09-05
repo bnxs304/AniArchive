@@ -78,44 +78,37 @@ export const addRSVP = async (email) => {
 }
 
 // Send confirmation email using EmailJS
-export const sendConfirmationEmail = async (email, raffleCode) => {
+export const sendConfirmationEmail = async (email, raffleCode, eventData = null) => {
   try {
-    // Initialize EmailJS with your public key
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-
-    if (!serviceId || !templateId || !publicKey) {
-      console.warn('EmailJS configuration missing, falling back to mock email')
-      console.log(`Mock email sent to ${email} with raffle code: ${raffleCode}`)
-      return { success: true }
-    }
-
-    const templateParams = {
-      to_email: email,
-      raffle_code: raffleCode,
+    // Use default event data if not provided
+    const defaultEventData = {
       event_title: 'AniArchive Coventry',
       event_date: 'Saturday, 2nd August 2025',
       event_time: '10:00 AM - 6:00 PM',
-      venue_name: 'The Box - Fargo Village',
-      venue_address: 'Far Gosford Street, Coventry, UK. CV1 5ED'
+      venue_name: 'The Box at Fargo Village',
+      venue_address: 'Far Gosford Street, Coventry, UK. CV1 5ED',
+      event_highlights: 'Gaming tournaments, cosplay competitions, artist alley, and more!',
+      social_instagram: 'https://www.instagram.com/theaniarchive',
+      social_facebook: 'https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr',
+      ticket_link: '#'
     }
 
-    const response = await emailjs.send(serviceId, templateId, templateParams, publicKey)
-    
-    if (response.status === 200) {
-      console.log('Email sent successfully:', response)
-      return { success: true }
-    } else {
-      throw new Error('Email service returned non-200 status')
+    const emailData = {
+      to_email: email,
+      raffle_code: raffleCode,
+      ...(eventData || defaultEventData)
     }
+
+    // Import the email template service
+    const { sendRSVPConfirmationEmail } = await import('./emailTemplates')
+    return await sendRSVPConfirmationEmail(emailData)
   } catch (error) {
-    console.error('Error sending email:', error)
+    console.error('Error sending confirmation email:', error)
     
     // Fallback to mock email for development
     if (import.meta.env.DEV) {
       console.log(`Mock email sent to ${email} with raffle code: ${raffleCode}`)
-      return { success: true }
+      return { success: true, message: 'Mock email sent successfully' }
     }
     
     throw error
