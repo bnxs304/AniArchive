@@ -372,7 +372,7 @@ const AnalyticsDashboard = () => {
               }}
               data-analytics="action-button"
             >
-              {!isMobile && 'RSVP Admin'}
+              {!isMobile && 'Admin Panel'}
             </Button>
             <Button 
               variant="contained" 
@@ -424,7 +424,7 @@ const AnalyticsDashboard = () => {
         </Box>
         
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             {coreWebVitals.lcp ? (
               <StatCard 
                 title="Largest Contentful Paint"
@@ -436,7 +436,7 @@ const AnalyticsDashboard = () => {
               />
             ) : <StatCard title="Largest Contentful Paint" icon={<SpeedIcon />} />}
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             {coreWebVitals.fid ? (
               <StatCard 
                 title="First Input Delay"
@@ -448,7 +448,7 @@ const AnalyticsDashboard = () => {
               />
             ) : <StatCard title="First Input Delay" icon={<TouchAppIcon />} />}
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             {coreWebVitals.cls ? (
               <StatCard 
                 title="Cumulative Layout Shift"
@@ -527,7 +527,7 @@ const AnalyticsDashboard = () => {
         </Box>
         
         <Grid container spacing={2} data-analytics="metrics-grid">
-          <Grid item xs={6} md={3}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <MetricCard 
               title="Page Views"
               value={events.filter(e => e.event === 'page_view').length}
@@ -535,15 +535,15 @@ const AnalyticsDashboard = () => {
               color="primary"
             />
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <MetricCard 
-              title="RSVP Clicks"
-              value={events.filter(e => e.event === 'rsvp_click').length}
+              title="Ticket Clicks"
+              value={events.filter(e => e.event === 'ticket_click').length}
               icon={<EventIcon />}
               color="secondary"
             />
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <MetricCard 
               title="Social Clicks"
               value={events.filter(e => e.event === 'social_click').length}
@@ -551,7 +551,7 @@ const AnalyticsDashboard = () => {
               color="success"
             />
           </Grid>
-          <Grid item xs={6} md={3}>
+          <Grid size={{ xs: 6, md: 3 }}>
             <MetricCard 
               title="Past Event Clicks"
               value={events.filter(e => e.event === 'past_event_click').length}
@@ -635,7 +635,7 @@ const AnalyticsDashboard = () => {
                       size="small"
                       color={
                         event.event === 'page_view' ? 'primary' :
-                        event.event === 'rsvp_click' ? 'secondary' :
+                        event.event === 'ticket_click' ? 'secondary' :
                         event.event === 'social_click' ? 'success' :
                         event.event === 'past_event_click' ? 'warning' : 'default'
                       }

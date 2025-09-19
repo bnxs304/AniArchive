@@ -1,594 +1,900 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Box, Typography, Paper, List, ListItem, ListItemButton, ListItemText, Button, IconButton, Card, CardContent, Grid, Modal, useTheme, useMediaQuery, Chip } from '@mui/material'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-import RSVPModal from '../common/RSVPModal'
+import React, { useState, memo, useCallback } from 'react'
+import { 
+  Box, 
+  Typography, 
+  Paper, 
+  List, 
+  ListItem, 
+  ListItemButton, 
+  ListItemText, 
+  Button, 
+  Card, 
+  CardContent, 
+  Grid, 
+  useTheme, 
+  useMediaQuery, 
+  Chip, 
+  Container,
+  Fade,
+  Slide
+} from '@mui/material'
+import LazyImage from '../common/LazyImage'
+import InteractiveMap from '../common/InteractiveMap'
 import { getCurrentSubdomain } from '../../utils/subdomain'
 import { getCurrentEvent } from '../../data/eventData'
 
 // Import images
-import wispersGif from '../../images/wispers.gif'
-import sfGif from '../../images/sf.gif'
-import mntGif from '../../images/mnt.gif'
 import igGif from '../../images/IG.gif'
 import fbGif from '../../images/FB.gif'
-import sgGif from '../../images/sg.gif'
-import logoImg from '../../images/logo.png'
-
-// Fix for default markers in react-leaflet
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-})
 
 const EventPage = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const isTablet = useMediaQuery(theme.breakpoints.between('md', 'lg'))
   const currentSubdomain = getCurrentSubdomain()
   const eventData = getCurrentEvent(currentSubdomain)
   const [activeTab, setActiveTab] = useState('event-title')
-  const [rsvpModalOpen, setRsvpModalOpen] = useState(false)
 
-  const TabBar = ({ activeTab, setActiveTab, isMobile }) => {
-    const SidebarItems = [
-      { key: 0, title: eventData.title, id: "event-title" },
-      { key: 1, title: "Highlights", id: "highlights" },
-      { key: 2, title: "Map & Travel", id: "map" },
-      { key: 3, title: "Tickets", id: "tickets" },
-      { key: 4, title: "Socials", id: "socials" }
+  // Memoized tab change handler
+  const handleTabChange = useCallback((tabId) => {
+    setActiveTab(tabId)
+  }, [])
+
+  // Safety check
+  if (!eventData) {
+    return (
+      <Container maxWidth="md" sx={{ py: { xs: 2, md: 4 } }}>
+        <Fade in timeout={500}>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                color: 'white', 
+                mb: 2,
+                fontSize: { xs: '1.5rem', md: '2rem' }
+              }}
+            >
+              Event Not Found
+            </Typography>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: { xs: '0.9rem', md: '1rem' }
+              }}
+            >
+              The requested event could not be found.
+            </Typography>
+          </Box>
+        </Fade>
+      </Container>
+    )
+  }
+
+  // Tab navigation component
+  const TabBar = memo(({ activeTab, onTabChange, isMobile, isTablet }) => {
+    const tabs = [
+      { id: 'event-title', label: eventData.title },
+      { id: 'highlights', label: 'Highlights'},
+      { id: 'map', label: 'Map & Travel' },
+      { id: 'tickets', label: 'Tickets' },
+      { id: 'socials', label: 'Socials' }
     ]
 
     return (
-      <Paper elevation={3} sx={{ 
-        background: 'transparent',
-        boxShadow: 'none',
-        borderRadius: '10px',
-        padding: '10px',
-        gap: '10px',
-        zIndex: 1000,
-      }}>
+      <Paper 
+        elevation={3} 
+        sx={{ 
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          justifyContent: 'space-evenly',
+          gap: { xs: '4px', md: '8px' },
+          padding: { xs: '6px', md: '12px' },
+          zIndex: 1000,
+          maxWidth: { xs: '100%', md: 'fit-content' },
+          height: { xs: 'auto', md: '100%' },
+          mx: 'auto',
+          overflow: 'hidden'
+        }}
+      >
         <List sx={{
           display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          width: 'fit-content',
-          gap: '10px',
+          flexDirection: { xs: 'column', md: 'row' },
+          justifyContent: 'space-evenly',
+          gap: { xs: '4px', md: '8px' },
+          width: '100%',
+          p: 0
         }}>
-          {SidebarItems.map((item) => (
-            <ListItem key={item.key} disablePadding>
+          {tabs.map((tab) => (
+            <ListItem key={tab.id} disablePadding sx={{ width: '100%' }}>
               <ListItemButton 
-                selected={activeTab === item.id}
-                onClick={() => setActiveTab(item.id)}
+                selected={activeTab === tab.id}
+                onClick={() => onTabChange(tab.id)}
                 sx={{
-                  whiteSpace: 'nowrap',
-                  borderRadius: '10px',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  minWidth: isMobile ? '200px' : 'auto',
-                  '&.Mui-selected': {
-                    background: 'rgba(128, 149, 155, 0.2)',
-                  },
+                  height: { xs: '44px', md: '44px' },
+                  borderRadius: { xs: '8px', md: '15px' },
+                  background: activeTab === tab.id 
+                    ? 'rgba(255, 107, 107, 0.2)' 
+                    : 'rgba(255, 255, 255, 0.1)',
+                  border: activeTab === tab.id 
+                    ? '1px solid rgba(255, 107, 107, 0.3)' 
+                    : '1px solid transparent',
+                  minHeight: { xs: '44px', md: '44px' },
+                  px: { xs: 1, md: 3 },
+                  py: { xs: 0.5, md: 1.5 },
+                  transition: 'all 0.3s ease',
+                  width: '100%',
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                    transform: { xs: 'none', md: 'translateY(-1px)' },
                   },
+                  '&.Mui-selected': {
+                    backgroundColor: 'rgba(255, 107, 107, 0.25)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 107, 107, 0.3)',
+                    }
+                  }
                 }}
               >
-                <ListItemText primary={item.title}
-                  sx={{
-                    fontSize: isMobile ? '1em' : '1.1em',
-                    fontWeight: 'bold',
-                    textShadow: '1px 1px 2px #FF9376',
-                    textTransform: 'uppercase',
-                    textAlign: 'center',
-                    color: '#FFD776',
-                  }}/>
+                <ListItemText 
+                  primary={
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 0.5,
+                      justifyContent: 'center',
+                      width: '100%'
+                    }}>
+                      <Typography 
+                        component="span"
+                        sx={{
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          color: activeTab === tab.id ? '#FF6B6B' : '#FFD776',
+                          textAlign: 'center',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                          fontSize: { xs: '0.9rem', md: '1.2rem' },
+                          lineHeight: 1.2,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          maxWidth: '100%'
+                        }}
+                      >
+                        {tab.label}
+                      </Typography>
+                    </Box>
+                  }
+                  sx={{ m: 0, textAlign: 'center' }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Paper>
     )
-  }
+  })
 
-  const EventTitleTab = ({ isMobile }) => {
-    return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        alignItems: 'center',
-        justifyContent: 'center',
-        maxHeight: isMobile ? 'auto' : '700px',
-        width: '100%',
-        position: 'relative',
-        padding: { xs: '20px', md: '0px' },
-      }}>
-        <Box sx={{
-          height: '100%',
-          gap: '10px',
-          position: 'relative',
-          top: isMobile ? '25px' : '-50px',
-          zIndex: 1,  
-          maxWidth: { xs: '100%', md: '50%' },
-          padding: { xs: '20px', md: '0px' },
-          marginInline: isMobile ? 'auto' : '10px',
+  // Event Title Tab
+  const EventTitleTab = memo(({ isMobile, isTablet }) => (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Fade in timeout={600}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: { xs: 'column', lg: 'row' },
+          alignItems: 'center',
+          gap: { xs: 3, md: 4 },
+          minHeight: { xs: 'auto', md: '600px' }
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <Typography variant="h4" sx={{ fontSize: { xs: '2rem', md: '4rem' } }}>
-              {eventData.title}
-            </Typography>
-            <Chip 
-              label={eventData.status === 'ongoing' ? 'Happening Now!' : eventData.status === 'upcoming' ? 'Upcoming' : 'Past Event'}
-              color={eventData.status === 'ongoing' ? 'warning' : eventData.status === 'upcoming' ? 'success' : 'default'}
-              sx={{ fontWeight: 'bold' }}
-            />
-          </Box>
-          
-          <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', mb: 2 }}>
-            {eventData.description}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', mb: 1 }}>
-            {eventData.date}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', mb: 1 }}>
-            {eventData.time}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ textAlign: 'center', width: '100%', mb: 2 }}>
-             {eventData.venue.name}
-          </Typography>
-
-          {eventData.announcements && eventData.announcements.length > 0 && (
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" sx={{ textAlign: 'center', mb: 2, color: '#FF6B6B', fontWeight: 'bold' }}>
-                Latest Announcements
-              </Typography>
-              {eventData.announcements.map((announcement, index) => (
-                <Typography key={index} variant="body2" sx={{ 
-                  textAlign: 'center', 
+          {/* Content Section */}
+          <Box sx={{ 
+            flex: 1, 
+            textAlign: 'center',
+            order: { xs: 2, lg: 1 }
+          }}>
+            {/* Title and Status */}
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: { xs: 1, md: 2 }, 
+              mb: { xs: 2, md: 3 }, 
+              flexWrap: 'wrap',
+              flexDirection: { xs: 'column', sm: 'row' }
+            }}>
+              <Typography 
+                variant="h3" 
+                sx={{ 
+                  fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3rem' },
+                  fontWeight: 'bold',
                   color: 'white',
-                  backgroundColor: 'rgba(255, 107, 107, 0.2)',
-                  padding: '10px',
-                  borderRadius: '10px',
-                  mb: 1,
-                }}>
-                  {announcement}
-                </Typography>
-              ))}
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  lineHeight: 1.2,
+                  mb: { xs: 1, sm: 0 }
+                }}
+              >
+                {eventData.title}
+              </Typography>
+              <Chip 
+                label={eventData.status === 'ongoing' ? 'Happening Now!' : eventData.status === 'upcoming' ? 'Upcoming' : 'Past Event'}
+                color={eventData.status === 'ongoing' ? 'warning' : eventData.status === 'upcoming' ? 'success' : 'default'}
+                sx={{ 
+                  fontWeight: 'bold',
+                  fontSize: { xs: '0.7rem', sm: '0.8rem', md: '0.9rem' },
+                  height: { xs: '28px', sm: '32px', md: '36px' },
+                  px: { xs: 1, md: 2 }
+                }}
+              />
             </Box>
-          )}
-
-          {eventData.status === 'upcoming' && (
-            <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={() => setRsvpModalOpen(true)}
-              sx={{
-                width: 'fit-content',
-                height: 'fit-content',
-                marginBlock: '10px',
-                marginInline: 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
-                color: 'white',
-                borderRadius: '25px',
-                padding: '16px 38px',
-                textTransform: 'uppercase',
-                fontSize: { xs: '1.1rem', md: '1.3rem' },
-                fontWeight: 'bold',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #FF4757, #FF6B6B)',
-                  transform: 'translateY(-2px)',
-                },
+            
+            {/* Description */}
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: 'rgba(255, 255, 255, 0.9)', 
+                fontFamily: 'Freeman, cursive, sans-serif',
+                textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                mb: { xs: 2, md: 3 },
+                fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem', lg: '1.2rem' },
+                lineHeight: 1.6,
+                maxWidth: { xs: '100%', md: '600px' },
+                mx: 'auto',
+                px: { xs: 1, md: 0 }
               }}
             >
-              RSVP Now
-            </Button>
-          )}
-        </Box>
-        
-        <img src={eventData.image} alt="Event Poster"
-          style={{
-            width: isMobile ? '100%' : '50%',
-            maxWidth: '600px',
-            borderRadius: '10px',
-            height: 'fit-content',
-            objectFit: 'contain',
-            marginTop: isMobile ? '20px' : '0px',
-          }}/>
-      </Box>
-    )
-  }
-
-  const HighlightsTab = ({ isMobile }) => {
-    return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        padding: '20px',
-        minHeight: isMobile ? 'auto' : '700px',
-        width: '100%',
-      }}>
-        <Typography variant="h4" sx={{
-          textAlign: 'center',
-          fontSize: isMobile ? '2rem' : '3rem',
-          fontWeight: 'bold',
-          color: 'white',
-          mb: 4,
-        }}>
-          Event Highlights
-        </Typography>
-        
-        <Grid container spacing={3} sx={{ maxWidth: '800px' }}>
-          {eventData.highlights.map((highlight, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 6 }}>
-              <Card sx={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '15px',
-                padding: '20px',
-                textAlign: 'center',
-                transition: 'transform 0.3s ease-in-out',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                },
+              {eventData.description}
+            </Typography>
+            
+            {/* Event Details Card */}
+            <Card sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: { xs: '12px', md: '15px' },
+              p: { xs: 2, md: 3 },
+              mb: { xs: 2, md: 3 },
+              maxWidth: { xs: '100%', md: '500px' },
+              mx: 'auto',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+            }}>
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: { xs: 1, md: 1.5 },
+                alignItems: 'center',
+                textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
               }}>
-                <Typography variant="h6" sx={{ 
-                  color: 'white',
-                  fontWeight: 'bold',
-                  fontSize: isMobile ? '1.1rem' : '1.3rem',
-                }}>
-                  {highlight}
+                <Typography 
+                  sx={{ 
+                    color: '#FF6B6B', 
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}
+                >
+                 {eventData.date}
                 </Typography>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    )
-  }
+                <Typography 
+                  sx={{ 
+                    color: '#FF6B6B', 
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}
+                >
+                  {eventData.time}
+                </Typography>
+                <Typography 
+                  sx={{ 
+                    color: '#FF6B6B', 
+                    fontSize: { xs: '1rem', md: '1.1rem' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}
+                >
+                 {eventData.venue.name}
+                </Typography>
+              </Box>
+            </Card>
 
-  const MapTab = ({ isMobile }) => {
-    return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: '20px',
-        width: '100%',
-        height: '100%',
-        padding: '20px',
-        minHeight: isMobile ? 'auto' : '700px',
-      }}>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          width: isMobile ? '100%' : '50%',
-        }}>
-          <Typography variant="h4" sx={{
-            fontWeight: 'bold',
-            textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
-            marginBottom: '10px',
-            fontSize: isMobile ? '1.5rem' : '2.5rem',
-            color: 'white',
+            {/* Announcements */}
+            {eventData.announcements && eventData.announcements.length > 0 && (
+              <Box sx={{ mb: { xs: 2, md: 3 } }}>
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    textAlign: 'center', 
+                    mb: { xs: 1.5, md: 2 }, 
+                    color: 'white', 
+                    fontFamily: 'Freeman, cursive, sans-serif',
+                    fontSize: { xs: '1rem', md: '1.4rem' },
+                    textShadow: '1px 1px 4px rgba(0,0,0,0.5)',
+                    borderBottom: '1px solid rgba(255, 107, 107, 0.3)',
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    borderRadius: { xs: '8px', md: '10px' },
+                  }}
+                >
+                  Latest Announcements:
+                </Typography>
+                {eventData.announcements.map((announcement, index) => (
+                  <Typography 
+                    key={index} 
+                    variant="body1" 
+                    sx={{ 
+                      textAlign: 'center', 
+                      color: 'white',
+                      backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                      padding: { xs: '12px', md: '15px' },
+                      borderRadius: { xs: '8px', md: '10px' },
+                      mb: { xs: 1.5, md: 2 },
+                      fontSize: { xs: '0.85rem', md: '0.95rem' },
+                      lineHeight: 1.5,
+                      maxWidth: { xs: '100%', md: '600px' },
+                      mx: 'auto',
+                      border: '1px solid rgba(255, 107, 107, 0.3)'
+                    }}
+                  >
+                    {announcement}
+                  </Typography>
+                ))}
+              </Box>
+            )}
+          </Box>
+          
+          {/* Image Section */}
+          <Box sx={{ 
+            flex: 1, 
+            display: 'flex', 
+            justifyContent: 'center',
+            order: { xs: 1, lg: 2 },
+            mb: { xs: 2, lg: 0 }
           }}>
+            <LazyImage 
+              src={eventData.image} 
+              alt="Event Poster"
+              style={{
+                width: '100%',
+                maxWidth: { xs: '300px', sm: '400px', md: '450px', lg: '500px' },
+                borderRadius: { xs: '12px', md: '15px' },
+                height: 'auto',
+                objectFit: 'contain',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+              }}
+            />
+          </Box>
+        </Box>
+      </Fade>
+    </Container>
+  ))
+
+  // Highlights Tab
+  const HighlightsTab = memo(({ isMobile, isTablet }) => (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Fade in timeout={600}>
+        <Box>
+          <Typography 
+            variant="h4" 
+            sx={{
+              textAlign: 'center',
+              fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3rem' },
+              fontWeight: 'bold',
+              color: 'white',
+              mb: { xs: 3, md: 4 },
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+            }}
+          >
+            Event Highlights
+          </Typography>
+          
+          <Grid 
+            container 
+            spacing={{ xs: 2, md: 3 }} 
+            sx={{ 
+              maxWidth: { xs: '100%', md: '900px' }, 
+              mx: 'auto',
+              px: { xs: 1, md: 0 }
+            }}
+          >
+            {eventData.highlights.map((highlight, index) => (
+              <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
+                <Slide 
+                  direction="up" 
+                  in 
+                  timeout={600 + (index * 100)}
+                >
+                  <Card sx={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: { xs: '12px', md: '15px' },
+                    padding: { xs: '16px', md: '20px' },
+                    textAlign: 'center',
+                    height: '100%',
+                    minHeight: { xs: '120px', md: '140px' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.3s ease-in-out',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                    '&:hover': {
+                      transform: { xs: 'scale(1.02)', md: 'translateY(-5px)' },
+                      boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
+                      border: '1px solid rgba(255, 107, 107, 0.3)',
+                    },
+                  }}>
+                    <Typography 
+                      variant="h6" 
+                      sx={{ 
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                        lineHeight: 1.4,
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                      }}
+                    >
+                      {highlight}
+                    </Typography>
+                  </Card>
+                </Slide>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Fade>
+    </Container>
+  ))
+
+  // Map Tab
+  const MapTab = memo(({ isMobile, isTablet }) => (
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Fade in timeout={600}>
+        <Box>
+          <Typography 
+            variant="h4" 
+            sx={{
+              textAlign: 'center',
+              fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3rem' },
+              fontWeight: 'bold',
+              color: 'white',
+              mb: { xs: 3, md: 4 },
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+            }}
+          >
             Event Location
           </Typography>
           
-          <Typography variant="h6" sx={{
-            color: '#FF6B6B',
-            fontWeight: 'bold',
-            mb: 1,
-          }}>
-            {eventData.venue.name}
-          </Typography>
-          
-          <Typography variant="body1" sx={{
-            color: 'rgba(255, 255, 255, 0.8)',
-            mb: 2,
-          }}>
-            {eventData.venue.address}
-          </Typography>
-
-          {eventData.travelInfo && (
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="h6" sx={{ color: '#FF6B6B', fontWeight: 'bold', mb: 2 }}>
-                🚗 Getting There
-              </Typography>
-              {Object.entries(eventData.travelInfo).map(([key, value]) => (
-                <Typography key={key} variant="body2" sx={{ 
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  mb: 1,
-                  fontSize: isMobile ? '0.9rem' : '1rem',
-                }}>
-                  <strong>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</strong> {value}
-                </Typography>
-              ))}
-            </Box>
-          )}
-        </Box>
-        
-        <Box sx={{
-          height: isMobile ? '300px' : '600px',
-          width: '100%',
-          borderRadius: '15px',
-          overflow: 'hidden',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
-        }}>
-          <MapContainer
-            center={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}
-            zoom={15}
-            style={{ height: '100%', width: '100%' }}
-            className="leaflet-container"
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            />
-            <Marker position={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}>
-              <Popup>
-                <div style={{ textAlign: 'center' }}>
-                  <h3 style={{ color: '#FF6B6B', margin: '0 0 10px 0' }}>
-                    {eventData.title}
-                  </h3>
-                  <p style={{ margin: '5px 0' }}>📅 {eventData.date}</p>
-                  <p style={{ margin: '5px 0' }}>⏰ {eventData.time}</p>
-                  <p style={{ margin: '5px 0' }}>🏢 {eventData.venue.name}</p>
-                </div>
-              </Popup>
-            </Marker>
-          </MapContainer>
-        </Box>
-      </Box>
-    )
-  }
-
-  const TicketsTab = ({ isMobile }) => {
-    return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        padding: '20px',
-        minHeight: isMobile ? 'auto' : '700px',
-        width: '100%',
-      }}>
-        <Typography variant="h4" sx={{
-          textAlign: 'center',
-          fontSize: isMobile ? '2rem' : '3rem',
-          fontWeight: 'bold',
-          color: 'white',
-          mb: 4,
-        }}>
-          Get Your Tickets
-        </Typography>
-        
-        <Card sx={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          borderRadius: '20px',
-          padding: '40px',
-          textAlign: 'center',
-          maxWidth: '600px',
-        }}>
-          <Typography variant="h5" sx={{ color: 'white', mb: 3, fontWeight: 'bold' }}>
-            {eventData.title}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2 }}>
-            📅 {eventData.date}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 2 }}>
-            ⏰ {eventData.time}
-          </Typography>
-          
-          <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.8)', mb: 4 }}>
-            📍 {eventData.venue.name}
-          </Typography>
-          
-          <Button
-            variant="contained"
-            href={eventData.ticketLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              background: 'linear-gradient(135deg, #4CAF50, #66BB6A)',
-              color: 'white',
-              fontWeight: 'bold',
-              borderRadius: '25px',
-              padding: '15px 40px',
-              textTransform: 'uppercase',
-              fontSize: '1.2rem',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #45a049, #5cb85c)',
-                transform: 'translateY(-2px)',
-              },
+          <Grid 
+            container 
+            spacing={{ xs: 2, md: 4 }} 
+            sx={{ 
+              maxWidth: { xs: '100%', md: '1100px' }, 
+              mx: 'auto',
+              px: { xs: 1, md: 0 }
             }}
           >
-            Buy Tickets Now
-          </Button>
-        </Card>
-      </Box>
-    )
-  }
+            {/* Venue Information */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Slide direction="right" in timeout={700}>
+                <Card sx={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: { xs: '12px', md: '15px' },
+                  p: { xs: 2, md: 3 },
+                  height: '100%',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+                }}>
+                  <Typography 
+                    variant="h5" 
+                    sx={{ 
+                      color: '#FF6B6B', 
+                      fontWeight: 'bold', 
+                      mb: { xs: 1.5, md: 2 },
+                      fontSize: { xs: '1.2rem', md: '1.4rem' },
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1
+                    }}
+                  >
+                    📍 {eventData.venue.name}
+                  </Typography>
+                  
+                  <Typography 
+                    variant="body1" 
+                    sx={{ 
+                      color: 'rgba(255, 255, 255, 0.8)', 
+                      mb: { xs: 2, md: 3 },
+                      fontSize: { xs: '0.9rem', md: '1rem' },
+                      lineHeight: 1.5
+                    }}
+                  >
+                    {eventData.venue.address}
+                  </Typography>
 
-  const SocialsTab = ({ isMobile }) => {
-    const socialLinks = [
+                  {eventData.travelInfo && (
+                    <Box>
+                      <Typography 
+                        variant="h6" 
+                        sx={{ 
+                          color: '#FF6B6B', 
+                          fontWeight: 'bold', 
+                          mb: { xs: 1.5, md: 2 },
+                          fontSize: { xs: '1rem', md: '1.1rem' },
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1
+                        }}
+                      >
+                        Getting There
+                      </Typography>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        {Object.entries(eventData.travelInfo).map(([key, value]) => (
+                          <Typography 
+                            key={key} 
+                            variant="body2" 
+                            sx={{ 
+                              color: 'rgba(255, 255, 255, 0.8)',
+                              fontSize: { xs: '0.85rem', md: '0.95rem' },
+                              lineHeight: 1.4,
+                              p: 1,
+                              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                              borderRadius: '8px',
+                              border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}
+                          >
+                            <Box component="span" sx={{ fontWeight: 'bold', color: '#FF6B6B' }}>
+                              {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
+                            </Box>
+                            <Box component="span" sx={{ ml: 1 }}>{value}</Box>
+                          </Typography>
+                        ))}
+                      </Box>
+                    </Box>
+                  )}
+                </Card>
+              </Slide>
+            </Grid>
+            
+            {/* Interactive Map */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Slide direction="left" in timeout={800}>
+                <Card sx={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: { xs: '12px', md: '15px' },
+                  p: { xs: 2, md: 3 },
+                  height: '100%',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+                }}>
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      color: 'white', 
+                      mb: { xs: 1.5, md: 2 },
+                      fontSize: { xs: '1.1rem', md: '1.3rem' },
+                      fontWeight: 'bold',
+                      textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Interactive Map
+                  </Typography>
+                  <InteractiveMap 
+                    venueLocation={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}
+                    venueName={eventData.venue.name}
+                    venueAddress={eventData.venue.address}
+                  />
+                </Card>
+              </Slide>
+            </Grid>
+          </Grid>
+        </Box>
+      </Fade>
+    </Container>
+  ))
+
+  // Tickets Tab
+  const TicketsTab = memo(({ isMobile, isTablet }) => {
+    const ticketTypes = [
       {
-        name: 'Instagram',
-        url: eventData.socialMedia.instagram,
-        image: igGif,
-        color: '#F21877',
-        description: 'Follow us on Instagram for event updates, behind-the-scenes content, and cosplay highlights!'
+        name: 'General Admission',
+        price: '£15',
+        description: 'Full day access to all activities, panels, and vendor areas',
+        features: ['Access to all panels', 'Vendor marketplace', 'Gaming areas', 'Cosplay competition viewing']
       },
       {
-        name: 'Facebook',
-        url: eventData.socialMedia.facebook,
-        image: fbGif,
-        color: '#1877F2',
-        description: 'Join our Facebook community for discussions, event updates, and more!'
+        name: 'VIP Ticket',
+        price: '£25',
+        description: 'Premium experience with exclusive perks and free gift',
+        features: ['All General Admission benefits', 'Priority seating', 'Exclusive VIP area', 'Free gift bag', 'Meet & greet opportunities'],
+        popular: true
       }
     ]
 
     return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '20px',
-        padding: '20px',
-        minHeight: isMobile ? 'auto' : '700px',
-        width: '100%',
-      }}>
-        <Typography variant="h4" sx={{
-          textAlign: 'center',
-          fontSize: isMobile ? '2rem' : '3rem',
-          fontWeight: 'bold',
-          color: 'white',
-          mb: 4,
-        }}>
-          Connect With Us
-        </Typography>
-        
-        <Grid container spacing={4} sx={{ maxWidth: '800px' }}>
-          {socialLinks.map((social, index) => (
-            <Grid key={social.name} size={{ xs: 12, sm: 6 }}>
-              <Card sx={{
-                background: `linear-gradient(135deg, ${social.color}20, ${social.color}10)`,
-                border: `2px solid ${social.color}40`,
-                borderRadius: '20px',
-                boxShadow: `0 8px 32px ${social.color}30`,
-                transition: 'all 0.3s ease-in-out',
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                  boxShadow: `0 12px 40px ${social.color}50`,
-                },
-              }}>
-                <CardContent sx={{ textAlign: 'center', padding: '30px' }}>
-                  <Box sx={{ fontSize: '3rem', marginBottom: '15px' }}>
-                    <img src={social.image} alt={social.name} style={{ width: '60px', height: '60px' }} />
-                  </Box>
-                  
-                  <Typography variant="h5" sx={{
-                    fontWeight: 'bold',
-                    color: social.color,
-                    marginBottom: '10px',
-                    fontSize: isMobile ? '1.2rem' : '1.5rem',
-                  }}>
-                    {social.name}
-                  </Typography>
-                  
-                  <Typography variant="body2" sx={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    marginBottom: '20px',
-                    lineHeight: 1.5,
-                    fontSize: isMobile ? '0.9rem' : '1rem',
-                  }}>
-                    {social.description}
-                  </Typography>
-                  
-                  <Button
-                    variant="contained"
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{
-                      background: `linear-gradient(135deg, ${social.color}, ${social.color}CC)`,
-                      color: 'white',
-                      borderRadius: '25px',
-                      padding: { xs: '8px 20px', md: '12px 30px' },
-                      textTransform: 'uppercase',
-                      fontSize: { xs: '0.8rem', md: '1rem' },
-                      '&:hover': {
-                        background: `linear-gradient(135deg, ${social.color}CC, ${social.color})`,
-                        transform: 'translateY(-2px)',
-                      },
-                    }}
-                  >
-                    Follow on {social.name}
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    )
-  }
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+        <Fade in timeout={600}>
+          <Box>
+            <Typography 
+              variant="h4" 
+              sx={{
+                textAlign: 'center',
+                fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3rem' },
+                fontWeight: 'bold',
+                color: 'white',
+                mb: { xs: 3, md: 4 },
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+               Get Your Tickets!
+            </Typography>
 
-  const renderTabContent = () => {
+
+            {/* Purchase Button */}
+            <Box sx={{ textAlign: 'center' }}>
+              <Slide direction="up" in timeout={1000}>
+                <Button
+                  variant="contained"
+                  href={eventData.ticketLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-analytics="ticket"
+                  sx={{
+                    background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    borderRadius: { xs: '20px', md: '25px' },
+                    padding: { xs: '12px 24px', md: '15px 40px' },
+                    fontSize: { xs: '0.9rem', md: '1.1rem' },
+                    textTransform: 'uppercase',
+                    boxShadow: '0 4px 16px rgba(255, 107, 107, 0.3)',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, #FF5252, #FF7979)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(255, 107, 107, 0.4)',
+                    },
+                  }}
+                >
+                  Buy Tickets Now
+                </Button>
+              </Slide>
+              
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: 'rgba(255, 255, 255, 0.7)', 
+                  mt: 2,
+                  fontSize: { xs: '0.8rem', md: '0.9rem' }
+                }}
+              >
+                Tickets are sold through Eventbrite - secure and trusted ticketing platform
+              </Typography>
+            </Box>
+          </Box>
+        </Fade>
+      </Container>
+    )
+  })
+
+  // Socials Tab
+  const SocialsTab = memo(({ isMobile, isTablet }) => {
+    const socialLinks = [
+      {
+        name: 'Instagram',
+        url: 'https://instagram.com/aniarchive',
+        color: '#E4405F',
+        description: 'Follow us for event updates, behind-the-scenes content, and community highlights.',
+        icon: igGif
+      },
+      {
+        name: 'Facebook',
+        url: 'https://facebook.com/aniarchive',
+        color: '#1877F2',
+        description: 'Join our Facebook community for event discussions, photos, and networking.',
+        icon: fbGif
+      }
+    ]
+
+    return (
+      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+        <Fade in timeout={600}>
+          <Box>
+            <Typography 
+              variant="h4" 
+              sx={{
+                textAlign: 'center',
+                fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem', lg: '3rem' },
+                fontWeight: 'bold',
+                color: 'white',
+                mb: { xs: 3, md: 4 },
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+               Connect With Us
+            </Typography>
+            
+            <Grid 
+              container 
+              spacing={{ xs: 2, md: 3 }} 
+              sx={{ 
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                maxWidth: { xs: '100%', md: '100%' }, 
+                mx: 'auto',
+
+              }}
+            >
+              {socialLinks.map((social, index) => (
+                <Grid key={social.name} size={{ xs: 12, sm: 6, md: 4 }}>
+                  <Slide 
+                    direction="up" 
+                    in 
+                    timeout={600 + (index * 150)}
+                  >
+                    <Card sx={{
+                      background: `linear-gradient(135deg, ${social.color}20, ${social.color}10)`,
+                      backdropFilter: 'blur(10px)',
+                      border: `1px solid ${social.color}40`,
+                      borderRadius: { xs: '12px', md: '15px' },
+                      padding: { xs: '16px', md: '20px' },
+                      textAlign: 'center',
+                      height: '100%',
+                      minHeight: { xs: '280px', md: '320px' },
+                      transition: 'all 0.3s ease-in-out',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                      '&:hover': {
+                        transform: { xs: 'scale(1.02)', md: 'translateY(-5px)' },
+                        boxShadow: `0 12px 40px ${social.color}30`,
+                        border: `1px solid ${social.color}60`,
+                      },
+                    }}>
+                      <CardContent sx={{ 
+                        height: '100%', 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        justifyContent: 'space-between',
+                      }}>
+                        <Box>
+                          <Box sx={{ mb: { xs: 1.5, md: 2 }, display: 'flex', justifyContent: 'center' }}>
+                            <LazyImage 
+                              src={social.icon} 
+                              alt={`${social.name} icon`}
+                              style={{
+                                width: { xs: '36px', md: '40px' },
+                                height: { xs: '36px', md: '40px' },
+                                borderRadius: '50%',
+                              }}
+                            />
+                          </Box>
+                          
+                          <Typography 
+                            variant="h6" 
+                            sx={{ 
+                              color: social.color,
+                              marginBottom: { xs: '8px', md: '10px' },
+                              fontSize: { xs: '1.1rem', md: '1.3rem' },
+                              fontWeight: 'bold',
+                              textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                            }}
+                          >
+                            {social.name}
+                          </Typography>
+                          
+                          <Typography 
+                            variant="body2" 
+                            sx={{ 
+                              color: 'rgba(255, 255, 255, 0.8)',
+                              marginBottom: { xs: '16px', md: '20px' },
+                              lineHeight: 1.5,
+                              fontSize: { xs: '0.85rem', md: '0.95rem' },
+                            }}
+                          >
+                            {social.description}
+                          </Typography>
+                        </Box>
+                        
+                        <Button
+                          variant="contained"
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          sx={{
+                            background: `linear-gradient(135deg, ${social.color}, ${social.color}CC)`,
+                            color: 'white',
+                            borderRadius: { xs: '20px', md: '25px' },
+                            padding: { xs: '8px 16px', md: '10px 24px' },
+                            textTransform: 'uppercase',
+                            fontSize: { xs: '0.8rem', md: '0.9rem' },
+                            fontWeight: 'bold',
+                            boxShadow: `0 4px 16px ${social.color}30`,
+                            '&:hover': {
+                              background: `linear-gradient(135deg, ${social.color}CC, ${social.color})`,
+                              transform: 'translateY(-2px)',
+                              boxShadow: `0 6px 20px ${social.color}40`,
+                            },
+                          }}
+                        >
+                          Follow on {social.name}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Slide>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Fade>
+      </Container>
+    )
+  })
+
+  // Render tab content
+  const renderTabContent = useCallback(() => {
     switch (activeTab) {
       case 'event-title':
-        return <EventTitleTab isMobile={isMobile} />
+        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} />
       case 'highlights':
-        return <HighlightsTab isMobile={isMobile} />
+        return <HighlightsTab isMobile={isMobile} isTablet={isTablet} />
       case 'map':
-        return <MapTab isMobile={isMobile} />
+        return <MapTab isMobile={isMobile} isTablet={isTablet} />
       case 'tickets':
-        return <TicketsTab isMobile={isMobile} />
+        return <TicketsTab isMobile={isMobile} isTablet={isTablet} />
       case 'socials':
-        return <SocialsTab isMobile={isMobile} />
+        return <SocialsTab isMobile={isMobile} isTablet={isTablet} />
       default:
-        return <EventTitleTab isMobile={isMobile} />
+        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} />
     }
-  }
+  }, [activeTab, isMobile, isTablet])
 
   return (
-    <main id="event-page" className="event-page" role="main" aria-label={`${eventData.title} Event Page`}>
+    <main 
+      id="event-page" 
+      className="event-page" 
+      role="main" 
+      aria-label={`${eventData.title} Event Page`}
+    >
       <Box sx={{
-        padding: '0px',
-        minHeight: isMobile ? 'auto' : '600px',
-        width: '100%',
-        maxWidth: '1200px',
-        margin: '0 auto',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
       }}>
-        <Box>
-          <Paper sx={{
-            backgroundColor: 'transparent',
-            boxShadow: 'none',  
-          }}>
-            {renderTabContent()}
-          </Paper>
-        </Box>
-        
+        {/* Tab bar positioned above content */}
         <Box
           className="tab-bar-container"
           role="navigation"
           aria-label="Event information navigation"
           sx={{
-            position: 'sticky',
-            bottom: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
+            position: isMobile ? 'sticky' : 'relative',
+            top: isMobile ? '0px' : '10px',
             zIndex: 1000,
-            borderRadius: '10px',
-            width: 'fit-content',
-            margin: '20px auto',
-          }}>
-          <TabBar activeTab={activeTab} setActiveTab={setActiveTab} isMobile={isMobile} />
+            mb: { xs: 2, md: 3 },
+            px: { xs: 1, md: 0 }
+          }}
+        >
+          <TabBar 
+            activeTab={activeTab} 
+            onTabChange={handleTabChange} 
+            isMobile={isMobile} 
+            isTablet={isTablet} 
+          />
+        </Box>
+        
+        {/* Content area */}
+        <Box sx={{ 
+          flex: 1,
+          pt: { xs: 2, md: 3 } // Space after tab bar
+        }}>
+          {renderTabContent()}
         </Box>
       </Box>
-
-      {/* RSVP Modal */}
-      <RSVPModal 
-        open={rsvpModalOpen} 
-        onClose={() => setRsvpModalOpen(false)} 
-      />
     </main>
   )
 }
 
-export default EventPage
+export default memo(EventPage)

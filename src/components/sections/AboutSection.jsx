@@ -31,7 +31,7 @@ const AboutSection = () => {
             <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
                 <Grid container spacing={6}>
                     {/* Main Content */}
-                    <Grid item xs={12} lg={8}>
+                    <Grid size={{ xs: 12, lg: 8 }}>
                         {/* Hero Title Section */}
                         <Box sx={{ mb: 6, textAlign: { xs: 'center', lg: 'left' } }}>
                             <Typography 
@@ -134,7 +134,7 @@ const AboutSection = () => {
 
                         {/* Event Highlights Cards */}
                         <Grid container spacing={3} sx={{ mb: 6, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Card sx={{ 
                                     background: 'rgba(255,255,255,0.15)',
                                     backdropFilter: 'blur(15px)',
@@ -180,7 +180,7 @@ const AboutSection = () => {
                                 </Card>
                             </Grid>
                             
-                            <Grid item xs={12} sm={6}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
                                 <Card sx={{ 
                                     background: 'rgba(255,255,255,0.15)',
                                     backdropFilter: 'blur(15px)',
@@ -228,7 +228,7 @@ const AboutSection = () => {
                     </Grid>
 
                     {/* Sidebar */}
-                    <Grid item xs={12} lg={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , margin: 'auto' }}>
+                    <Grid size={{ xs: 12, lg: 4 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , margin: 'auto' }}>
                         <Paper sx={{ 
                             background: 'rgba(255,255,255,0.15)',
                             backdropFilter: 'blur(20px)',

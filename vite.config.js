@@ -10,7 +10,34 @@ export default defineConfig({
     assetsDir: 'assets',
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: (id) => {
+          // Vendor chunks for better caching
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react'
+            }
+            if (id.includes('@mui') || id.includes('@emotion')) {
+              return 'vendor-mui'
+            }
+            if (id.includes('react-router')) {
+              return 'vendor-router'
+            }
+            if (id.includes('leaflet')) {
+              return 'vendor-leaflet'
+            }
+            if (id.includes('framer-motion') || id.includes('react-helmet') || id.includes('react-icons') || id.includes('react-intersection')) {
+              return 'vendor-utils'
+            }
+            if (id.includes('jspdf')) {
+              return 'vendor-pdf'
+            }
+            if (id.includes('@emailjs')) {
+              return 'vendor-email'
+            }
+            // Default vendor chunk for other dependencies
+            return 'vendor'
+          }
+        },
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.')
           const ext = info[info.length - 1]
@@ -23,6 +50,18 @@ export default defineConfig({
         entryFileNames: 'assets/[name]-[hash].js',
       },
     },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    // Enable source maps for debugging
+    sourcemap: false,
+    // Optimize for production
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   },
   resolve: {
     alias: {
@@ -32,9 +71,27 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    host: true, // Allow external connections
+    hmr: {
+      overlay: true,
+      // Use polling as fallback for WebSocket issues
+      clientPort: undefined, // Let Vite auto-detect
+    },
+    // Additional server options for better compatibility
+    strictPort: false, // Allow port fallback if port is busy
   },
   preview: {
     port: 4173,
     open: true,
+  },
+  // Optimize dependencies
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      '@mui/material',
+      '@mui/icons-material',
+      'react-router-dom',
+    ],
   },
 }) 

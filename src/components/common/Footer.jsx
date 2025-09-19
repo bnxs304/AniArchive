@@ -1,9 +1,12 @@
 import React from 'react'
-import { Box, Typography, useTheme, useMediaQuery } from '@mui/material'
+import { Box, Typography, useTheme, useMediaQuery, Button } from '@mui/material'
+import { getCurrentSubdomain, getMainDomainUrl } from '../../utils/subdomain'
 
 const Footer = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const currentSubdomain = getCurrentSubdomain()
+  const mainDomainUrl = getMainDomainUrl()
   
   return (
     <footer className="bg-gray-900 text-white py-6 mt-12"
@@ -19,10 +22,11 @@ const Footer = () => {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          gap: isMobile ? '0.5rem' : '1rem',
+          gap: isMobile ? '1rem' : '1rem',
           marginTop: isMobile ? '0.5rem' : '1rem',
           flexDirection: isMobile ? 'column' : 'row',
           alignItems: 'center',
+          flexWrap: 'wrap'
         }}
         >
           <a href="https://instagram.com/theaniarchive" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400" style={{
@@ -64,6 +68,27 @@ const Footer = () => {
           onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #D94F8A, 2px 2px 0 #fff'; }}
           onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #D94F8A44'; }}
           >Sekai Senshi - Walsall</a>
+          
+          {/* Small Visit Main Site Link for Subdomains */}
+          {currentSubdomain && (
+            <a 
+              href={mainDomainUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: isMobile ? '0.7rem' : '0.8rem',
+                fontFamily: 'Freeman, Comic Sans MS, cursive',
+                color: '#4A90E2',
+                textDecoration: 'none',
+                opacity: 0.8,
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseOver={e => { e.currentTarget.style.opacity = '1'; }}
+              onMouseOut={e => { e.currentTarget.style.opacity = '0.8'; }}
+            >
+              Visit Main Site
+            </a>
+          )}
         </Box>
       </div>
     </footer>

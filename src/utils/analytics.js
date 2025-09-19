@@ -31,16 +31,6 @@ class Analytics {
   }
 
   trackUserInteractions() {
-    // Track RSVP submissions
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('[data-analytics="rsvp"]')) {
-        this.logEvent('rsvp_click', {
-          timestamp: new Date().toISOString(),
-          element: e.target.textContent
-        });
-      }
-    });
-
     // Track social media clicks
     document.addEventListener('click', (e) => {
       if (e.target.closest('[data-analytics="social"]')) {
@@ -57,6 +47,16 @@ class Analytics {
         this.logEvent('past_event_click', {
           timestamp: new Date().toISOString(),
           eventTitle: e.target.closest('.past-event-item').querySelector('img')?.alt
+        });
+      }
+    });
+
+    // Track ticket link clicks
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-analytics="ticket"]')) {
+        this.logEvent('ticket_click', {
+          timestamp: new Date().toISOString(),
+          element: e.target.textContent
         });
       }
     });

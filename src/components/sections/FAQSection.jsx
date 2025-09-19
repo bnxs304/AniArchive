@@ -52,7 +52,55 @@ const FAQSection = () => {
         },
         {
             question: "How can I stay updated about AniArchive events?",
-            answer: "Follow us on social media (@theaniarchive) for the latest updates about our anime convention and events. You can also RSVP to our events through our website to receive notifications about upcoming anime events and special announcements."
+            answer: "Follow us on social media (@theaniarchive) for the latest updates about our anime convention and events. You can also register for our events through our website to receive notifications about upcoming anime events and special announcements."
+        },
+        {
+            question: "How do I get to the venue?",
+            answer: "The Box - Fargo Village is easily accessible by public transport and car. Coventry train station is just a 20-minute walk away, and there are several car parks nearby including Far Gosford St. Car Park and Paynes Lane Car Park. Check our travel info section for detailed directions and parking options."
+        },
+        {
+            question: "What should I bring to the event?",
+            answer: "Bring your enthusiasm for anime and gaming! We recommend bringing cash for vendor purchases, a camera for photos, comfortable shoes for walking around, and any cosplay accessories you might need. Food and drinks are available at the venue, but you're welcome to bring your own."
+        },
+        {
+            question: "Are there age restrictions for AniArchive events?",
+            answer: "AniArchive events are family-friendly and welcome attendees of all ages! Children under 16 must be accompanied by an adult. Some activities like gaming tournaments may have age restrictions, but most events are suitable for everyone."
+        },
+        {
+            question: "Can I bring my own food and drinks?",
+            answer: "Yes, you're welcome to bring your own food and drinks to our events. However, we also have food vendors and refreshments available on-site. Please be mindful of the venue and dispose of any waste properly."
+        },
+        {
+            question: "How can I become a vendor at AniArchive?",
+            answer: "We welcome vendors offering anime merchandise, manga, art prints, cosplay accessories, gaming products, and more! Visit our 'Become a Vendor' page to fill out an application form. We'll review your application and get back to you with details about booth availability and pricing."
+        },
+        {
+            question: "How can I volunteer at AniArchive events?",
+            answer: "We're always looking for enthusiastic volunteers to help make our events amazing! Volunteers get free entry to the event and valuable experience in event management. Visit our 'Become a Volunteer' page to apply. You must be over 18 and available for assigned shift times."
+        },
+        {
+            question: "Can I apply to be a guest/performer at AniArchive?",
+            answer: "Absolutely! We welcome voice actors, artists, cosplayers, content creators, and industry professionals as guests. Visit our 'Become a Guest' page to submit an application. We'll review your submission and contact you about opportunities to participate in panels, workshops, or performances."
+        },
+        {
+            question: "What COVID-19 safety measures are in place?",
+            answer: "We follow current government guidelines and venue requirements for health and safety. This may include hand sanitizing stations, ventilation, and any other measures recommended by health authorities. We'll update attendees about specific requirements closer to each event."
+        },
+        {
+            question: "Is there parking available at the venue?",
+            answer: "Yes! There are several parking options near The Box - Fargo Village including Far Gosford St. Car Park (30 spaces), Paynes Lane Car Park (90 spaces, currently free), and on-street parking on Whitefriars Street. Check our venue page for detailed parking information and rates."
+        },
+        {
+            question: "What happens if the event is cancelled or postponed?",
+            answer: "In the unlikely event of cancellation or postponement due to circumstances beyond our control, we'll notify all registered attendees via email and social media. We'll work to reschedule the event and honor all registrations for the new date."
+        },
+        {
+            question: "Can I take photos and videos at the event?",
+            answer: "Yes, photography and videography are welcome for personal use! However, please be respectful of other attendees and ask permission before taking photos of cosplayers or other guests. Commercial photography requires prior permission from event organizers."
+        },
+        {
+            question: "Are there any prohibited items at AniArchive events?",
+            answer: "For everyone's safety, we prohibit weapons (real or replica), alcohol, illegal substances, and any items that could be dangerous or disruptive. Cosplay props must be clearly fake and safe. Security reserves the right to inspect bags and items at entry."
         }
     ];
 

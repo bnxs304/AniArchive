@@ -4,7 +4,6 @@ import emailjs from '@emailjs/browser'
 const EMAILJS_CONFIG = {
   serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
   templateIds: {
-    rsvpConfirmation: import.meta.env.VITE_EMAILJS_RSVP_TEMPLATE_ID,
     eventReminder: import.meta.env.VITE_EMAILJS_REMINDER_TEMPLATE_ID,
     vendorApplication: import.meta.env.VITE_EMAILJS_VENDOR_TEMPLATE_ID,
   },
@@ -19,57 +18,6 @@ const validateEmailParams = (params, requiredFields) => {
   }
 }
 
-// RSVP Confirmation Email
-export const sendRSVPConfirmationEmail = async (emailData) => {
-  try {
-    const requiredFields = ['to_email', 'raffle_code', 'event_title', 'event_date', 'event_time', 'venue_name', 'venue_address']
-    validateEmailParams(emailData, requiredFields)
-
-    if (!EMAILJS_CONFIG.serviceId || !EMAILJS_CONFIG.templateIds.rsvpConfirmation || !EMAILJS_CONFIG.publicKey) {
-      console.warn('EmailJS configuration missing, falling back to mock email')
-      console.log(`Mock RSVP confirmation email sent to ${emailData.to_email}`)
-      return { success: true, message: 'Mock email sent successfully' }
-    }
-
-    const templateParams = {
-      to_email: emailData.to_email,
-      raffle_code: emailData.raffle_code,
-      event_title: emailData.event_title,
-      event_date: emailData.event_date,
-      event_time: emailData.event_time,
-      venue_name: emailData.venue_name,
-      venue_address: emailData.venue_address,
-      event_highlights: emailData.event_highlights || 'Gaming tournaments, cosplay competitions, artist alley, and more!',
-      social_instagram: emailData.social_instagram || 'https://www.instagram.com/theaniarchive',
-      social_facebook: emailData.social_facebook || 'https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr',
-      ticket_link: emailData.ticket_link || '#',
-    }
-
-    const response = await emailjs.send(
-      EMAILJS_CONFIG.serviceId,
-      EMAILJS_CONFIG.templateIds.rsvpConfirmation,
-      templateParams,
-      EMAILJS_CONFIG.publicKey
-    )
-
-    if (response.status === 200) {
-      console.log('RSVP confirmation email sent successfully:', response)
-      return { success: true, message: 'RSVP confirmation email sent successfully' }
-    } else {
-      throw new Error('Email service returned non-200 status')
-    }
-  } catch (error) {
-    console.error('Error sending RSVP confirmation email:', error)
-    
-    // Fallback to mock email for development
-    if (import.meta.env.DEV) {
-      console.log(`Mock RSVP confirmation email sent to ${emailData.to_email}`)
-      return { success: true, message: 'Mock email sent successfully' }
-    }
-    
-    throw error
-  }
-}
 
 // Event Reminder Email
 export const sendEventReminderEmail = async (emailData) => {
@@ -223,48 +171,6 @@ export const sendBulkEventReminders = async (recipients, eventData) => {
 // Email template preview (for development)
 export const previewEmailTemplate = (templateType, sampleData) => {
   const templates = {
-    rsvpConfirmation: {
-      subject: `🎉 RSVP Confirmed for ${sampleData.event_title}!`,
-      html: `
-        <div style="font-family: 'Arial', sans-serif; max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px;">
-          <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-            <h1 style="color: #FF6B6B; text-align: center; margin-bottom: 20px;">🎉 RSVP Confirmed!</h1>
-            <p style="font-size: 18px; color: #333; text-align: center; margin-bottom: 30px;">Thank you for RSVPing to <strong>${sampleData.event_title}</strong>!</p>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
-              <h3 style="color: #FF6B6B; margin-bottom: 15px;">📋 Event Details</h3>
-              <p><strong>📅 Date:</strong> ${sampleData.event_date}</p>
-              <p><strong>⏰ Time:</strong> ${sampleData.event_time}</p>
-              <p><strong>📍 Venue:</strong> ${sampleData.venue_name}</p>
-              <p><strong>🏠 Address:</strong> ${sampleData.venue_address}</p>
-            </div>
-            
-            <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
-              <h3 style="color: #4CAF50; margin-bottom: 10px;">🎫 Your Raffle Code</h3>
-              <div style="font-size: 24px; font-weight: bold; color: #FF6B6B; background: white; padding: 15px; border-radius: 10px; display: inline-block; border: 2px dashed #FF6B6B;">${sampleData.raffle_code}</div>
-              <p style="margin-top: 10px; color: #666;">Show this code at the event to enter our giveaway!</p>
-            </div>
-            
-            <div style="margin: 30px 0;">
-              <h3 style="color: #FF6B6B; margin-bottom: 15px;">🌟 What to Expect</h3>
-              <p style="color: #666; line-height: 1.6;">${sampleData.event_highlights}</p>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="${sampleData.ticket_link}" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E); color: white; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">🎫 Get Tickets</a>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-              <p style="color: #666; margin-bottom: 15px;">Follow us for updates:</p>
-              <a href="${sampleData.social_instagram}" style="margin: 0 10px; color: #E4405F;">📸 Instagram</a>
-              <a href="${sampleData.social_facebook}" style="margin: 0 10px; color: #1877F2;">📘 Facebook</a>
-            </div>
-            
-            <p style="text-align: center; color: #999; font-size: 14px; margin-top: 30px;">See you at the event! 🎌</p>
-          </div>
-        </div>
-      `
-    },
     eventReminder: {
       subject: `⏰ Reminder: ${sampleData.event_title} is Tomorrow!`,
       html: `

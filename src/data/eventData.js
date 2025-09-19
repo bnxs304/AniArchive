@@ -5,6 +5,7 @@ import feb5Image from '../images/5feb25.png'
 import dec11Image from '../images/11dec24.png'
 import dec5Image from '../images/5dec24.png'
 import feb28Image from '../images/28feb24.png'
+import nov8th25Image from '../images/08nov25.png'
 
 // City-specific variables
 export const cityVariables = {
@@ -100,7 +101,7 @@ export const eventsData = {
       "Merchandise Market",
     ],
     announcements: [
-      "RSVP Giveaway is now closed! Good luck to everyone who entered!",
+      "Event Registration is now closed! Good luck to everyone who entered!",
       "Early bird tickets available until July 15th",
       "Cosplay competition registration opens June 1st",
       "Artist Alley applications closing soon"
@@ -121,46 +122,42 @@ export const eventsData = {
     id: 'leicester-nov-2025',
     city: 'leicester',
     title: 'Anime Con Leicester 2025',
-    date: "2025-11-08",
+    date: "08 November 2025",
     time: "10:00 AM - 6:00 PM",
-    image: '',
+    image: nov8th25Image,
     status: getEventStatus("2025-11-08", "10:00 AM"),
     daysUntil: getDaysUntilEvent("2025-11-08"),
     venue: {
-      name: "De Montfort University",
-      address: "The Gateway, Leicester LE1 9BH, UK",
+      name: "De Montfort Students' Union",
+      address: "De Montfort Students' Union, Campus Centre Building, Mill Ln, Leicester LE2 7DR",
       coordinates: {
-        lat: 52.6309,
-        lng: -1.1393
+        lat: 52.62983181222611,
+        lng: -1.1384354536718413
       }
     },
-    description: "Join us for an exciting anime and gaming convention at De Montfort University! Experience retro gaming, anime themed trivia and challenges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
+    description: "Join us for an exciting anime convention at De Montfort University! Experience retro gaming, anime themed trivia and challenges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
     highlights: [
-      "Gaming Tournaments",
+      "Stage Show",
       "Cosplay Competition", 
       "Artist Alley",
       "Retro Gaming Zone",
-      "TCG Stalls",
-      "Live Art",
-      "Giveaways",
-      "Merchandise Market"
+      "Games and Prizes",
+      "Merchandise Market",
     ],
     announcements: [
-      "RSVP Giveaway is now open! Enter for a chance to win exclusive prizes!",
-      "Early bird tickets available until October 15th",
-      "Cosplay competition registration opens September 15th",
-      "Artist Alley applications closing soon"
+      "Tickets on sale now!",
+      "Limted Vip Tickets available includes free gift!",
+      "Vendor, Voulenteer and Guest applications available for this event!"
     ],
     socialMedia: {
       instagram: "https://www.instagram.com/theaniarchive",
       facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
     },
-    ticketLink: "https://eventbrite.com/aniarchive-leicester-2025",
+    ticketLink: "https://www.eventbrite.co.uk/e/anime-con-leicester-2025-tickets-1687755545269",
     travelInfo: {
-      fromLondon: "London St Pancras → Leicester Station (~1h via East Midlands Railway)",
       fromBirmingham: "Birmingham New Street → Leicester Station (~45 min via CrossCountry)",
       fromManchester: "Manchester Piccadilly → Leicester Station (~1h 30min via CrossCountry)",
-      localTransport: "🚶‍♂️ Walk (~15 min) or 🚌 Bus 22/26 to DMU campus"
+      localTransport: "Walk (~15 min) or  Bus 22/26 to DMU campus"
     }
   }
 }

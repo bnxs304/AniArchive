@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo, useCallback, memo } from 'react'
 import { Box, Typography, Card, CardContent, CardMedia, Button, Chip, Grid, Modal, IconButton, useTheme, useMediaQuery } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { getUpcomingEvents, getOngoingEvents, getPastEvents, eventsData } from '../../data/eventData'
 import { getSubdomainUrl } from '../../utils/subdomain'
 
@@ -11,32 +12,33 @@ const MainLandingPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const modalRef = useRef(null)
   
-  const upcomingEvents = getUpcomingEvents()
-  const ongoingEvents = getOngoingEvents()
-  const pastEvents = getPastEvents()
+  // Memoize expensive calculations
+  const events = useMemo(() => ({
+    upcoming: getUpcomingEvents(),
+    ongoing: getOngoingEvents(),
+    past: getPastEvents()
+  }), [])
   
-  console.log('Past events loaded:', pastEvents)
+  const upcomingEvents = events.upcoming
+  const ongoingEvents = events.ongoing
+  const pastEvents = events.past
 
-  const handleEventClick = (event) => {
-    console.log('Event clicked:', event, 'Active tab:', activeTab)
+  // Memoize event handlers to prevent unnecessary re-renders
+  const handleEventClick = useCallback((event) => {
     if (activeTab === 'past') {
-      console.log('Opening modal for past event')
       setSelectedEvent(event)
     } else {
-      console.log('Redirecting to subdomain for city:', event.city)
       const subdomainUrl = getSubdomainUrl(event.city)
-      console.log('Subdomain URL:', subdomainUrl)
-      console.log('Current URL:', window.location.href)
       window.location.href = subdomainUrl
     }
-  }
+  }, [activeTab])
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setSelectedEvent(null)
     setMousePosition({ x: 0, y: 0 })
-  }
+  }, [])
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = useCallback((event) => {
     if (modalRef.current) {
       const rect = modalRef.current.getBoundingClientRect()
       const x = event.clientX - rect.left
@@ -50,27 +52,28 @@ const MainLandingPage = () => {
       
       setMousePosition({ x: rotateX, y: rotateY })
     }
-  }
+  }, [])
 
-  const getStatusColor = (status) => {
+  // Memoize utility functions
+  const getStatusColor = useCallback((status) => {
     switch (status) {
       case 'upcoming': return '#4CAF50'
       case 'ongoing': return '#FF9800'
       case 'past': return '#9E9E9E'
       default: return '#9E9E9E'
     }
-  }
+  }, [])
 
-  const getStatusText = (status) => {
+  const getStatusText = useCallback((status) => {
     switch (status) {
       case 'upcoming': return 'Upcoming'
       case 'ongoing': return 'Happening Now!'
       case 'past': return 'Past Event'
       default: return 'Unknown'
     }
-  }
+  }, [])
 
-  const EventCard = ({ event, isPast = false }) => {
+  const EventCard = memo(({ event, isPast = false }) => {
     // Add safety checks for event data
     if (!event) {
       return (
@@ -181,9 +184,9 @@ const MainLandingPage = () => {
         </CardContent>
       </Card>
     )
-  }
+  })
 
-  const TabButton = ({ label, value, count }) => (
+  const TabButton = memo(({ label, value, count }) => (
     <Button
       onClick={() => setActiveTab(value)}
       sx={{
@@ -204,16 +207,124 @@ const MainLandingPage = () => {
     >
       {label} ({count})
     </Button>
-  )
+  ))
 
-  const renderEventList = () => {
+  const HeroEventCard = memo(({ event }) => {
+    if (!event) return null
+
+    return (
+      <Card 
+        sx={{ 
+          width: '100%',
+          maxWidth: '100%',
+          margin: '0',
+          cursor: 'pointer',
+          transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+          },
+          minHeight: isMobile ? '400px' : '500px',
+        }}
+        onClick={() => handleEventClick(event)}
+      >
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: isMobile ? 'column' : 'row',
+          height: '100%',
+        }}>
+          <CardMedia
+            component="img"
+            sx={{
+              width: isMobile ? '100%' : '50%',
+              height: isMobile ? '250px' : '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.3s ease-in-out',
+              '&:hover': {
+                transform: 'scale(1.02)',
+              }
+            }}
+            image={event.image}
+            alt={event.title}
+          />
+          <CardContent sx={{ 
+            padding: isMobile ? '20px' : '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: isMobile ? '100%' : '50%',
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h3" component="h3" sx={{ 
+                fontWeight: 'bold',
+                color: 'white',
+                fontSize: isMobile ? '1.5rem' : '2.5rem',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}>
+                {event.title}
+              </Typography>
+              <Chip 
+                label={getStatusText(event.status)} 
+                size="medium"
+                sx={{
+                  backgroundColor: getStatusColor(event.status),
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: isMobile ? '0.8rem' : '1rem',
+                  padding: '8px 16px',
+                }}
+              />
+            </Box>
+            
+            <Typography variant="h6" color="rgba(255,255,255,0.9)" sx={{ 
+              mb: 2,
+              fontSize: isMobile ? '1rem' : '1.3rem',
+              fontWeight: '500',
+            }}>
+              {event.date}
+            </Typography>
+            
+            <Typography variant="body1" color="rgba(255,255,255,0.9)" sx={{ 
+              fontSize: isMobile ? '1rem' : '1.2rem',
+              lineHeight: 1.6,
+              mb: 3,
+            }}>
+              {event.description}
+            </Typography>
+            
+            <Button
+              variant="contained"
+              onClick={() => handleEventClick(event)}
+              sx={{
+                width: '100%',
+                background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
+                color: 'white',
+                fontWeight: 'bold',
+                borderRadius: '30px',
+                padding: isMobile ? '12px 24px' : '16px 32px',
+                textTransform: 'uppercase',
+                fontSize: isMobile ? '1rem' : '1.1rem',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #FF4757, #FF6B6B)',
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              View Event Details
+            </Button>
+          </CardContent>
+        </Box>
+      </Card>
+    )
+  })
+
+  const renderEventList = useMemo(() => {
     let events = []
     let title = ''
     
     switch (activeTab) {
       case 'upcoming':
         events = upcomingEvents
-        title = 'Upcoming Events'
+        title = 'More Upcoming Events'
         break
       case 'ongoing':
         events = ongoingEvents
@@ -225,7 +336,46 @@ const MainLandingPage = () => {
         break
       default:
         events = upcomingEvents
-        title = 'Upcoming Events'
+        title = 'More Upcoming Events'
+    }
+
+    // For upcoming events, show the first event as hero card, then show remaining events below
+    if (activeTab === 'upcoming' && events.length > 0) {
+      const heroEvent = events[0]
+      const remainingEvents = events.slice(1)
+      
+      return (
+        <Box sx={{ mt: 4 }}>
+          {/* Hero Event Card */}
+          <Box sx={{ mb: 6 }}>
+            <HeroEventCard event={heroEvent} />
+          </Box>
+          
+          {/* Remaining Events */}
+          {remainingEvents.length > 0 && (
+            <>
+              <Typography variant="h3" sx={{ 
+                textAlign: 'center',
+                mb: 4,
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: isMobile ? '1.8rem' : '2.5rem',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+              }}>
+                {title}
+              </Typography>
+              
+              <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
+                {remainingEvents.map((event) => (
+                  <Grid key={event.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                    <EventCard event={event} isPast={false} />
+                  </Grid>
+                ))}
+              </Grid>
+            </>
+          )}
+        </Box>
+      )
     }
 
     return (
@@ -260,7 +410,7 @@ const MainLandingPage = () => {
         )}
       </Box>
     )
-  }
+  }, [activeTab, upcomingEvents, ongoingEvents, pastEvents, isMobile])
 
   return (
     <Box sx={{ 
@@ -270,16 +420,17 @@ const MainLandingPage = () => {
     }}>
       {/* Hero Section */}
       <Box sx={{
-         textAlign: 'center', mb: 6,
+         textAlign: 'center', 
+         mb: activeTab === 'upcoming' ? 3 : 6,
          background: 'rgba(255,255,255,0.1)',
          borderRadius: '20px',
-         padding: '20px',
+         padding: activeTab === 'upcoming' ? '15px' : '20px',
          }}>
         <Typography variant="h1" sx={{ 
-          fontSize: isMobile ? '2.5rem' : '4rem',
+          fontSize: activeTab === 'upcoming' ? (isMobile ? '2rem' : '3rem') : (isMobile ? '2.5rem' : '4rem'),
           fontWeight: 'bold',
           color: 'white',
-          mb: 2,
+          mb: activeTab === 'upcoming' ? 1 : 2,
           textShadow: '3px 3px 6px rgba(0,0,0,0.3)',
         }}>
           The Anime Archive
@@ -287,13 +438,14 @@ const MainLandingPage = () => {
         
         <Typography variant="h5" sx={{ 
           color: 'rgba(255,255,255,0.9)',
-          mb: 4,
-          fontSize: isMobile ? '1.2rem' : '1.5rem',
+          fontFamily: 'Freeman, cursive, sans-serif',
+          mb: activeTab === 'upcoming' ? 2 : 4,
+          fontSize: activeTab === 'upcoming' ? (isMobile ? '1rem' : '1.2rem') : (isMobile ? '1.2rem' : '1.5rem'),
           maxWidth: '800px',
           margin: '0 auto',
           lineHeight: 1.6,
         }}>
-          Your premier destination for anime conventions, gaming tournaments, and pop culture events across the UK.
+          Your premier destination for anime conventions and pop culture events across the UK.
           Join our community and experience the best of anime culture!
         </Typography>
         
@@ -302,7 +454,7 @@ const MainLandingPage = () => {
           gap: '20px', 
           justifyContent: 'center',
           flexWrap: 'wrap',
-          mb: 4,
+          mb: activeTab === 'upcoming' ? 2 : 4,
         }}>
           <TabButton label="Upcoming" value="upcoming" count={upcomingEvents.length} />
           <TabButton label="Happening Now" value="ongoing" count={ongoingEvents.length} />
@@ -311,7 +463,7 @@ const MainLandingPage = () => {
       </Box>
 
       {/* Event List */}
-      {renderEventList()}
+      {renderEventList}
       
       {/* Call to Action */}
       <Box sx={{ 
@@ -340,8 +492,9 @@ const MainLandingPage = () => {
         
         <Box sx={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Button
+            component={Link}
+            to="/vendor"
             variant="contained"
-            href="#vendor-booking"
             sx={{
               background: 'linear-gradient(135deg, #4CAF50, #66BB6A)',
               color: 'white',
@@ -349,18 +502,20 @@ const MainLandingPage = () => {
               borderRadius: '25px',
               padding: '12px 30px',
               textTransform: 'uppercase',
+              textDecoration: 'none',
               '&:hover': {
                 background: 'linear-gradient(135deg, #45a049, #5cb85c)',
                 transform: 'translateY(-2px)',
               },
             }}
           >
-            Vendor Booking
+            Become a Vendor
           </Button>
           
           <Button
+            component={Link}
+            to="/volunteers"
             variant="contained"
-            href="#volunteers"
             sx={{
               background: 'linear-gradient(135deg, #2196F3, #42A5F5)',
               color: 'white',
@@ -368,18 +523,20 @@ const MainLandingPage = () => {
               borderRadius: '25px',
               padding: '12px 30px',
               textTransform: 'uppercase',
+              textDecoration: 'none',
               '&:hover': {
                 background: 'linear-gradient(135deg, #1976D2, #1E88E5)',
                 transform: 'translateY(-2px)',
               },
             }}
           >
-            Volunteers
+            Become a Volunteer
           </Button>
           
           <Button
+            component={Link}
+            to="/guests"
             variant="contained"
-            href="#performers"
             sx={{
               background: 'linear-gradient(135deg, #9C27B0, #BA68C8)',
               color: 'white',
@@ -387,13 +544,14 @@ const MainLandingPage = () => {
               borderRadius: '25px',
               padding: '12px 30px',
               textTransform: 'uppercase',
+              textDecoration: 'none',
               '&:hover': {
                 background: 'linear-gradient(135deg, #8E24AA, #AB47BC)',
                 transform: 'translateY(-2px)',
               },
             }}
           >
-            Performers/Panelists
+            Become a Guest
           </Button>
         </Box>
       </Box>
@@ -541,4 +699,4 @@ const MainLandingPage = () => {
   )
 }
 
-export default MainLandingPage
+export default memo(MainLandingPage)

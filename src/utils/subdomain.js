@@ -17,7 +17,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3002') return 'birmingham'
     if (port === '3003') return 'london'
     if (port === '3004') return 'manchester'
-    if (port === '3005') return 'leicester'
+    if (port === '3005' || port === '3006') return 'leicester' // Support both ports
     return null
   }
   
@@ -126,14 +126,14 @@ export const getNavigationItems = (currentSubdomain) => {
     // Subdomain navigation
     return [
       { label: 'Get Involved', href: '#get-involved', ariaLabel: 'Get involved with AniArchive', hasDropdown: true },
-      { label: 'FAQs', href: '#faqs', ariaLabel: 'Frequently asked questions' },
+      { label: 'FAQ', href: '/faq', ariaLabel: 'Frequently asked questions' },
       { label: 'About', href: '/about', ariaLabel: 'Learn more about AniArchive' }
     ]
   } else {
     // Main domain navigation
     return [
       { label: 'Get Involved', href: '#get-involved', ariaLabel: 'Get involved with AniArchive', hasDropdown: true },
-      { label: 'FAQs', href: '#faqs', ariaLabel: 'Frequently asked questions' },
+      { label: 'FAQ', href: '/faq', ariaLabel: 'Frequently asked questions' },
       { label: 'About', href: '/about', ariaLabel: 'Learn more about AniArchive' }
     ]
   }
@@ -145,8 +145,8 @@ export const getNavigationItems = (currentSubdomain) => {
  */
 export const getGetInvolvedItems = () => {
   return [
-    { label: 'Vendor Booking', href: '#vendor-booking', ariaLabel: 'Book a vendor stall' },
-    { label: 'Volunteers', href: '#volunteers', ariaLabel: 'Volunteer with us' },
-    { label: 'Performers/Panelists', href: '#performers', ariaLabel: 'Apply to perform or speak' }
+    { label: 'Become a Vendor', href: '/vendor', ariaLabel: 'Apply to become a vendor' },
+    { label: 'Become a Volunteer', href: '/volunteers', ariaLabel: 'Apply to volunteer with us' },
+    { label: 'Become a Guest', href: '/guests', ariaLabel: 'Apply to be a guest/performer' }
   ]
 }

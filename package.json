@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:leicester": "vite --port 3005",
-    "dev:coventry": "vite --port 3001",
-    "dev:birmingham": "vite --port 3002",
-    "dev:london": "vite --port 3003",
-    "dev:manchester": "vite --port 3004",
+    "dev:leicester": "vite --port 3005 --host",
+    "dev:coventry": "vite --port 3001 --host",
+    "dev:birmingham": "vite --port 3002 --host",
+    "dev:london": "vite --port 3003 --host",
+    "dev:manchester": "vite --port 3004 --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "setup": "node setup-dev.js"
+    "setup": "node setup-dev.js",
+    "optimize-images": "node scripts/optimize-images.js",
+    "build:optimized": "npm run optimize-images && npm run build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.1.0",
@@ -23,6 +25,7 @@
     "@mui/material": "^7.1.1",
     "firebase": "^11.9.1",
     "framer-motion": "^10.16.4",
+    "jspdf": "^3.0.3",
     "leaflet": "^1.9.4",
     "mui": "^0.0.1",
     "react": "^18.2.0",
@@ -43,7 +46,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "postcss": "^8.4.31",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.3.3",
+    "terser": "^5.44.0",
     "vite": "^4.4.5"
   }
 }
