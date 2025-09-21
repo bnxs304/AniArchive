@@ -22,7 +22,6 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, VolunteerActivism as VolunteerIcon } from '@mui/icons-material';
 import { submitVolunteerApplication, validateVolunteerForm } from '../../services/formSubmissionService';
-import { colors } from '../../styles/theme';
 
 const Volunteers = () => {
     const theme = useTheme();
@@ -400,7 +399,7 @@ const Volunteers = () => {
                                                         onChange={() => handleAvailabilityChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: colors.secondary.main }
+                                                            '&.Mui-checked': { color: theme.palette.secondary.main }
                                                         }}
                                                     />
                                                 }

@@ -22,7 +22,6 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, Person as PersonIcon } from '@mui/icons-material';
 import { submitGuestApplication, validateGuestForm } from '../../services/formSubmissionService';
-import { colors } from '../../styles/theme';
 
 const Guests = () => {
     const theme = useTheme();
@@ -437,7 +436,7 @@ const Guests = () => {
                                                 }}
                                                 sx={{ 
                                                     color: 'rgba(255,255,255,0.7)',
-                                                    '&.Mui-checked': { color: colors.secondary.main }
+                                                    '&.Mui-checked': { color: theme.palette.secondary.main }
                                                 }}
                                             />
                                         }
@@ -496,7 +495,7 @@ const Guests = () => {
                                                         onChange={() => handleGuestTypeChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: colors.secondary.main }
+                                                            '&.Mui-checked': { color: theme.palette.secondary.main }
                                                         }}
                                                     />
                                                 }
@@ -552,7 +551,7 @@ const Guests = () => {
                                                         onChange={() => handleAvailabilityChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: colors.secondary.main }
+                                                            '&.Mui-checked': { color: theme.palette.secondary.main }
                                                         }}
                                                     />
                                                 }

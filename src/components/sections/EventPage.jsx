@@ -22,7 +22,6 @@ import LazyImage from '../common/LazyImage'
 import InteractiveMap from '../common/InteractiveMap'
 import { getCurrentSubdomain } from '../../utils/subdomain'
 import { getCurrentEvent } from '../../data/eventData'
-import { colors } from '../../styles/theme'
 
 // Import images
 import igGif from '../../images/IG.gif'
@@ -192,7 +191,7 @@ const EventPage = () => {
                         sx={{
                           fontWeight: 'bold',
                           textTransform: 'uppercase',
-                          color: activeTab === tab.id ? colors.primary.main : colors.secondary.main,
+                          color: activeTab === tab.id ? theme.palette.primary.main : theme.palette.secondary.main,
                           textAlign: 'center',
                           textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
                           fontSize: { xs: '0.9rem', md: '1.2rem' },
@@ -308,7 +307,7 @@ const EventPage = () => {
               }}>
                 <Typography 
                   sx={{ 
-                    color: colors.primary.main, 
+                    color: theme.palette.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -319,7 +318,7 @@ const EventPage = () => {
                 </Typography>
                 <Typography 
                   sx={{ 
-                    color: colors.primary.main, 
+                    color: theme.palette.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -330,7 +329,7 @@ const EventPage = () => {
                 </Typography>
                 <Typography 
                   sx={{ 
-                    color: colors.primary.main, 
+                    color: theme.palette.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -532,7 +531,7 @@ const EventPage = () => {
                   <Typography 
                     variant="h5" 
                     sx={{ 
-                      color: colors.primary.main, 
+                      color: theme.palette.primary.main, 
                       fontWeight: 'bold', 
                       mb: { xs: 1.5, md: 2 },
                       fontSize: { xs: '1.2rem', md: '1.4rem' },
@@ -561,7 +560,7 @@ const EventPage = () => {
                       <Typography 
                         variant="h6" 
                         sx={{ 
-                          color: colors.primary.main, 
+                          color: theme.palette.primary.main, 
                           fontWeight: 'bold', 
                           mb: { xs: 1.5, md: 2 },
                           fontSize: { xs: '1rem', md: '1.1rem' },
@@ -587,7 +586,7 @@ const EventPage = () => {
                               border: '1px solid rgba(255, 255, 255, 0.1)'
                             }}
                           >
-                            <Box component="span" sx={{ fontWeight: 'bold', color: colors.primary.main }}>
+                            <Box component="span" sx={{ fontWeight: 'bold', color: theme.palette.primary.main }}>
                               {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
                             </Box>
                             <Box component="span" sx={{ ml: 1 }}>{value}</Box>
@@ -686,7 +685,7 @@ const EventPage = () => {
                   rel="noopener noreferrer"
                   data-analytics="ticket"
                   sx={{
-                    background: `linear-gradient(135deg, ${colors.primary.main}, ${colors.primary.light})`,
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
                     color: 'white',
                     fontWeight: 'bold',
                     borderRadius: { xs: '20px', md: '25px' },

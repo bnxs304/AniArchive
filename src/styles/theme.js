@@ -1,43 +1,35 @@
 import { createTheme } from '@mui/material/styles'
 
-// Simplified color palette to avoid initialization issues
-const colors = {
-    primary: {
-        main: '#FF6B6B',
-        light: '#FF8E8E',
-        dark: '#E55A5A',
-        contrastText: '#FFFFFF'
-    },
-    secondary: {
-        main: '#FECA57',
-        light: '#FFD93D',
-        dark: '#E6B800',
-        contrastText: '#000000'
-    },
-    text: {
-        primary: '#FFFFFF',
-        secondary: 'rgba(255,255,255,0.9)',
-        disabled: 'rgba(255,255,255,0.6)'
-    },
-    background: {
-        default: 'transparent',
-        paper: 'rgba(255,255,255,0.15)'
-    },
-    info: {
-        main: '#4A90E2',
-        light: '#6BA3E8',
-        dark: '#3A7BC8',
-        contrastText: '#FFFFFF'
-    }
-}
-
+// Create theme directly without intermediate objects to avoid initialization issues
 const theme = createTheme({
     palette: {
-        primary: colors.primary,
-        secondary: colors.secondary,
-        text: colors.text,
-        background: colors.background,
-        info: colors.info
+        primary: {
+            main: '#FF6B6B',
+            light: '#FF8E8E',
+            dark: '#E55A5A',
+            contrastText: '#FFFFFF'
+        },
+        secondary: {
+            main: '#FECA57',
+            light: '#FFD93D',
+            dark: '#E6B800',
+            contrastText: '#000000'
+        },
+        text: {
+            primary: '#FFFFFF',
+            secondary: 'rgba(255,255,255,0.9)',
+            disabled: 'rgba(255,255,255,0.6)'
+        },
+        background: {
+            default: 'transparent',
+            paper: 'rgba(255,255,255,0.15)'
+        },
+        info: {
+            main: '#4A90E2',
+            light: '#6BA3E8',
+            dark: '#3A7BC8',
+            contrastText: '#FFFFFF'
+        }
     },
     typography: {
         fontFamily: 'Rubik Vinyl, cursive',
@@ -103,4 +95,3 @@ const theme = createTheme({
 })
 
 export default theme;
-export { colors };
