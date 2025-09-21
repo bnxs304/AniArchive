@@ -13,24 +13,17 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Vendor chunks for better caching
+          // Simplified chunk splitting to avoid initialization issues
           if (id.includes('node_modules')) {
-            // Group React and React-DOM together to avoid initialization issues
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react'
-            }
-            // Separate MUI and Emotion to avoid circular dependencies
-            if (id.includes('@emotion')) {
-              return 'vendor-emotion'
-            }
-            if (id.includes('@mui')) {
-              return 'vendor-mui'
-            }
-            if (id.includes('react-router')) {
-              return 'vendor-router'
+            // Keep React ecosystem together
+            if (id.includes('react') || id.includes('react-dom') || id.includes('@emotion') || id.includes('@mui') || id.includes('react-router')) {
+              return 'vendor-react-ecosystem'
             }
             if (id.includes('leaflet')) {
               return 'vendor-leaflet'
+            }
+            if (id.includes('firebase')) {
+              return 'vendor-firebase'
             }
             if (id.includes('framer-motion') || id.includes('react-helmet') || id.includes('react-icons') || id.includes('react-intersection')) {
               return 'vendor-utils'
@@ -40,9 +33,6 @@ export default defineConfig({
             }
             if (id.includes('@emailjs')) {
               return 'vendor-email'
-            }
-            if (id.includes('firebase')) {
-              return 'vendor-firebase'
             }
             // Default vendor chunk for other dependencies
             return 'vendor'
