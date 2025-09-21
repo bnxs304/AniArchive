@@ -5,6 +5,8 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  envPrefix: 'VITE_',
+  envDir: '.',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -13,9 +15,14 @@ export default defineConfig({
         manualChunks: (id) => {
           // Vendor chunks for better caching
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
+            // Keep React core separate from MUI to avoid initialization issues
+            if (id.includes('react') && !id.includes('react-dom')) {
               return 'vendor-react'
             }
+            if (id.includes('react-dom')) {
+              return 'vendor-react-dom'
+            }
+            // Group MUI and Emotion together
             if (id.includes('@mui') || id.includes('@emotion')) {
               return 'vendor-mui'
             }
@@ -75,11 +82,7 @@ export default defineConfig({
     port: 3000,
     open: true,
     host: true, // Allow external connections
-    hmr: {
-      overlay: true,
-      // Use polling as fallback for WebSocket issues
-      clientPort: undefined, // Let Vite auto-detect
-    },
+    hmr: false, // Temporarily disable HMR to avoid WebSocket issues
     // Additional server options for better compatibility
     strictPort: false, // Allow port fallback if port is busy
   },
@@ -98,5 +101,6 @@ export default defineConfig({
       '@emotion/styled',
       'react-router-dom',
     ],
+    exclude: ['mui'], // Exclude the problematic 'mui' package
   },
 }) 
