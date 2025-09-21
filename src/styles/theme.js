@@ -1,6 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import blueBackground from '../images/lblue.png'
-// import cloudSticker from '../images/cloudsticker.gif'
 
 // Standardized color palette for consistency and accessibility
 const colors = {
@@ -127,7 +125,7 @@ const theme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    backgroundImage: `url(${blueBackground})`,
+                    backgroundImage: `url('/images/lblue.png')`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center top',
@@ -146,7 +144,7 @@ const theme = createTheme({
                     '@media (max-width: 600px)': {
                         marginTop: '60px',
                         gap: '5px',
-                        backgroundImage: `url('/images/cloudsticker.gif'), url(${blueBackground})`,
+                        backgroundImage: `url('/images/cloudsticker.gif'), url('/images/lblue.png')`,
                         backgroundSize: '100vw, cover',
                         backgroundRepeat: 'repeat, no-repeat',
                         backgroundPosition: 'top center, center top',
