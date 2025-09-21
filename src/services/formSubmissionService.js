@@ -2,7 +2,7 @@
 
 // Web3Forms Configuration
 
-const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'your_web3forms_access_key';
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ;
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
 
 // Email validation function
