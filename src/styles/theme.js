@@ -22,12 +22,6 @@ const colors = {
     background: {
         default: 'transparent',
         paper: 'rgba(255,255,255,0.15)'
-    },
-    info: {
-        main: '#4A90E2',
-        light: '#6BA3E8',
-        dark: '#3A7BC8',
-        contrastText: '#FFFFFF'
     }
 }
 
@@ -36,8 +30,7 @@ const theme = createTheme({
         primary: colors.primary,
         secondary: colors.secondary,
         text: colors.text,
-        background: colors.background,
-        info: colors.info
+        background: colors.background
     },
     typography: {
         fontFamily: 'Rubik Vinyl, cursive',
