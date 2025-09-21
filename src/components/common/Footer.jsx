@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Typography, useTheme, useMediaQuery, Button } from '@mui/material'
 import { getCurrentSubdomain, getMainDomainUrl } from '../../utils/subdomain'
+import { colors } from '../../styles/theme'
 
 const Footer = () => {
   const theme = useTheme()
@@ -55,19 +56,6 @@ const Footer = () => {
           onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #4A90E2, 2px 2px 0 #fff'; }}
           onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #4A90E244'; }}
           >Facebook</a>
-          <a href="https://www.instagram.com/sekai.senshi.uk/" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400" style={{
-            fontSize: isMobile ? '0.8rem' : '1rem',
-            fontFamily: 'Freeman, Comic Sans MS, cursive',
-            background: 'linear-gradient(90deg, #D94F8A, #FFD776 80%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '2px 2px 0 #fff, 0 2px 8px #D94F8A44',
-            transform: 'skew(-8deg, 0deg)',
-            transition: 'all 0.2s cubic-bezier(.4,2,.6,1)',
-          }}
-          onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #D94F8A, 2px 2px 0 #fff'; }}
-          onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #D94F8A44'; }}
-          >Sekai Senshi - Walsall</a>
           
           {/* Small Visit Main Site Link for Subdomains */}
           {currentSubdomain && (
@@ -78,7 +66,7 @@ const Footer = () => {
               style={{
                 fontSize: isMobile ? '0.7rem' : '0.8rem',
                 fontFamily: 'Freeman, Comic Sans MS, cursive',
-                color: '#4A90E2',
+                color: colors.info.main,
                 textDecoration: 'none',
                 opacity: 0.8,
                 transition: 'opacity 0.2s ease',

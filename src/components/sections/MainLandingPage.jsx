@@ -3,6 +3,7 @@ import { Box, Typography, Card, CardContent, CardMedia, Button, Chip, Grid, Moda
 import { Link } from 'react-router-dom'
 import { getUpcomingEvents, getOngoingEvents, getPastEvents, eventsData } from '../../data/eventData'
 import { getSubdomainUrl } from '../../utils/subdomain'
+import { colors } from '../../styles/theme'
 
 const MainLandingPage = () => {
   const theme = useTheme()
@@ -190,18 +191,18 @@ const MainLandingPage = () => {
     <Button
       onClick={() => setActiveTab(value)}
       sx={{
-        color: activeTab === value ? '#FF6B6B' : 'rgba(255,255,255,0.7)',
+        color: activeTab === value ? colors.primary.main : colors.text.disabled,
         fontWeight: 'bold',
         fontSize: isMobile ? '1rem' : '1.2rem',
         textTransform: 'uppercase',
         padding: '10px 20px',
         borderRadius: '25px',
-        background: activeTab === value ? 'rgba(255,107,107,0.2)' : 'transparent',
-        border: activeTab === value ? '2px solid #FF6B6B' : '2px solid transparent',
+        background: activeTab === value ? `${colors.primary.main}20` : 'transparent',
+        border: activeTab === value ? `2px solid ${colors.primary.main}` : '2px solid transparent',
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
-          background: 'rgba(255,107,107,0.1)',
-          color: '#FF6B6B',
+          background: `${colors.primary.main}10`,
+          color: colors.primary.main,
         },
       }}
     >
@@ -415,7 +416,7 @@ const MainLandingPage = () => {
   return (
     <Box sx={{ 
       minHeight: '100vh',
-      padding: isMobile ? '100px 20px 50px' : '120px 50px 50px',
+      padding: isMobile ? '20px 20px' : '50px 50px',
       
     }}>
       {/* Hero Section */}

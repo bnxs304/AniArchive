@@ -24,40 +24,147 @@ class Analytics {
       title: document.title,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      referrer: document.referrer
+      referrer: document.referrer,
+      subdomain: this.getCurrentSubdomain(),
+      path: window.location.pathname,
+      search: window.location.search,
+      hash: window.location.hash,
+      viewport: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      },
+      screen: {
+        width: screen.width,
+        height: screen.height
+      },
+      language: navigator.language,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
 
     this.logEvent('page_view', pageData);
+    
+    // Enhanced Google Analytics tracking
+    if (typeof gtag !== 'undefined') {
+      gtag('config', 'G-6MQTHHG2LR', {
+        page_title: pageData.title,
+        page_location: pageData.url,
+        custom_map: {
+          'custom_parameter_1': 'subdomain',
+          'custom_parameter_2': 'event_city'
+        }
+      });
+      
+      gtag('event', 'page_view', {
+        page_title: pageData.title,
+        page_location: pageData.url,
+        subdomain: pageData.subdomain,
+        event_city: pageData.subdomain || 'main'
+      });
+    }
   }
 
   trackUserInteractions() {
     // Track social media clicks
     document.addEventListener('click', (e) => {
       if (e.target.closest('[data-analytics="social"]')) {
+        const platform = e.target.closest('[data-analytics="social"]').dataset.platform
         this.logEvent('social_click', {
           timestamp: new Date().toISOString(),
-          platform: e.target.closest('[data-analytics="social"]').dataset.platform
+          platform: platform,
+          subdomain: this.getCurrentSubdomain()
         });
+        
+        // Google Analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'social_click', {
+            social_network: platform,
+            event_city: this.getCurrentSubdomain() || 'main'
+          });
+        }
       }
     });
 
     // Track past event clicks
     document.addEventListener('click', (e) => {
       if (e.target.closest('.past-event-item')) {
+        const eventTitle = e.target.closest('.past-event-item').querySelector('img')?.alt
         this.logEvent('past_event_click', {
           timestamp: new Date().toISOString(),
-          eventTitle: e.target.closest('.past-event-item').querySelector('img')?.alt
+          eventTitle: eventTitle,
+          subdomain: this.getCurrentSubdomain()
         });
+        
+        // Google Analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'past_event_click', {
+            event_title: eventTitle,
+            event_city: this.getCurrentSubdomain() || 'main'
+          });
+        }
       }
     });
 
     // Track ticket link clicks
     document.addEventListener('click', (e) => {
       if (e.target.closest('[data-analytics="ticket"]')) {
+        const element = e.target.textContent
         this.logEvent('ticket_click', {
           timestamp: new Date().toISOString(),
-          element: e.target.textContent
+          element: element,
+          subdomain: this.getCurrentSubdomain()
         });
+        
+        // Google Analytics conversion event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'ticket_click', {
+            event_category: 'conversion',
+            event_label: element,
+            event_city: this.getCurrentSubdomain() || 'main',
+            value: 1
+          });
+        }
+      }
+    });
+
+    // Track subdomain navigation
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-analytics="subdomain-nav"]')) {
+        const targetCity = e.target.closest('[data-analytics="subdomain-nav"]').dataset.city
+        this.logEvent('subdomain_navigation', {
+          timestamp: new Date().toISOString(),
+          from_subdomain: this.getCurrentSubdomain(),
+          to_city: targetCity
+        });
+        
+        // Google Analytics event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'subdomain_navigation', {
+            from_city: this.getCurrentSubdomain() || 'main',
+            to_city: targetCity
+          });
+        }
+      }
+    });
+
+    // Track form submissions
+    document.addEventListener('submit', (e) => {
+      if (e.target.closest('[data-analytics="form"]')) {
+        const formType = e.target.closest('[data-analytics="form"]').dataset.formType
+        this.logEvent('form_submission', {
+          timestamp: new Date().toISOString(),
+          form_type: formType,
+          subdomain: this.getCurrentSubdomain()
+        });
+        
+        // Google Analytics conversion event
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'form_submission', {
+            event_category: 'conversion',
+            event_label: formType,
+            event_city: this.getCurrentSubdomain() || 'main',
+            value: 1
+          });
+        }
       }
     });
   }
@@ -162,6 +269,32 @@ class Analytics {
 
   clearStoredEvents() {
     localStorage.removeItem('aniarchive_analytics');
+  }
+
+  getCurrentSubdomain() {
+    if (typeof window === 'undefined') return null
+    
+    const hostname = window.location.hostname
+    
+    // Handle localhost development
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      const port = window.location.port
+      if (port === '3001') return 'coventry'
+      if (port === '3002') return 'birmingham'
+      if (port === '3003') return 'london'
+      if (port === '3004') return 'manchester'
+      if (port === '3005' || port === '3006') return 'leicester'
+      return null
+    }
+    
+    // Handle production subdomains
+    const parts = hostname.split('.')
+    if (parts.length >= 3) {
+      const subdomain = parts[0]
+      return subdomain !== 'www' ? subdomain : null
+    }
+    
+    return null
   }
 }
 

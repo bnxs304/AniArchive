@@ -1,4 +1,51 @@
-User-agent: *
-Disallow: /admin/
+# AniArchive Robots.txt - Production Configuration
+# Updated: 2025-01-27
 
-Sitemap: https://www.theaniarchive.com/sitemap.xml 
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /analytics/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow important directories
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /fonts/
+
+# Crawl delay (optional - helps prevent server overload)
+Crawl-delay: 1
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Block problematic bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap locations
+Sitemap: https://www.theaniarchive.com/sitemap.xml
+
+# Additional sitemaps for subdomains
+Sitemap: https://leicester.theaniarchive.com/sitemap.xml 

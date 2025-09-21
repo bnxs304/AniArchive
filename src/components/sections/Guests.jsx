@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, Person as PersonIcon } from '@mui/icons-material';
 import { submitGuestApplication, validateGuestForm } from '../../services/formSubmissionService';
+import { colors } from '../../styles/theme';
 
 const Guests = () => {
     const theme = useTheme();
@@ -33,6 +34,8 @@ const Guests = () => {
         email: '',
         phoneNumber: '',
         websiteSocials: '',
+        chargesFee: false,
+        feeDetails: '',
         guestType: [],
         guestDescription: '',
         guestAvailability: [],
@@ -130,6 +133,8 @@ const Guests = () => {
                     email: '',
                     phoneNumber: '',
                     websiteSocials: '',
+                    chargesFee: false,
+                    feeDetails: '',
                     guestType: [],
                     guestDescription: '',
                     guestAvailability: [],
@@ -295,6 +300,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.guestName}
                                     helperText={errors.guestName}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -315,6 +326,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.primaryContact}
                                     helperText={errors.primaryContact}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -336,6 +353,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.email}
                                     helperText={errors.email}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -356,6 +379,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.phoneNumber}
                                     helperText={errors.phoneNumber}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -376,6 +405,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.websiteSocials}
                                     helperText={errors.websiteSocials}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -387,6 +422,65 @@ const Guests = () => {
                                     }}
                                     InputLabelProps={{ sx: { color: 'rgba(255,255,255,0.7)' } }}
                                 />
+
+                                <Box sx={{ mb: 3 }}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={formData.chargesFee}
+                                                onChange={(e) => {
+                                                    setFormData(prev => ({
+                                                        ...prev,
+                                                        chargesFee: e.target.checked,
+                                                        feeDetails: e.target.checked ? prev.feeDetails : ''
+                                                    }));
+                                                }}
+                                                sx={{ 
+                                                    color: 'rgba(255,255,255,0.7)',
+                                                    '&.Mui-checked': { color: colors.secondary.main }
+                                                }}
+                                            />
+                                        }
+                                        label="I charge a fee for appearances"
+                                        sx={{ 
+                                            color: 'rgba(255,255,255,0.9)', 
+                                            mb: formData.chargesFee ? 2 : 0,
+                                            alignItems: 'flex-start',
+                                            '& .MuiFormControlLabel-label': {
+                                                fontSize: '1rem',
+                                                fontWeight: 500
+                                            }
+                                        }}
+                                    />
+                                    
+                                    {formData.chargesFee && (
+                                        <TextField
+                                            fullWidth
+                                            label="Fee Details"
+                                            name="feeDetails"
+                                            value={formData.feeDetails}
+                                            onChange={handleInputChange}
+                                            error={!!errors.feeDetails}
+                                            helperText={errors.feeDetails || "Please provide details about your fee structure (e.g., '£100 per appearance', 'Travel expenses covered', 'Negotiable')"}
+                                            FormHelperTextProps={{
+                                                sx: {
+                                                    fontFamily: 'Freeman, sans-serif',
+                                                    fontSize: '0.875rem'
+                                                }
+                                            }}
+                                            sx={{ mt: 1 }}
+                                            InputProps={{
+                                                sx: { 
+                                                    color: 'white',
+                                                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255,255,255,0.3)' },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255,255,255,0.5)' },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#feca57' }
+                                                }
+                                            }}
+                                            InputLabelProps={{ sx: { color: 'rgba(255,255,255,0.7)' } }}
+                                        />
+                                    )}
+                                </Box>
 
                                 <FormControl component="fieldset" error={!!errors.guestType} sx={{ mb: 3 }}>
                                     <FormLabel component="legend" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
@@ -402,7 +496,7 @@ const Guests = () => {
                                                         onChange={() => handleGuestTypeChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: '#feca57' }
+                                                            '&.Mui-checked': { color: colors.secondary.main }
                                                         }}
                                                     />
                                                 }
@@ -426,6 +520,12 @@ const Guests = () => {
                                     onChange={handleInputChange}
                                     error={!!errors.guestDescription}
                                     helperText={errors.guestDescription}
+                                    FormHelperTextProps={{
+                                        sx: {
+                                            fontFamily: 'Freeman, sans-serif',
+                                            fontSize: '0.875rem'
+                                        }
+                                    }}
                                     sx={{ mb: 3 }}
                                     InputProps={{
                                         sx: { 
@@ -452,7 +552,7 @@ const Guests = () => {
                                                         onChange={() => handleAvailabilityChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: '#feca57' }
+                                                            '&.Mui-checked': { color: colors.secondary.main }
                                                         }}
                                                     />
                                                 }

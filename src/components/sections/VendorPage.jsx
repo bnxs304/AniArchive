@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, Store as StoreIcon } from '@mui/icons-material';
 import { submitVendorApplication, validateVendorForm } from '../../services/formSubmissionService';
+import { colors } from '../../styles/theme';
 
 const VendorPage = () => {
     const theme = useTheme();
@@ -211,14 +212,13 @@ const VendorPage = () => {
                                 </Box>
                                 
                                 <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.7 }}>
-                                    Join our vendor community and showcase your products to thousands of anime and gaming fans. 
+                                    Join us as a vendor and showcase your products to hundreds of anime and gaming fans. 
                                     Our events provide excellent opportunities to connect with your target audience and grow your business.
                                 </Typography>
                                 
                                 <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.7 }}>
                                     We welcome vendors offering anime merchandise, manga, art prints, cosplay accessories, 
-                                    gaming products, handmade crafts, food & beverages, and more. Our events attract 
-                                    passionate fans who are eager to discover new products and support creators.
+                                    gaming products, handmade crafts, food & beverages, and more. We offer flexible pricing options and booth sizes to suit your needs.
                                 </Typography>
 
                                 <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.2)' }} />
@@ -228,11 +228,12 @@ const VendorPage = () => {
                                 </Typography>
                                 <Box component="ul" sx={{ color: 'rgba(255,255,255,0.9)', pl: 2 }}>
                                     <li>Prime vendor locations with high foot traffic</li>
-                                    <li>Access to engaged anime and gaming community</li>
+                                    <li>Access to engaged <b>anime and gaming</b> community</li>
                                     <li>Marketing support and event promotion</li>
                                     <li>Networking opportunities with other vendors</li>
-                                    <li>Flexible booth sizes and pricing options</li>
+                                    <li><b>Flexible </b>booth sizes and<b> affordable </b>pricing options</li>
                                     <li>Event staff support and assistance</li>
+
                                 </Box>
                             </CardContent>
                         </Card>
@@ -398,7 +399,7 @@ const VendorPage = () => {
                                                         onChange={() => handleProductServiceChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: '#feca57' }
+                                                            '&.Mui-checked': { color: colors.secondary.main }
                                                         }}
                                                     />
                                                 }

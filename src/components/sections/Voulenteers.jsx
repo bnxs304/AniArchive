@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, VolunteerActivism as VolunteerIcon } from '@mui/icons-material';
 import { submitVolunteerApplication, validateVolunteerForm } from '../../services/formSubmissionService';
+import { colors } from '../../styles/theme';
 
 const Volunteers = () => {
     const theme = useTheme();
@@ -207,7 +208,7 @@ const Volunteers = () => {
                                 </Box>
                                 
                                 <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.9)', mb: 3, lineHeight: 1.7 }}>
-                                    A volunteer is someone who helps out at our events without being paid, assisting our team, 
+                                    A volunteer is someone who offers support to our events free of charge, assisting our team, 
                                     attendees, and helping the event run smoothly. Being a volunteer is a great way to gain 
                                     quality work experience in event management and customer service.
                                 </Typography>
@@ -226,8 +227,7 @@ const Volunteers = () => {
                                 <Box component="ul" sx={{ color: 'rgba(255,255,255,0.9)', pl: 2 }}>
                                     <li>Must be over 18 years old</li>
                                     <li>Valid government-issued photo ID required</li>
-                                    <li>Must arrange own transport to and from the event</li>
-                                    <li>Commitment to assigned shift times</li>
+                                    <li>Must be prepared to arrange own transport to and from the event</li>
                                     <li>Positive attitude and willingness to help</li>
                                 </Box>
                             </CardContent>
@@ -400,7 +400,7 @@ const Volunteers = () => {
                                                         onChange={() => handleAvailabilityChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: '#feca57' }
+                                                            '&.Mui-checked': { color: colors.secondary.main }
                                                         }}
                                                     />
                                                 }

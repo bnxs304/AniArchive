@@ -122,8 +122,8 @@ export const eventsData = {
     id: 'leicester-nov-2025',
     city: 'leicester',
     title: 'Anime Con Leicester 2025',
-    date: "08 November 2025",
-    time: "10:00 AM - 6:00 PM",
+    date: "Sat. 8th Nov. 2025",
+    time: "10:00 AM - 5:30 PM",
     image: nov8th25Image,
     status: getEventStatus("2025-11-08", "10:00 AM"),
     daysUntil: getDaysUntilEvent("2025-11-08"),
@@ -170,7 +170,7 @@ export const pastEventsData = [
     date: "2025-08-02",
     image: aug2nd25Image,
     status: 'past',
-    highlights: ["Gaming Tournaments", "Cosplay Competition", "Artist Alley"]
+    highlights: ["Retro Gaming","Cosplay Competition", "Merchandise Market" ,"Prize Giveaways" , "Stage show"]
   },
   {
     id: '26-feb-2025',
@@ -179,7 +179,7 @@ export const pastEventsData = [
     date: "2025-02-26",
     image: feb26Image,
     status: 'past',
-    highlights: ["Gaming Tournaments", "Cosplay Competition", "Artist Alley"]
+    highlights: ["Gaming", "Merchandise Market"]
   },
   {
     id: '5-feb-2025',
@@ -188,7 +188,7 @@ export const pastEventsData = [
     date: "2025-02-05",
     image: feb5Image,
     status: 'past',
-    highlights: ["Retro Gaming", "Trivia Night", "Merchandise Market"]
+    highlights: ["Retro Gaming", "Merchandise Market"]
   },
   {
     id: '11-dec-2024',
@@ -197,7 +197,7 @@ export const pastEventsData = [
     date: "2024-12-11",
     image: dec11Image,
     status: 'past',
-    highlights: ["Holiday Special", "Gift Exchange", "Winter Cosplay"]
+    highlights: ["Holiday Special", "Christmas Sales", ]
   },
   {
     id: '5-dec-2024',
@@ -206,7 +206,7 @@ export const pastEventsData = [
     date: "2024-12-05",
     image: dec5Image,
     status: 'past',
-    highlights: ["Early Winter Event", "Gaming Marathon", "Food Festival"]
+    highlights: ["Early Winter Event", "Merchandise Market"]
   },
   {
     id: '28-feb-2024',
@@ -215,7 +215,7 @@ export const pastEventsData = [
     date: "2024-02-28",
     image: feb28Image,
     status: 'past',
-    highlights: ["Spring Launch", "New Merchandise", "Special Guests"]
+    highlights: ["Spring Launch", "New Merchandise", "Student Discounts"]
   }
 ]
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Typography, Container, Grid, Card, CardContent, Avatar, Chip, useTheme, useMediaQuery, Divider, Paper } from '@mui/material'
 import { Event as EventIcon, LocationOn as LocationIcon, Group as GroupIcon, EmojiEvents as TrophyIcon, Star as StarIcon, Favorite as FavoriteIcon } from '@mui/icons-material'
+import { colors } from '../../styles/theme'
 
 const AboutSection = () => {
     const theme = useTheme();
@@ -91,7 +92,7 @@ const AboutSection = () => {
                                     textShadow: '0 1px 2px rgba(0,0,0,0.1)'
                                 }}
                             >
-                                <strong style={{ color: '#ff6b6b', fontSize: '1.1em' }}>AniArchive </strong>
+                                <strong style={{ color: colors.primary.main, fontSize: '1.1em' }}>AniArchive </strong>
                                 (also known as "The Anime Archive" or "The AniArchive") is a growing company of anime and gaming enthusiasts, 
                                 bringing together fans from across the UK. We aim to host a safe inclusive and friendly space for all.
                                 We feature the best in anime culture bringing you challenges and activities with prizes, gaming tournaments,
@@ -252,10 +253,10 @@ const AboutSection = () => {
                             
                             <Box sx={{ mb: 4 }}>
                                 {[
-                                    { icon: <TrophyIcon />, text: 'Cosplay Competitions', color: '#ff6b6b' },
-                                    { icon: <GroupIcon />, text: 'Artist Alley', color: '#feca57' },
-                                    { icon: <EventIcon />, text: 'Retro Gaming', color: '#667eea' },
-                                    { icon: <LocationIcon />, text: 'TCG Tournaments', color: '#764ba2' }
+                                    { icon: <TrophyIcon />, text: 'Cosplay Competitions', color: colors.primary.main },
+                                    { icon: <GroupIcon />, text: 'Artist Alley', color: colors.secondary.main },
+                                    { icon: <EventIcon />, text: 'Retro Gaming', color: colors.accent.main },
+                                    { icon: <LocationIcon />, text: 'TCG Tournaments', color: colors.info.main }
                                 ].map((feature, index) => (
                                     <Box key={index} sx={{ 
                                         display: 'flex', 
@@ -309,9 +310,9 @@ const AboutSection = () => {
                                     justifyContent: 'center', 
                                     gap: 1 
                                 }}>
-                                    <FavoriteIcon sx={{ color: '#ff6b6b', fontSize: 20 }} />
-                                    <FavoriteIcon sx={{ color: '#feca57', fontSize: 20 }} />
-                                    <FavoriteIcon sx={{ color: '#667eea', fontSize: 20 }} />
+                                    <FavoriteIcon sx={{ color: colors.primary.main, fontSize: 20 }} />
+                                    <FavoriteIcon sx={{ color: colors.secondary.main, fontSize: 20 }} />
+                                    <FavoriteIcon sx={{ color: colors.accent.main, fontSize: 20 }} />
                                 </Box>
                             </Box>
                         </Paper>

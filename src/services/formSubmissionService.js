@@ -161,6 +161,8 @@ export const submitGuestApplication = async (formData) => {
         email: formData.email,
         phone: formData.phoneNumber,
         'Website/Socials': formData.websiteSocials,
+        'Charges Fee': formData.chargesFee ? 'Yes' : 'No',
+        'Fee Details': formData.chargesFee ? (formData.feeDetails || 'No details provided') : 'N/A',
         'Guest Type': formData.guestType.join(', '),
         'Guest Description': formData.guestDescription,
         'Guest Availability': formData.guestAvailability.join(', '),
@@ -234,6 +236,11 @@ export const validateGuestForm = (formData) => {
     if (!formData.guestDescription?.trim()) errors.guestDescription = 'Guest description is required';
     if (!formData.guestAvailability?.length) errors.guestAvailability = 'Please select at least one availability option';
     
+    // Validate fee details if they charge a fee
+    if (formData.chargesFee && !formData.feeDetails?.trim()) {
+        errors.feeDetails = 'Please provide details about your fee structure';
+    }
+    
     return errors;
 };
 
@@ -264,7 +271,7 @@ export const emailTemplates = {
         name: 'Guest Application',
         fields: [
             'to_email', 'guest_name', 'primary_contact', 'from_email',
-            'phone_number', 'website_socials', 'guest_type',
+            'phone_number', 'website_socials', 'charges_fee', 'fee_details', 'guest_type',
             'guest_description', 'guest_availability', 'special_requirements',
             'submission_type', 'submission_date', 'submission_time'
         ]

@@ -11,6 +11,7 @@ import {
     Paper
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { colors } from '../../styles/theme';
 
 const FAQSection = () => {
     const theme = useTheme();
@@ -24,7 +25,7 @@ const FAQSection = () => {
     const faqs = [
         {
             question: "What is AniArchive?",
-            answer: "AniArchive (also known as The Anime Archive) is the ultimate free anime and gaming convention in the UK. We host regular anime events featuring cosplay competitions, retro gaming, artist alley, TCG tournaments, and amazing giveaways. Our anime convention brings together fans from across the Midlands and beyond."
+            answer: "AniArchive (also known as The Anime Archive) aims to become the ultimate anime and gaming convention in the UK. We host regular anime events featuring cosplay competitions, retro gaming, artist alley, TCG tournaments, and amazing giveaways. Our anime convention brings together fans from across the Midlands and beyond."
         },
         {
             question: "When is the next AniArchive event?",
@@ -32,31 +33,19 @@ const FAQSection = () => {
         },
         {
             question: "How much do AniArchive events cost?",
-            answer: "AniArchive events are completely FREE to attend! We believe that anime conventions should be accessible to everyone. Our anime events include all activities, gaming tournaments, and giveaways at no cost. Just bring your enthusiasm for anime and gaming!"
+            answer: "AniArchive events range from an affordable fee to completely FREE to attend! We believe that anime conventions should be accessible to everyone. Our anime events include various activities, gaming tournaments, and giveaways at no additionalcost. Just bring your enthusiasm for anime and gaming!"
         },
         {
             question: "What can I expect at an AniArchive anime convention?",
-            answer: "At our anime convention, you'll experience retro gaming stations, cosplay competitions, artist alley with unique merchandise, TCG tournaments, workshops, and amazing giveaways. Our anime events feature the best in anime culture with activities for all ages and skill levels."
-        },
-        {
-            question: "Where are AniArchive events held?",
-            answer: "Our main anime convention is held at The Box - Fargo Village in Coventry, West Midlands. We're based in the Midlands area and host regular anime events throughout the region. If you'd like to host an AniArchive event in your area, please contact us!"
+            answer: "At our anime convention, you'll experience retro gaming stations, cosplay competitions, artist alley with unique merchandise, anime quizes, challenges, prizes and amazing giveaways. Our anime events feature the best in anime culture with activities for all ages and skill levels."
         },
         {
             question: "Can I participate in cosplay competitions at AniArchive?",
             answer: "Absolutely! Cosplay competitions are a highlight of our anime convention. Whether you're a beginner or experienced cosplayer, everyone is welcome to participate. Our anime events celebrate creativity and passion for anime culture."
         },
         {
-            question: "What gaming activities are available at AniArchive events?",
-            answer: "Our anime convention features retro gaming stations, TCG tournaments, and various gaming activities. From classic arcade games to modern tabletop gaming, there's something for every gaming enthusiast at our anime events."
-        },
-        {
             question: "How can I stay updated about AniArchive events?",
-            answer: "Follow us on social media (@theaniarchive) for the latest updates about our anime convention and events. You can also register for our events through our website to receive notifications about upcoming anime events and special announcements."
-        },
-        {
-            question: "How do I get to the venue?",
-            answer: "The Box - Fargo Village is easily accessible by public transport and car. Coventry train station is just a 20-minute walk away, and there are several car parks nearby including Far Gosford St. Car Park and Paynes Lane Car Park. Check our travel info section for detailed directions and parking options."
+            answer: "Follow us on social media (@theaniarchive) for the latest updates about our anime convention and events."
         },
         {
             question: "What should I bring to the event?",
@@ -65,10 +54,6 @@ const FAQSection = () => {
         {
             question: "Are there age restrictions for AniArchive events?",
             answer: "AniArchive events are family-friendly and welcome attendees of all ages! Children under 16 must be accompanied by an adult. Some activities like gaming tournaments may have age restrictions, but most events are suitable for everyone."
-        },
-        {
-            question: "Can I bring my own food and drinks?",
-            answer: "Yes, you're welcome to bring your own food and drinks to our events. However, we also have food vendors and refreshments available on-site. Please be mindful of the venue and dispose of any waste properly."
         },
         {
             question: "How can I become a vendor at AniArchive?",
@@ -83,14 +68,6 @@ const FAQSection = () => {
             answer: "Absolutely! We welcome voice actors, artists, cosplayers, content creators, and industry professionals as guests. Visit our 'Become a Guest' page to submit an application. We'll review your submission and contact you about opportunities to participate in panels, workshops, or performances."
         },
         {
-            question: "What COVID-19 safety measures are in place?",
-            answer: "We follow current government guidelines and venue requirements for health and safety. This may include hand sanitizing stations, ventilation, and any other measures recommended by health authorities. We'll update attendees about specific requirements closer to each event."
-        },
-        {
-            question: "Is there parking available at the venue?",
-            answer: "Yes! There are several parking options near The Box - Fargo Village including Far Gosford St. Car Park (30 spaces), Paynes Lane Car Park (90 spaces, currently free), and on-street parking on Whitefriars Street. Check our venue page for detailed parking information and rates."
-        },
-        {
             question: "What happens if the event is cancelled or postponed?",
             answer: "In the unlikely event of cancellation or postponement due to circumstances beyond our control, we'll notify all registered attendees via email and social media. We'll work to reschedule the event and honor all registrations for the new date."
         },
@@ -100,7 +77,7 @@ const FAQSection = () => {
         },
         {
             question: "Are there any prohibited items at AniArchive events?",
-            answer: "For everyone's safety, we prohibit weapons (real or replica), alcohol, illegal substances, and any items that could be dangerous or disruptive. Cosplay props must be clearly fake and safe. Security reserves the right to inspect bags and items at entry."
+            answer: "For everyone's safety, we prohibit realistic weapon replicas, alcohol, illegal substances, and any items that could be dangerous or disruptive. Cosplay props must be clearly fake and safe. Security reserves the right to inspect bags and items at entry."
         }
     ];
 
@@ -174,12 +151,12 @@ const FAQSection = () => {
 
                 {/* FAQ Content */}
                 <Paper sx={{ 
-                    background: 'rgba(255,255,255,0.15)',
+                    background: colors.background.paper,
                     backdropFilter: 'blur(20px)',
                     borderRadius: '20px',
                     p: { xs: 3, md: 4 },
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+                    border: `1px solid ${colors.border.medium}`,
+                    boxShadow: colors.shadow.strong
                 }}>
                     {faqs.map((faq, index) => (
                         <Accordion 
@@ -187,16 +164,16 @@ const FAQSection = () => {
                             expanded={expanded === `panel${index}`}
                             onChange={handleChange(`panel${index}`)}
                             sx={{
-                                background: 'rgba(255,255,255,0.1)',
+                                background: colors.background.overlay,
                                 backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                border: `1px solid ${colors.border.light}`,
                                 borderRadius: '12px',
                                 mb: 2,
                                 '&:before': {
                                     display: 'none',
                                 },
                                 '&:hover': {
-                                    background: 'rgba(255,255,255,0.15)',
+                                    background: colors.background.paperHover,
                                 }
                             }}
                         >
@@ -211,10 +188,12 @@ const FAQSection = () => {
                                 <Typography 
                                     variant="h6" 
                                     sx={{ 
-                                        color: 'white',
+                                        color: colors.primary.main,
                                         fontSize: { xs: '1.1rem', md: '1.2rem' },
-                                        fontWeight: 600,
-                                        textShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                                        textShadow: '0 1px 2px rgba(0,0,0,1)',
+                                        fontFamily: 'Freeman, sans-serif',
+                                        letterSpacing: '0.05rem',
+                                        textAlign: 'left',
                                     }}
                                 >
                                     {faq.question}
@@ -224,7 +203,7 @@ const FAQSection = () => {
                                 <Typography 
                                     variant="body1" 
                                     sx={{ 
-                                        color: 'rgba(255,255,255,0.9)',
+                                        color: colors.text.secondary,
                                         fontSize: { xs: '1rem', md: '1.1rem' },
                                         lineHeight: 1.7,
                                         fontWeight: 400,
@@ -250,12 +229,12 @@ const FAQSection = () => {
                             textShadow: '1px 1px 2px rgba(0,0,0,0.2)'
                         }}
                     >
-                        Ready to join the ultimate anime convention?
+                        Still have questions? Contact us!
                     </Typography>
                     <Typography 
                         variant="body1" 
                         sx={{ 
-                            color: 'rgba(255,255,255,0.9)',
+                            color: colors.text.secondary,
                             fontSize: { xs: '1.1rem', md: '1.2rem' },
                             lineHeight: 1.6,
                             mb: 4,
@@ -263,7 +242,7 @@ const FAQSection = () => {
                             mx: 'auto'
                         }}
                     >
-                        Don't miss out on the best anime events in the Midlands. Join thousands of anime and gaming fans at AniArchive - the premier anime convention in Coventry and the surrounding areas.
+                        Don't miss out on the best anime events in the Midlands. Join thousands of anime and gaming fans at AniArchive.
                     </Typography>
                 </Box>
             </Container>

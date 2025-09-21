@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import { Box, Button, Typography, Alert, CircularProgress } from '@mui/material'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { colors } from '../../styles/theme'
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl
@@ -208,7 +209,7 @@ const InteractiveMap = ({ venueLocation, venueName, venueAddress }) => {
         }}>
           <Typography variant="body2" sx={{ 
             fontWeight: 'bold', 
-            color: '#333',
+            color: colors.text.primary,
             fontSize: '0.8rem'
           }}>
             {distance.toFixed(1)} km away
@@ -251,14 +252,14 @@ const InteractiveMap = ({ venueLocation, venueName, venueAddress }) => {
             <Box sx={{ textAlign: 'center', minWidth: '150px' }}>
               <Typography variant="h6" sx={{ 
                 fontWeight: 'bold', 
-                color: '#FF6B6B',
+                color: colors.primary.main,
                 fontSize: '1rem',
                 mb: 1
               }}>
                 {venueName}
               </Typography>
               <Typography variant="body2" sx={{ 
-                color: '#666',
+                color: colors.text.secondary,
                 fontSize: '0.8rem',
                 lineHeight: 1.4
               }}>
@@ -275,14 +276,14 @@ const InteractiveMap = ({ venueLocation, venueName, venueAddress }) => {
               <Box sx={{ textAlign: 'center', minWidth: '120px' }}>
                 <Typography variant="h6" sx={{ 
                   fontWeight: 'bold', 
-                  color: '#4CAF50',
+                  color: colors.success.main,
                   fontSize: '1rem',
                   mb: 1
                 }}>
                   Your Location
                 </Typography>
                 <Typography variant="body2" sx={{ 
-                  color: '#666',
+                  color: colors.text.secondary,
                   fontSize: '0.8rem'
                 }}>
                   {userLocation[0].toFixed(4)}, {userLocation[1].toFixed(4)}

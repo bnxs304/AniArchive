@@ -150,3 +150,141 @@ export const getGetInvolvedItems = () => {
     { label: 'Become a Guest', href: '/guests', ariaLabel: 'Apply to be a guest/performer' }
   ]
 }
+
+/**
+ * Get SEO configuration for current subdomain
+ * @param {string} subdomain - Current subdomain
+ * @returns {Object} SEO configuration
+ */
+export const getSubdomainSEOConfig = (subdomain) => {
+  const seoConfigs = {
+    leicester: {
+      title: "Anime Con Leicester 2025 | November 8th | AniArchive - Premier Anime & Gaming Event",
+      description: "Join Anime Con Leicester 2025 on November 8th at De Montfort Students' Union. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise. Book your tickets now!",
+      keywords: "aniarchive, anime con leicester 2025, anime convention leicester, gaming convention leicester, Leicester anime event, Leicester gaming convention, DMU anime event, cosplay competition UK, artist alley UK, retro gaming UK, TCG tournament UK, anime merchandise UK, november 8th 2025",
+      canonical: "https://leicester.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/08nov25.png",
+      twitterImage: "https://www.theaniarchive.com/images/08nov25.png",
+      structuredData: {
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        location: {
+          "@type": "Place",
+          "name": "De Montfort Students' Union",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "De Montfort Students' Union, Campus Centre Building, Mill Ln, Leicester LE2 7DR",
+            "addressLocality": "Leicester",
+            "addressCountry": "GB"
+          }
+        }
+      }
+    },
+    coventry: {
+      title: "AniArchive Coventry | Premier Anime & Gaming Event | The Box Fargo Village",
+      description: "Join AniArchive Coventry for an epic anime and gaming convention at The Box Fargo Village. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in the heart of Coventry.",
+      keywords: "aniarchive coventry, anime convention coventry, gaming convention coventry, Coventry anime event, Coventry gaming convention, Midlands anime event, The Box Fargo Village, anime event Coventry, gaming event Coventry",
+      canonical: "https://coventry.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/aug2nd25.png",
+      twitterImage: "https://www.theaniarchive.com/images/aug2nd25.png",
+      structuredData: {
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        location: {
+          "@type": "Place",
+          "name": "The Box at Fargo Village",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Far Gosford Street, Coventry, UK. CV1 5ED",
+            "addressLocality": "Coventry",
+            "addressCountry": "GB"
+          }
+        }
+      }
+    },
+    birmingham: {
+      title: "AniArchive Birmingham | Premier Anime & Gaming Event",
+      description: "Join AniArchive Birmingham for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Birmingham.",
+      keywords: "aniarchive birmingham, anime convention birmingham, gaming convention birmingham, Birmingham anime event, Birmingham gaming convention, anime event Birmingham, gaming event Birmingham",
+      canonical: "https://birmingham.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    london: {
+      title: "AniArchive London | Premier Anime & Gaming Event",
+      description: "Join AniArchive London for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in London.",
+      keywords: "aniarchive london, anime convention london, gaming convention london, London anime event, London gaming convention, anime event London, gaming event London",
+      canonical: "https://london.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    manchester: {
+      title: "AniArchive Manchester | Premier Anime & Gaming Event",
+      description: "Join AniArchive Manchester for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Manchester.",
+      keywords: "aniarchive manchester, anime convention manchester, gaming convention manchester, Manchester anime event, Manchester gaming convention, anime event Manchester, gaming event Manchester",
+      canonical: "https://manchester.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    }
+  }
+
+  return seoConfigs[subdomain] || null
+}
+
+/**
+ * Get canonical URL for current page
+ * @param {string} path - Current path
+ * @param {string} subdomain - Current subdomain
+ * @returns {string} Canonical URL
+ */
+export const getCanonicalUrl = (path = '/', subdomain = null) => {
+  const baseUrl = subdomain ? `https://${subdomain}.theaniarchive.com` : 'https://www.theaniarchive.com'
+  return `${baseUrl}${path}`
+}
+
+/**
+ * Get Open Graph image URL for current subdomain
+ * @param {string} subdomain - Current subdomain
+ * @returns {string} OG image URL
+ */
+export const getOGImageUrl = (subdomain = null) => {
+  const seoConfig = getSubdomainSEOConfig(subdomain)
+  return seoConfig ? seoConfig.ogImage : 'https://www.theaniarchive.com/images/logo.png'
+}
+
+/**
+ * Get Twitter image URL for current subdomain
+ * @param {string} subdomain - Current subdomain
+ * @returns {string} Twitter image URL
+ */
+export const getTwitterImageUrl = (subdomain = null) => {
+  const seoConfig = getSubdomainSEOConfig(subdomain)
+  return seoConfig ? seoConfig.twitterImage : 'https://www.theaniarchive.com/images/logo.png'
+}
+
+/**
+ * Check if subdomain is active (has upcoming events)
+ * @param {string} subdomain - Subdomain to check
+ * @returns {boolean} Whether subdomain is active
+ */
+export const isSubdomainActive = (subdomain) => {
+  const activeSubdomains = ['leicester'] // Add more as events become active
+  return activeSubdomains.includes(subdomain)
+}
+
+/**
+ * Get list of all active subdomains
+ * @returns {Array} List of active subdomains
+ */
+export const getActiveSubdomains = () => {
+  return ['leicester'] // Add more as events become active
+}
+
+/**
+ * Get subdomain-specific sitemap URL
+ * @param {string} subdomain - Subdomain
+ * @returns {string} Sitemap URL
+ */
+export const getSubdomainSitemapUrl = (subdomain) => {
+  return `https://${subdomain}.theaniarchive.com/sitemap.xml`
+}

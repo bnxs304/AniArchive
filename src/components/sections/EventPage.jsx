@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from 'react'
+import React, { useState, memo, useCallback, useRef, forwardRef } from 'react'
 import { 
   Box, 
   Typography, 
@@ -22,6 +22,7 @@ import LazyImage from '../common/LazyImage'
 import InteractiveMap from '../common/InteractiveMap'
 import { getCurrentSubdomain } from '../../utils/subdomain'
 import { getCurrentEvent } from '../../data/eventData'
+import { colors } from '../../styles/theme'
 
 // Import images
 import igGif from '../../images/IG.gif'
@@ -34,11 +35,52 @@ const EventPage = () => {
   const currentSubdomain = getCurrentSubdomain()
   const eventData = getCurrentEvent(currentSubdomain)
   const [activeTab, setActiveTab] = useState('event-title')
+  
+  // Refs for each tab content section
+  const eventTitleRef = useRef(null)
+  const highlightsRef = useRef(null)
+  const mapRef = useRef(null)
+  const ticketsRef = useRef(null)
+  const socialsRef = useRef(null)
 
-  // Memoized tab change handler
+  // Memoized tab change handler with smooth scrolling for mobile
   const handleTabChange = useCallback((tabId) => {
     setActiveTab(tabId)
-  }, [])
+    
+    // Smooth scroll to content on mobile devices
+    if (isMobile) {
+      setTimeout(() => {
+        let targetRef = null
+        switch (tabId) {
+          case 'event-title':
+            targetRef = eventTitleRef
+            break
+          case 'highlights':
+            targetRef = highlightsRef
+            break
+          case 'map':
+            targetRef = mapRef
+            break
+          case 'tickets':
+            targetRef = ticketsRef
+            break
+          case 'socials':
+            targetRef = socialsRef
+            break
+          default:
+            targetRef = eventTitleRef
+        }
+        
+        if (targetRef && targetRef.current) {
+          targetRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          })
+        }
+      }, 100) // Small delay to ensure content is rendered
+    }
+  }, [isMobile])
 
   // Safety check
   if (!eventData) {
@@ -89,7 +131,7 @@ const EventPage = () => {
           flexDirection: { xs: 'column', md: 'row' },
           justifyContent: 'space-evenly',
           gap: { xs: '4px', md: '8px' },
-          padding: { xs: '6px', md: '12px' },
+          padding: { xs: '0px', md: '12px' },
           zIndex: 1000,
           maxWidth: { xs: '100%', md: 'fit-content' },
           height: { xs: 'auto', md: '100%' },
@@ -150,7 +192,7 @@ const EventPage = () => {
                         sx={{
                           fontWeight: 'bold',
                           textTransform: 'uppercase',
-                          color: activeTab === tab.id ? '#FF6B6B' : '#FFD776',
+                          color: activeTab === tab.id ? colors.primary.main : colors.secondary.main,
                           textAlign: 'center',
                           textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
                           fontSize: { xs: '0.9rem', md: '1.2rem' },
@@ -176,15 +218,15 @@ const EventPage = () => {
   })
 
   // Event Title Tab
-  const EventTitleTab = memo(({ isMobile, isTablet }) => (
-    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+  const EventTitleTab = memo(forwardRef(({ isMobile, isTablet }, ref) => (
+    <Container ref={ref} maxWidth="lg" sx={{ py: { xs: 0, md: 4 } }}>
       <Fade in timeout={600}>
         <Box sx={{ 
           display: 'flex', 
           flexDirection: { xs: 'column', lg: 'row' },
           alignItems: 'center',
           gap: { xs: 3, md: 4 },
-          minHeight: { xs: 'auto', md: '600px' }
+          minHeight: { xs: 'auto', md: '600px' },
         }}>
           {/* Content Section */}
           <Box sx={{ 
@@ -266,7 +308,7 @@ const EventPage = () => {
               }}>
                 <Typography 
                   sx={{ 
-                    color: '#FF6B6B', 
+                    color: colors.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -277,7 +319,7 @@ const EventPage = () => {
                 </Typography>
                 <Typography 
                   sx={{ 
-                    color: '#FF6B6B', 
+                    color: colors.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -288,7 +330,7 @@ const EventPage = () => {
                 </Typography>
                 <Typography 
                   sx={{ 
-                    color: '#FF6B6B', 
+                    color: colors.primary.main, 
                     fontSize: { xs: '1rem', md: '1.1rem' },
                     display: 'flex',
                     alignItems: 'center',
@@ -350,7 +392,7 @@ const EventPage = () => {
             display: 'flex', 
             justifyContent: 'center',
             order: { xs: 1, lg: 2 },
-            mb: { xs: 2, lg: 0 }
+            mb: { xs: 2, lg: 0 },
           }}>
             <LazyImage 
               src={eventData.image} 
@@ -368,11 +410,11 @@ const EventPage = () => {
         </Box>
       </Fade>
     </Container>
-  ))
+  )))
 
   // Highlights Tab
-  const HighlightsTab = memo(({ isMobile, isTablet }) => (
-    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+  const HighlightsTab = memo(forwardRef(({ isMobile, isTablet }, ref) => (
+    <Container ref={ref} maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Fade in timeout={600}>
         <Box>
           <Typography 
@@ -445,11 +487,11 @@ const EventPage = () => {
         </Box>
       </Fade>
     </Container>
-  ))
+  )))
 
   // Map Tab
-  const MapTab = memo(({ isMobile, isTablet }) => (
-    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+  const MapTab = memo(forwardRef(({ isMobile, isTablet }, ref) => (
+    <Container ref={ref} maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       <Fade in timeout={600}>
         <Box>
           <Typography 
@@ -490,7 +532,7 @@ const EventPage = () => {
                   <Typography 
                     variant="h5" 
                     sx={{ 
-                      color: '#FF6B6B', 
+                      color: colors.primary.main, 
                       fontWeight: 'bold', 
                       mb: { xs: 1.5, md: 2 },
                       fontSize: { xs: '1.2rem', md: '1.4rem' },
@@ -519,7 +561,7 @@ const EventPage = () => {
                       <Typography 
                         variant="h6" 
                         sx={{ 
-                          color: '#FF6B6B', 
+                          color: colors.primary.main, 
                           fontWeight: 'bold', 
                           mb: { xs: 1.5, md: 2 },
                           fontSize: { xs: '1rem', md: '1.1rem' },
@@ -545,7 +587,7 @@ const EventPage = () => {
                               border: '1px solid rgba(255, 255, 255, 0.1)'
                             }}
                           >
-                            <Box component="span" sx={{ fontWeight: 'bold', color: '#FF6B6B' }}>
+                            <Box component="span" sx={{ fontWeight: 'bold', color: colors.primary.main }}>
                               {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
                             </Box>
                             <Box component="span" sx={{ ml: 1 }}>{value}</Box>
@@ -595,10 +637,10 @@ const EventPage = () => {
         </Box>
       </Fade>
     </Container>
-  ))
+  )))
 
   // Tickets Tab
-  const TicketsTab = memo(({ isMobile, isTablet }) => {
+  const TicketsTab = memo(forwardRef(({ isMobile, isTablet }, ref) => {
     const ticketTypes = [
       {
         name: 'General Admission',
@@ -616,7 +658,7 @@ const EventPage = () => {
     ]
 
     return (
-      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Container ref={ref} maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
         <Fade in timeout={600}>
           <Box>
             <Typography 
@@ -644,7 +686,7 @@ const EventPage = () => {
                   rel="noopener noreferrer"
                   data-analytics="ticket"
                   sx={{
-                    background: 'linear-gradient(135deg, #FF6B6B, #FF8E8E)',
+                    background: `linear-gradient(135deg, ${colors.primary.main}, ${colors.primary.light})`,
                     color: 'white',
                     fontWeight: 'bold',
                     borderRadius: { xs: '20px', md: '25px' },
@@ -678,10 +720,10 @@ const EventPage = () => {
         </Fade>
       </Container>
     )
-  })
+  }))
 
   // Socials Tab
-  const SocialsTab = memo(({ isMobile, isTablet }) => {
+  const SocialsTab = memo(forwardRef(({ isMobile, isTablet }, ref) => {
     const socialLinks = [
       {
         name: 'Instagram',
@@ -700,7 +742,7 @@ const EventPage = () => {
     ]
 
     return (
-      <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Container ref={ref} maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
         <Fade in timeout={600}>
           <Box>
             <Typography 
@@ -831,23 +873,23 @@ const EventPage = () => {
         </Fade>
       </Container>
     )
-  })
+  }))
 
   // Render tab content
   const renderTabContent = useCallback(() => {
     switch (activeTab) {
       case 'event-title':
-        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} />
+        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} ref={eventTitleRef} />
       case 'highlights':
-        return <HighlightsTab isMobile={isMobile} isTablet={isTablet} />
+        return <HighlightsTab isMobile={isMobile} isTablet={isTablet} ref={highlightsRef} />
       case 'map':
-        return <MapTab isMobile={isMobile} isTablet={isTablet} />
+        return <MapTab isMobile={isMobile} isTablet={isTablet} ref={mapRef} />
       case 'tickets':
-        return <TicketsTab isMobile={isMobile} isTablet={isTablet} />
+        return <TicketsTab isMobile={isMobile} isTablet={isTablet} ref={ticketsRef} />
       case 'socials':
-        return <SocialsTab isMobile={isMobile} isTablet={isTablet} />
+        return <SocialsTab isMobile={isMobile} isTablet={isTablet} ref={socialsRef} />
       default:
-        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} />
+        return <EventTitleTab isMobile={isMobile} isTablet={isTablet} ref={eventTitleRef} />
     }
   }, [activeTab, isMobile, isTablet])
 
