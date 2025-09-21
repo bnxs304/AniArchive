@@ -19,8 +19,11 @@ export default defineConfig({
             if (id.includes('react') || id.includes('react-dom')) {
               return 'vendor-react'
             }
-            // Group MUI and Emotion together
-            if (id.includes('@mui') || id.includes('@emotion')) {
+            // Separate MUI and Emotion to avoid circular dependencies
+            if (id.includes('@emotion')) {
+              return 'vendor-emotion'
+            }
+            if (id.includes('@mui')) {
               return 'vendor-mui'
             }
             if (id.includes('react-router')) {
@@ -92,10 +95,10 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      '@mui/material',
-      '@mui/icons-material',
       '@emotion/react',
       '@emotion/styled',
+      '@mui/material',
+      '@mui/icons-material',
       'react-router-dom',
     ],
     exclude: ['mui'], // Exclude the problematic 'mui' package
