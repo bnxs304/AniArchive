@@ -4,6 +4,7 @@ import { Box, useTheme, useMediaQuery, Menu, MenuItem, Button, IconButton, Drawe
 import { Menu as MenuIcon } from '@mui/icons-material'
 import { getCurrentSubdomain, getNavigationItems, getGetInvolvedItems, getMainDomainUrl } from '../../utils/subdomain'
 import { getCurrentEvent } from '../../data/eventData'
+import { colors } from '../../styles/theme'
 
 const Header = () => {
   const theme = useTheme()
@@ -92,7 +93,7 @@ const Header = () => {
                 transition: 'color 0.2s ease-in-out',
               }}
               onMouseEnter={(e) => {
-                e.target.style.color = theme.palette.secondary.light;
+                e.target.style.color = colors.secondary.light;
                 e.target.style.transition = 'color 0.2s ease-in-out';
               }}
               onMouseLeave={(e) => {
@@ -170,7 +171,7 @@ const Header = () => {
                           alignItems: 'center'
                         }}
                         onMouseEnter={(e) => {
-                          e.target.style.color = theme.palette.secondary.light;
+                          e.target.style.color = colors.secondary.light;
                           e.target.style.transition = 'color 0.2s ease-in-out';
                         }}
                         onMouseLeave={(e) => {
@@ -236,7 +237,7 @@ const Header = () => {
                         padding: '8px 4px'
                       }}
                       onMouseEnter={(e) => {
-                        e.target.style.color = theme.palette.secondary.light;
+                        e.target.style.color = colors.secondary.light;
                         e.target.style.transition = 'color 0.2s ease-in-out';
                       }}
                       onMouseLeave={(e) => {

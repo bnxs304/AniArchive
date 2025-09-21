@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Typography, useTheme, useMediaQuery, Button } from '@mui/material'
 import { getCurrentSubdomain, getMainDomainUrl } from '../../utils/subdomain'
+import { colors } from '../../styles/theme'
 
 const Footer = () => {
   const theme = useTheme()
@@ -65,7 +66,7 @@ const Footer = () => {
               style={{
                 fontSize: isMobile ? '0.7rem' : '0.8rem',
                 fontFamily: 'Freeman, Comic Sans MS, cursive',
-                color: theme.palette.info.main,
+                color: colors.info.main,
                 textDecoration: 'none',
                 opacity: 0.8,
                 transition: 'opacity 0.2s ease',

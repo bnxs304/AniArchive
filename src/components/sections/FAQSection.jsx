@@ -11,6 +11,7 @@ import {
     Paper
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { colors } from '../../styles/theme';
 
 const FAQSection = () => {
     const theme = useTheme();
@@ -150,12 +151,12 @@ const FAQSection = () => {
 
                 {/* FAQ Content */}
                 <Paper sx={{ 
-                    background: theme.palette.background.paper,
+                    background: colors.background.paper,
                     backdropFilter: 'blur(20px)',
                     borderRadius: '20px',
                     p: { xs: 3, md: 4 },
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                    border: `1px solid ${colors.border.medium}`,
+                    boxShadow: colors.shadow.strong
                 }}>
                     {faqs.map((faq, index) => (
                         <Accordion 
@@ -163,16 +164,16 @@ const FAQSection = () => {
                             expanded={expanded === `panel${index}`}
                             onChange={handleChange(`panel${index}`)}
                             sx={{
-                                background: 'rgba(255,255,255,0.1)',
+                                background: colors.background.overlay,
                                 backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                border: `1px solid ${colors.border.light}`,
                                 borderRadius: '12px',
                                 mb: 2,
                                 '&:before': {
                                     display: 'none',
                                 },
                                 '&:hover': {
-                                    background: 'rgba(255,255,255,0.15)',
+                                    background: colors.background.paperHover,
                                 }
                             }}
                         >
@@ -187,7 +188,7 @@ const FAQSection = () => {
                                 <Typography 
                                     variant="h6" 
                                     sx={{ 
-                                        color: theme.palette.primary.main,
+                                        color: colors.primary.main,
                                         fontSize: { xs: '1.1rem', md: '1.2rem' },
                                         textShadow: '0 1px 2px rgba(0,0,0,1)',
                                         fontFamily: 'Freeman, sans-serif',
@@ -202,7 +203,7 @@ const FAQSection = () => {
                                 <Typography 
                                     variant="body1" 
                                     sx={{ 
-                                        color: theme.palette.text.secondary,
+                                        color: colors.text.secondary,
                                         fontSize: { xs: '1rem', md: '1.1rem' },
                                         lineHeight: 1.7,
                                         fontWeight: 400,
@@ -233,7 +234,7 @@ const FAQSection = () => {
                     <Typography 
                         variant="body1" 
                         sx={{ 
-                            color: theme.palette.text.secondary,
+                            color: colors.text.secondary,
                             fontSize: { xs: '1.1rem', md: '1.2rem' },
                             lineHeight: 1.6,
                             mb: 4,

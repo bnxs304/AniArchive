@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { Send as SendIcon, Store as StoreIcon } from '@mui/icons-material';
 import { submitVendorApplication, validateVendorForm } from '../../services/formSubmissionService';
+import { colors } from '../../styles/theme';
 
 const VendorPage = () => {
     const theme = useTheme();
@@ -398,7 +399,7 @@ const VendorPage = () => {
                                                         onChange={() => handleProductServiceChange(option)}
                                                         sx={{ 
                                                             color: 'rgba(255,255,255,0.7)',
-                                                            '&.Mui-checked': { color: theme.palette.secondary.main }
+                                                            '&.Mui-checked': { color: colors.secondary.main }
                                                         }}
                                                     />
                                                 }
