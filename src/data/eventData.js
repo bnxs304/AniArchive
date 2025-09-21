@@ -22,21 +22,93 @@ export const cityVariables = {
 // Event status management utilities
 export const getEventStatus = (eventDate, eventTime) => {
   const now = new Date()
-  const eventDateTime = new Date(`${eventDate} ${eventTime}`)
+  
+  // Parse date more robustly for mobile compatibility
+  let eventDateTime
+  
+  try {
+    if (eventDate.includes('-')) {
+      // Handle ISO format dates (YYYY-MM-DD)
+      const timeStr = eventTime.replace(' AM', '').replace(' PM', '')
+      eventDateTime = new Date(eventDate + 'T' + timeStr)
+    } else if (eventDate.includes('Nov')) {
+      // Handle "Sat. 8th Nov. 2025" format
+      const parts = eventDate.split(' ')
+      const day = parts[1].replace(/\D/g, '') // Extract day number
+      const month = '11' // November
+      const year = parts[3] // 2025
+      const timeStr = eventTime.replace(' AM', '').replace(' PM', '')
+      eventDateTime = new Date(`${year}-${month}-${day.padStart(2, '0')}T${timeStr}`)
+    } else {
+      // Handle other formats
+      eventDateTime = new Date(`${eventDate} ${eventTime}`)
+    }
+    
+    // Ensure we have a valid date
+    if (isNaN(eventDateTime.getTime())) {
+      console.warn('Invalid date format:', eventDate, eventTime)
+      return 'past' // Default to past if date parsing fails
+    }
+  } catch (error) {
+    console.warn('Date parsing error:', error, eventDate, eventTime)
+    return 'past'
+  }
+  
   const eventEndTime = new Date(eventDateTime.getTime() + (8 * 60 * 60 * 1000)) // 8 hours duration
   
+  console.log('Date comparison:', {
+    now: now.toISOString(),
+    eventDateTime: eventDateTime.toISOString(),
+    eventEndTime: eventEndTime.toISOString(),
+    nowTime: now.getTime(),
+    eventTime: eventDateTime.getTime(),
+    endTime: eventEndTime.getTime()
+  })
+  
   if (now < eventDateTime) {
+    console.log('Event status: upcoming')
     return 'upcoming'
   } else if (now >= eventDateTime && now <= eventEndTime) {
+    console.log('Event status: ongoing')
     return 'ongoing'
   } else {
+    console.log('Event status: past')
     return 'past'
   }
 }
 
 export const getDaysUntilEvent = (eventDate) => {
   const now = new Date()
-  const eventDateTime = new Date(eventDate)
+  
+  // Parse date more robustly for mobile compatibility
+  let eventDateTime
+  
+  try {
+    if (eventDate.includes('-')) {
+      // Handle ISO format dates (YYYY-MM-DD)
+      eventDateTime = new Date(eventDate + 'T00:00:00')
+    } else if (eventDate.includes('Nov')) {
+      // Handle "Sat. 8th Nov. 2025" format
+      const parts = eventDate.split(' ')
+      const day = parts[1].replace(/\D/g, '') // Extract day number
+      const month = '11' // November
+      const year = parts[3] // 2025
+      eventDateTime = new Date(`${year}-${month}-${day.padStart(2, '0')}T00:00:00`)
+    } else {
+      // Handle other formats
+      eventDateTime = new Date(eventDate)
+    }
+    
+    // Ensure we have a valid date
+    if (isNaN(eventDateTime.getTime())) {
+      console.warn('Invalid date format:', eventDate)
+      return 0 // Default to 0 if date parsing fails
+    }
+  } catch (error) {
+    console.warn('Date parsing error:', error, eventDate)
+    return 0
+  }
+  
   const diffTime = eventDateTime - now
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   return diffDays
@@ -234,7 +306,9 @@ export const getCurrentEvent = (subdomain) => {
 
 // Get all upcoming events
 export const getUpcomingEvents = () => {
-  return Object.values(eventsData).filter(event => event.status === 'upcoming')
+  const upcomingEvents = Object.values(eventsData).filter(event => event.status === 'upcoming')
+  console.log('Upcoming events:', upcomingEvents.length, upcomingEvents)
+  return upcomingEvents
 }
 
 // Get all ongoing events
