@@ -34,6 +34,9 @@ export default defineConfig({
             if (id.includes('@emailjs')) {
               return 'vendor-email'
             }
+            if (id.includes('firebase')) {
+              return 'vendor-firebase'
+            }
             // Default vendor chunk for other dependencies
             return 'vendor'
           }
@@ -91,6 +94,8 @@ export default defineConfig({
       'react-dom',
       '@mui/material',
       '@mui/icons-material',
+      '@emotion/react',
+      '@emotion/styled',
       'react-router-dom',
     ],
   },
