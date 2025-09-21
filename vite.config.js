@@ -15,12 +15,9 @@ export default defineConfig({
         manualChunks: (id) => {
           // Vendor chunks for better caching
           if (id.includes('node_modules')) {
-            // Keep React core separate from MUI to avoid initialization issues
-            if (id.includes('react') && !id.includes('react-dom')) {
+            // Group React and React-DOM together to avoid initialization issues
+            if (id.includes('react') || id.includes('react-dom')) {
               return 'vendor-react'
-            }
-            if (id.includes('react-dom')) {
-              return 'vendor-react-dom'
             }
             // Group MUI and Emotion together
             if (id.includes('@mui') || id.includes('@emotion')) {
@@ -102,5 +99,6 @@ export default defineConfig({
       'react-router-dom',
     ],
     exclude: ['mui'], // Exclude the problematic 'mui' package
+    force: true, // Force re-optimization
   },
 }) 
