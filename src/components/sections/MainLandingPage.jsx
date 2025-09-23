@@ -426,7 +426,6 @@ const MainLandingPage = () => {
          borderRadius: '20px',
          padding: activeTab === 'upcoming' ? '15px' : '20px',
          backdropFilter: 'blur(15px)',
-         borderRadius: '20px',
          boxShadow: colors.shadow.light,
          border:'1px solid rgba(255,255,255,0.2)',
          }}>
