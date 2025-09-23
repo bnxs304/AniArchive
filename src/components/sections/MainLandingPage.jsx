@@ -423,28 +423,33 @@ const MainLandingPage = () => {
       <Box sx={{
          textAlign: 'center', 
          mb: activeTab === 'upcoming' ? 3 : 6,
-         background: 'rgba(255,255,255,0.1)',
          borderRadius: '20px',
          padding: activeTab === 'upcoming' ? '15px' : '20px',
+         backdropFilter: 'blur(15px)',
+         borderRadius: '20px',
+         boxShadow: colors.shadow.light,
+         border:'1px solid rgba(255,255,255,0.2)',
          }}>
         <Typography variant="h1" sx={{ 
           fontSize: activeTab === 'upcoming' ? (isMobile ? '2rem' : '3rem') : (isMobile ? '2.5rem' : '4rem'),
-          fontWeight: 'bold',
+          fontWeight: '800',
           color: 'white',
           mb: activeTab === 'upcoming' ? 1 : 2,
-          textShadow: '3px 3px 6px rgba(0,0,0,0.3)',
         }}>
           The Anime Archive
         </Typography>
         
         <Typography variant="h5" sx={{ 
-          color: 'rgba(255,255,255,0.9)',
+          color: 'white',
+          textShadow: '1px 2px 0px rgba(0,0,0,0.5)',
           fontFamily: 'Freeman, cursive, sans-serif',
           mb: activeTab === 'upcoming' ? 2 : 4,
           fontSize: activeTab === 'upcoming' ? (isMobile ? '1rem' : '1.2rem') : (isMobile ? '1.2rem' : '1.5rem'),
           maxWidth: '800px',
           margin: '0 auto',
           lineHeight: 1.6,
+          fontWeight: 'medium',
+
         }}>
           Your premier destination for anime conventions and pop culture events across the UK.
           Join our community and experience the best of anime culture!
@@ -473,20 +478,25 @@ const MainLandingPage = () => {
         padding: '40px',
         background: 'rgba(255,255,255,0.1)',
         borderRadius: '20px',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
       }}>
         <Typography variant="h4" sx={{ 
           color: 'white',
           fontWeight: 'bold',
           mb: 2,
           fontSize: isMobile ? '1.5rem' : '2rem',
+          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
         }}>
           Want to Get Involved?
         </Typography>
         
         <Typography variant="body1" sx={{ 
-          color: 'rgba(255,255,255,0.8)',
+          color: 'rgba(255,255,255,1)',
           mb: 3,
           fontSize: isMobile ? '1rem' : '1.2rem',
+          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
         }}>
           Whether you're interested in becoming a vendor, volunteer, or performer, we'd love to have you join our community!
         </Typography>
