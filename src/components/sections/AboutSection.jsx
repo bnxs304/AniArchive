@@ -65,7 +65,7 @@ const AboutSection = () => {
                                     textShadow: '1px 1px 2px rgba(0,0,0,0.2)'
                                 }}
                             >
-                                The Ultimate Free Anime & Gaming Convention in the UK.
+                                Bringing Anime Marketplaces, Conventions and Events to the UK.
                             </Typography>
 
                             {/* Decorative line */}
