@@ -82,7 +82,29 @@ const DynamicTitle = () => {
       // Update structured data
       const structuredDataScript = document.querySelector('script[type="application/ld+json"]')
       if (structuredDataScript) {
-        const eventDate = new Date(eventData.date)
+        // Convert date to proper ISO format
+        let isoDate
+        try {
+          if (eventData.date.includes('Nov')) {
+            // Handle "Sat. 8th Nov. 2025" format
+            const parts = eventData.date.split(' ')
+            const day = parts[1].replace(/\D/g, '') // Extract day number
+            const month = '11' // November
+            const year = parts[3] // 2025
+            isoDate = `${year}-${month}-${day.padStart(2, '0')}`
+          } else if (eventData.date.includes('-')) {
+            // Handle ISO format dates (YYYY-MM-DD)
+            isoDate = eventData.date
+          } else {
+            // Handle other formats by parsing with Date
+            const parsedDate = new Date(eventData.date)
+            isoDate = parsedDate.toISOString().split('T')[0]
+          }
+        } catch (error) {
+          console.warn('Date parsing error:', error, eventData.date)
+          isoDate = '2025-11-08' // Fallback for Leicester event
+        }
+        
         const startTime = "10:00:00"
         const endTime = "18:00:00"
         
@@ -92,12 +114,12 @@ const DynamicTitle = () => {
           "name": eventData.title,
           "alternateName": ["AniArchive", "Ani Archive", `${eventData.city} Anime Event`],
           "description": eventData.description,
-          "startDate": `${eventData.date}T${startTime}+00:00`,
-          "endDate": `${eventData.date}T${endTime}+00:00`,
+          "startDate": `${isoDate}T${startTime}+00:00`,
+          "endDate": `${isoDate}T${endTime}+00:00`,
           "eventSchedule": {
             "@type": "Schedule",
-            "startTime": `${eventData.date}T${startTime}+00:00`,
-            "endTime": `${eventData.date}T${endTime}+00:00`
+            "startTime": `${isoDate}T${startTime}+00:00`,
+            "endTime": `${isoDate}T${endTime}+00:00`
           },
           "location": {
             "@type": "Place",
@@ -131,7 +153,7 @@ const DynamicTitle = () => {
             "priceCurrency": "GBP",
             "url": eventData.ticketLink || `https://${currentSubdomain}.theaniarchive.com/`,
             "validFrom": "2024-01-01",
-            "validThrough": eventData.date
+            "validThrough": isoDate
           },
           "eventStatus": "https://schema.org/EventScheduled",
           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
