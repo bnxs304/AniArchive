@@ -727,14 +727,14 @@ const EventPage = () => {
     const socialLinks = [
       {
         name: 'Instagram',
-        url: 'https://instagram.com/aniarchive',
+        url: 'https://instagram.com/theaniarchive',
         color: '#E4405F',
         description: 'Follow us for event updates, behind-the-scenes content, and community highlights.',
         icon: igGif
       },
       {
         name: 'Facebook',
-        url: 'https://facebook.com/aniarchive',
+        url: 'https://www.facebook.com/profile.php?id=61578193614358',
         color: '#1877F2',
         description: 'Join our Facebook community for event discussions, photos, and networking.',
         icon: fbGif
