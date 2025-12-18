@@ -6,6 +6,7 @@ import dec11Image from '../images/11dec24.png'
 import dec5Image from '../images/5dec24.png'
 import feb28Image from '../images/28feb24.png'
 import nov8th25Image from '../images/08Nov25.png'
+import jan3rd26Image from '../images/03Jan26.png'
 
 // City-specific variables
 export const cityVariables = {
@@ -17,6 +18,14 @@ export const cityVariables = {
     currency: 'GBP',
     language: 'en-GB'
   },
+  wolverhampton: {
+    name: 'Wolverhampton',
+    subdomain: 'wolverhampton',
+    coordinates: { lat: 52.5963, lng: -2.1337 },
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  }
 }
 
 // Event status management utilities
@@ -189,7 +198,7 @@ export const eventsData = {
       fromManchester: "Manchester Piccadilly → Coventry Station (~1h via Virgin Trains)",
       localTransport: "🚶‍♂️ Walk (~20 min) or 🚌 Bus 1/11/21 to Far Gosford Street"
     }
-  },*/
+  },
   leicester: {
     id: 'leicester-nov-2025',
     city: 'leicester',
@@ -231,11 +240,60 @@ export const eventsData = {
       fromManchester: "Manchester Piccadilly → Leicester Station (~1h 30min via CrossCountry)",
       localTransport: "Walk (~15 min) or  Bus 22/26 to DMU campus"
     }
+  }*/
+  wolverhampton: {
+    id: 'wolverhampton-jan-2026',
+    city: 'wolverhampton',
+    title: 'AniArchive Wolverhampton 2026',
+    date: "Sat. 3rd Jan. 2026",
+    time: "10:30 AM - 5:30 PM",
+    image: jan3rd26Image,
+    status: getEventStatus("2026-01-03", "10:30 AM"),
+    daysUntil: getDaysUntilEvent("2026-01-03"),
+    venue: {
+      name: "The Pavilion Club Premium Suite",
+      address: "The Pavilion Club Premium Suite, 412 Stafford Rd, Wolverhampton, WV10 6AJ",
+      coordinates: {
+        lat: 52.6167280747693,
+        lng: -2.1301885762672943,
+      }
+    },
+    description: "Join us for an exciting anime convention at The Pavilion Club Premium Suite! Experience retro gaming, anime and gaming market full of merchandise, win prizes, participate in cosplay competitions, and much more.",
+    highlights: [
+      "Stage Show",
+      "Cosplay Competition", 
+      "Retro Gaming Zone",
+      "Prizes",
+      "Merchandise Market",
+    ],
+    announcements: [
+      "Tickets on sale now!",
+      "Limted Vip Tickets available includes free gift!",
+      "Vendor, Voulenteer and Guest applications unavailable for this event!"
+    ],
+    socialMedia: {
+      instagram: "https://www.instagram.com/theaniarchive",
+      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+    },
+    ticketLink: "https://www.eventbrite.co.uk/e/wolverhampton-anime-con-2026-tickets-1978355654017?aff=erelexpmlt",
+    travelInfo: {
+      fromBirmingham: "Birmingham New Street → Wolverhampton Station (~15 min via West Midlands Railway)",
+      localTransport: "Walk (~15 min) or  Bus 3, 4, 54, 25 to The Pavilion Club Premium Suite"
+    }
   }
 }
 
 // Past events data
 export const pastEventsData = [
+  {
+      id: '8-nov-2025',
+      city: 'leicester',
+      title: "AniArchive Leicester 2025",
+      date: "2025-11-08",
+      image: nov8th25Image,
+      status: 'past',
+      highlights: ["Retro Gaming", "Merchandise Market"]
+    },
   { id: '2-aug-2025',
     city: 'coventry',
     title: "AniArchive Coventry 2025",
