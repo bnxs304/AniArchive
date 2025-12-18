@@ -6,7 +6,7 @@ import dec11Image from '../images/11dec24.png'
 import dec5Image from '../images/5dec24.png'
 import feb28Image from '../images/28feb24.png'
 import nov8th25Image from '../images/08Nov25.png'
-import jan3rd26Image from '../images/03Jan26.png'
+import jan3rd26Image from '../images/03jan26.png'
 
 // City-specific variables
 export const cityVariables = {
