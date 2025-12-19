@@ -43,7 +43,7 @@ const Footer = () => {
           onMouseOver={e => { e.currentTarget.style.transform = 'skew(-16deg, 0deg) scale(1.08)'; e.currentTarget.style.textShadow = '0 0 8px #FF6B6B, 2px 2px 0 #fff'; }}
           onMouseOut={e => { e.currentTarget.style.transform = 'skew(-8deg, 0deg)'; e.currentTarget.style.textShadow = '2px 2px 0 #fff, 0 2px 8px #FF6B6B44'; }}
           >Instagram</a>
-          <a href="https://facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600" style={{
+          <a href="https://www.facebook.com/profile.php?id=61581434721974" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600" style={{
             fontSize: isMobile ? '0.8rem' : '1rem',
             fontFamily: 'Freeman, Comic Sans MS, cursive',
             background: 'linear-gradient(90deg, #4A90E2, #FFD776 80%)',

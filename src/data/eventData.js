@@ -273,7 +273,7 @@ export const eventsData = {
     ],
     socialMedia: {
       instagram: "https://www.instagram.com/theaniarchive",
-      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+      facebook: "https://www.facebook.com/profile.php?id=61581434721974"
     },
     ticketLink: "https://www.eventbrite.co.uk/e/wolverhampton-anime-con-2026-tickets-1978355654017?aff=erelexpmlt",
     travelInfo: {
