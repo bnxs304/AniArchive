@@ -734,7 +734,7 @@ const EventPage = () => {
       },
       {
         name: 'Facebook',
-        url: 'https://www.facebook.com/profile.php?id=61578193614358',
+        url: 'https://www.facebook.com/profile.php?id=61581434721974',
         color: '#1877F2',
         description: 'Join our Facebook community for event discussions, photos, and networking.',
         icon: fbGif
