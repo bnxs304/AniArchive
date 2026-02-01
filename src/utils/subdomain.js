@@ -19,6 +19,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3004') return 'manchester'
     if (port === '3005' || port === '3006') return 'leicester' // Support both ports
     if (port === '3007') return 'wolverhampton'
+    if (port === '3008') return 'stafford'
     return null
   }
   
@@ -83,7 +84,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'london' ? '3003' :
                  city === 'manchester' ? '3004' :
                  city === 'leicester' ? '3005' :
-                 city === 'wolverhampton' ? '3007' : '3000'
+                 city === 'wolverhampton' ? '3007' :
+                 city === 'stafford' ? '3008' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -233,6 +235,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Wolverhampton for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Wolverhampton.",
       keywords: "aniarchive wolverhampton, anime convention wolverhampton, gaming convention wolverhampton, Wolverhampton anime event, Wolverhampton gaming convention, anime event Wolverhampton, gaming event Wolverhampton",
       canonical: "https://wolverhampton.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    stafford: {
+      title: "Anime Con Stafford | Premier Anime & Gaming Event",
+      description: "Join us inStafford for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Stafford.",
+      keywords: "aniarchive stafford, anime convention stafford, gaming convention stafford, Stafford anime event, Stafford gaming convention, anime event Stafford, gaming event Stafford",
+      canonical: "https://stafford.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }

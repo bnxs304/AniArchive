@@ -7,6 +7,7 @@ import dec5Image from '../images/5dec24.png'
 import feb28Image from '../images/28feb24.png'
 import nov8th25Image from '../images/08Nov25.png'
 import jan3rd26Image from '../images/03jan26.png'
+import feb15th26Image from '../images/15feb26.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -125,80 +126,7 @@ export const getDaysUntilEvent = (eventDate) => {
 
 // Comprehensive event data structure
 export const eventsData = {
-  /*coventry: {
-    id: 'coventry-aug-2025',
-    city: 'coventry',
-    title: "AniArchive Coventry",
-    date: "2025-08-02",
-    time: "10:00 AM - 6:00 PM",
-    image: aug2nd25Image,
-    status: getEventStatus("2025-08-02", "10:00 AM"),
-    daysUntil: getDaysUntilEvent("2025-08-02"),
-    venue: {
-      name: "The Box at Fargo Village",
-      address: "Far Gosford Street, Coventry, UK. CV1 5ED",
-      coordinates: {
-        lat: 52.40783193692662,
-        lng: -1.4939690475292444
-      },
-      parking: [
-        {
-          name: "Far Gosford St. Car Park",
-          address: "Far Gosford Street, CV1 5DT",
-          info: `Spaces: 30\nUp to 1 hour: £0.60\n1 to 2 hours: £1.10\n2 to 3 hours: £2.20\nUp to 24 hours: £5.50\nTariffs apply every day except Christmas Day and New Year's Day.\nNo charge for Blue Badge Holders.\nNote: a section of this car park is designated as 'private' and is not available for public parking during office hours Monday - Friday. Parking here may result in a fine. Warning signs are clearly displayed.`,
-          coordinates: { lat: 52.408119, lng: -1.494334 }
-        },
-        {
-          name: "Paynes Lane (Fargo) Car Park",
-          address: "Paynes Lane, CV1 5LN (Accessed via Oxford Street)",
-          info: `Spaces: 90\nMon - Sunday 10am - 10pm\nCar parking is currently free of charge.\nPlease refer to site signage for current restrictions and T&C's. Visitors park at their own risk.`,
-          coordinates: { lat: 52.409191, lng: -1.49305 }
-        },
-        {
-          name: "Whitefriars Lane/Whitefriars Street",
-          address: "Whitefriars Street, CV1 2DS",
-          info: `On-Street Car Parking`,
-          coordinates: { lat: 52.40610, lng: -1.50600 }
-        },
-        {
-          name: "Grove St. Car Park",
-          address: "Grove Street, CV1 5PH",
-          info: `Spaces: 179 (Disabled Spaces: 5)\nUp to 1 Hour £2.20\nUp to 2 Hours £3.30\nUp to 3 Hours £4.40\nUp to 4 Hours £5.50\nUp to 5 Hours £6.60\nUp to 6 Hours £6.60\nUp to 7 Hours £7.70\nUp to 8 Hours £8.80\nUp to 9 Hours £8.80\nUp to 10 Hours £8.80\nUp to 12 Hours £8.80\nUp to 24 Hours £10.00\nCharges apply everyday except Christmas Day and New Year's Day. No Charges for Blue Badge Holders. Please refer to site signage for current restrictions and T&C's. Visitors park at their own risk.`,
-          coordinates: { lat: 52.407291, lng: -1.502123 }
-        }
-      ]
-    },
-    description: "Join us for our biggest event yet! Experience retro gaming, anime themed trivia and challenges, the latest merchandise, win prizes, participate in cosplay competitions, and much more.",
-    highlights: [
-      "Tabletop Gaming",
-      "Trivia Competition", 
-      "Cosplay Competition",
-      "Artist Alley",
-      "Retro Gaming Zone",
-      "TCG Stalls",
-      "Live Art",
-      "Giveaways",
-      "Special Offers on Food and Drink",
-      "Merchandise Market",
-    ],
-    announcements: [
-      "Event Registration is now closed! Good luck to everyone who entered!",
-      "Early bird tickets available until July 15th",
-      "Cosplay competition registration opens June 1st",
-      "Artist Alley applications closing soon"
-    ],
-    socialMedia: {
-      instagram: "https://www.instagram.com/theaniarchive",
-      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
-    },
-    ticketLink: "https://eventbrite.com/aniarchive-coventry-2025",
-    travelInfo: {
-      fromLondon: "London Euston → Coventry Station (~1h via Avanti West Coast)",
-      fromBirmingham: "Birmingham New Street → Coventry (20-30 min via West Midlands Railway)",
-      fromManchester: "Manchester Piccadilly → Coventry Station (~1h via Virgin Trains)",
-      localTransport: "🚶‍♂️ Walk (~20 min) or 🚌 Bus 1/11/21 to Far Gosford Street"
-    }
-  },
+  /* example event data
   leicester: {
     id: 'leicester-nov-2025',
     city: 'leicester',
@@ -241,50 +169,52 @@ export const eventsData = {
       localTransport: "Walk (~15 min) or  Bus 22/26 to DMU campus"
     }
   }*/
-  wolverhampton: {
-    id: 'wolverhampton-jan-2026',
-    city: 'wolverhampton',
-    title: 'AniArchive Wolverhampton 2026',
-    date: "Sat. 3rd Jan. 2026",
+  stafford: {
+    id: '15-feb-2026',
+    city: 'stafford',
+    title: "Anime Con Stafford 2026",
+    date: "Sun. 15th Feb. 2026",
     time: "10:30 AM - 5:30 PM",
-    image: jan3rd26Image,
-    status: getEventStatus("2026-01-03", "10:30 AM"),
-    daysUntil: getDaysUntilEvent("2026-01-03"),
+    image: feb15th26Image,
+    status: 'upcoming',
+    highlights: ["Retro Gaming", "Merchandise Market","Cosplay Competition", "Prize Giveaways"],
     venue: {
-      name: "The Pavilion Club Premium Suite",
-      address: "The Pavilion Club Premium Suite, 412 Stafford Rd, Wolverhampton, WV10 6AJ",
-      coordinates: {
-        lat: 52.6167280747693,
-        lng: -2.1301885762672943,
-      }
+      name: "SRFC Venue",
+      address: "6 Marston Rd, Stafford ST16 3BS",
+      coordinates: { lat: 52.819276066291856, lng: -2.1166545517279127}
     },
-    description: "Join us for an exciting anime convention at The Pavilion Club Premium Suite! Experience retro gaming, anime and gaming market full of merchandise, win prizes, participate in cosplay competitions, and much more.",
-    highlights: [
-      "Stage Show",
-      "Cosplay Competition", 
-      "Retro Gaming Zone",
-      "Prizes",
-      "Merchandise Market",
-    ],
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB',
+    description: "Join us for an exciting anime convention at Stafford! Experience retro gaming, anime themed trivia and challenges, the latest merchandise, win prizes, participate in the cosplay competition, and much more.",
     announcements: [
       "Tickets on sale now!",
-      "Limted Vip Tickets available includes free gift!",
-      "Vendor, Voulenteer and Guest applications unavailable for this event!"
+      "Limited Vip Tickets available includes free gift!",
+      "Vendor, Voulenteer and Guest applications available for this event!"
     ],
     socialMedia: {
       instagram: "https://www.instagram.com/theaniarchive",
-      facebook: "https://www.facebook.com/profile.php?id=61581434721974"
+      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
     },
-    ticketLink: "https://www.eventbrite.co.uk/e/wolverhampton-anime-con-2026-tickets-1978355654017?aff=erelexpmlt",
+    ticketLink: "https://www.eventbrite.co.uk/e/stafford-anime-con-2026-tickets-1982108677411?aff=oddtdtcreator",
     travelInfo: {
-      fromBirmingham: "Birmingham New Street → Wolverhampton Station (~15 min via West Midlands Railway)",
-      localTransport: "Walk (~15 min) or  Bus 3, 4, 54, 25 to The Pavilion Club Premium Suite"
+      fromBirmingham: "Birmingham New Street → Stafford Station (~1h 10min via CrossCountry)",
+      localTransport: "Walk (~20 min) from Stafford Town or  Bus/Drive (~5-10 min)"
     }
   }
 }
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '3-jan-2026',
+    city: 'wolverhampton',
+    title: "AniArchive Wolverhampton 2026",
+    date: "2026-01-03",
+    image: jan3rd26Image,
+    status: 'past',
+    highlights: ["Retro Gaming", "Merchandise Market"]
+  },
   {
       id: '8-nov-2025',
       city: 'leicester',
