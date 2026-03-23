@@ -123,6 +123,8 @@ export const SEO_CONFIG = {
         { "@type": "City", "name": "Birmingham" },
         { "@type": "City", "name": "London" },
         { "@type": "City", "name": "Manchester" }
+        { "@type": "City", "name": "Stafford" },
+        { "@type": "City", "name": "Telford" }
       ],
       "sameAs": [
         "https://www.instagram.com/theaniarchive",

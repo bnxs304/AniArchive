@@ -8,6 +8,7 @@ import feb28Image from '../images/28feb24.png'
 import nov8th25Image from '../images/08Nov25.png'
 import jan3rd26Image from '../images/03jan26.png'
 import feb15th26Image from '../images/15feb26.jpeg'
+import telfordmarket2026 from '../images/telfordmarket2026.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -168,7 +169,7 @@ export const eventsData = {
       fromManchester: "Manchester Piccadilly → Leicester Station (~1h 30min via CrossCountry)",
       localTransport: "Walk (~15 min) or  Bus 22/26 to DMU campus"
     }
-  }*/
+  }
   stafford: {
     id: '15-feb-2026',
     city: 'stafford',
@@ -201,11 +202,45 @@ export const eventsData = {
       fromBirmingham: "Birmingham New Street → Stafford Station (~1h 10min via CrossCountry)",
       localTransport: "Walk (~20 min) from Stafford Town or  Bus/Drive (~5-10 min)"
     }
+      */
+     telford: {
+      id: '04-apr-2026',
+      city: 'telford',
+      title: "Anime Market Telford 2026",
+      date: "2026-04-04",
+      time: "10:00 AM - 5:00 PM",
+      image: telfordmarket2026,
+      status: 'upcoming',
+      highlights: ["Anime Market", "Merchandise Market"],
+      venue: {
+      name: "Meeting Point House",
+      address: "Meeting Point House, 100 New St, Telford TF3 4HS",
+      coordinates: { lat: 52.67461171265732, lng: -2.4425877658068185}
+    },
+    description: "Join us for an exciting anime market at Meeting Point House! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+    announcements: [
+      "Tickets on sale now!",
+    ],
+    socialMedia: {
+      instagram: "https://www.instagram.com/theaniarchive",
+      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+    },
+    ticketLink: "https://www.eventbrite.com/e/telford-anime-market-tickets-1985725154391?aff=oddtdtcreator&keep_tld=true",
+    }
   }
-}
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '15-feb-2026',
+    city: 'stafford',
+    title: "Anime Market Stafford 2026",
+    date: "2026-02-28",
+    time: "10:00 AM - 5:00 PM",
+    image: feb15th26Image,
+    status: 'past',
+    highlights: ["Retro Gaming", "Merchandise Market", "Prize Giveaways"]
+  },
   {
     id: '3-jan-2026',
     city: 'wolverhampton',

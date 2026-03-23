@@ -20,6 +20,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3005' || port === '3006') return 'leicester' // Support both ports
     if (port === '3007') return 'wolverhampton'
     if (port === '3008') return 'stafford'
+    if (port === '3009') return 'telford'
     return null
   }
   
@@ -85,7 +86,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'manchester' ? '3004' :
                  city === 'leicester' ? '3005' :
                  city === 'wolverhampton' ? '3007' :
-                 city === 'stafford' ? '3008' : '3000'
+                 city === 'stafford' ? '3008' :
+                 city === 'telford' ? '3009' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -243,6 +245,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join us inStafford for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Stafford.",
       keywords: "aniarchive stafford, anime convention stafford, gaming convention stafford, Stafford anime event, Stafford gaming convention, anime event Stafford, gaming event Stafford",
       canonical: "https://stafford.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    telford: {
+      title: "AniArchive Market Telford | Premier Anime & Gaming Event",
+      description: "Join AniArchive Telford for an epic anime market.",
+      keywords: "aniarchive telford, anime market telford, gaming market telford, Telford anime market, Telford gaming market, anime market Telford, gaming market Telford",
+      canonical: "https://telford.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }

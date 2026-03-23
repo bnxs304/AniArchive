@@ -35,6 +35,14 @@ const EventPage = () => {
   const currentSubdomain = getCurrentSubdomain()
   const eventData = getCurrentEvent(currentSubdomain)
   const [activeTab, setActiveTab] = useState('event-title')
+  const venueName = eventData?.venue?.name || 'Venue TBA'
+  const venueAddress = eventData?.venue?.address || 'Address will be announced soon'
+  const venueCoords = eventData?.venue?.coordinates
+  const hasVenueCoordinates = Boolean(
+    venueCoords &&
+    typeof venueCoords.lat === 'number' &&
+    typeof venueCoords.lng === 'number'
+  )
   
   // Refs for each tab content section
   const eventTitleRef = useRef(null)
@@ -284,7 +292,7 @@ const EventPage = () => {
                 px: { xs: 1, md: 0 }
               }}
             >
-              {eventData.description}
+              {eventData.description || 'Event details coming soon. Stay tuned for updates.'}
             </Typography>
             
             {/* Event Details Card */}
@@ -337,7 +345,7 @@ const EventPage = () => {
                     gap: 1
                   }}
                 >
-                 {eventData.venue.name}
+                 {venueName}
                 </Typography>
               </Box>
             </Card>
@@ -541,7 +549,7 @@ const EventPage = () => {
                       gap: 1
                     }}
                   >
-                    📍 {eventData.venue.name}
+                    📍 {venueName}
                   </Typography>
                   
                   <Typography 
@@ -553,7 +561,7 @@ const EventPage = () => {
                       lineHeight: 1.5
                     }}
                   >
-                    {eventData.venue.address}
+                    {venueAddress}
                   </Typography>
 
                   {eventData.travelInfo && (
@@ -625,11 +633,24 @@ const EventPage = () => {
                   >
                     Interactive Map
                   </Typography>
-                  <InteractiveMap 
-                    venueLocation={[eventData.venue.coordinates.lat, eventData.venue.coordinates.lng]}
-                    venueName={eventData.venue.name}
-                    venueAddress={eventData.venue.address}
-                  />
+                  {hasVenueCoordinates ? (
+                    <InteractiveMap 
+                      venueLocation={[venueCoords.lat, venueCoords.lng]}
+                      venueName={venueName}
+                      venueAddress={venueAddress}
+                    />
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'rgba(255, 255, 255, 0.8)',
+                        textAlign: 'center',
+                        py: 3
+                      }}
+                    >
+                      Map details will be available once the venue is confirmed.
+                    </Typography>
+                  )}
                 </Card>
               </Slide>
             </Grid>

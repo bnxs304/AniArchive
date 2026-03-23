@@ -8,6 +8,19 @@ const DynamicTitle = () => {
     const eventData = getCurrentEvent(currentSubdomain)
     
     if (eventData) {
+      const cityName = eventData.city
+        ? `${eventData.city.charAt(0).toUpperCase()}${eventData.city.slice(1)}`
+        : 'UK'
+      const venueName = eventData.venue?.name || 'our event venue'
+      const venueAddress = eventData.venue?.address || cityName
+      const venueLat = eventData.venue?.coordinates?.lat
+      const venueLng = eventData.venue?.coordinates?.lng
+      const eventDescription = eventData.description ||
+        `Join ${eventData.title} on ${eventData.date} for an epic anime and gaming event.`
+      const imageUrl = typeof eventData.image === 'string'
+        ? (eventData.image.startsWith('http') ? eventData.image : `https://www.theaniarchive.com${eventData.image}`)
+        : null
+
       // Update document title for event subdomain
       document.title = `${eventData.title} | ${eventData.date} | AniArchive - Premier Anime & Gaming Event`
       
@@ -15,7 +28,7 @@ const DynamicTitle = () => {
       const metaDescription = document.querySelector('meta[name="description"]')
       if (metaDescription) {
         metaDescription.setAttribute('content', 
-          `Join ${eventData.title} on ${eventData.date} at ${eventData.venue.name}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise. Book your tickets now!`
+          `Join ${eventData.title} on ${eventData.date} at ${venueName}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise. Book your tickets now!`
         )
       }
       
@@ -40,15 +53,14 @@ const DynamicTitle = () => {
       const ogDescription = document.querySelector('meta[property="og:description"]')
       if (ogDescription) {
         ogDescription.setAttribute('content', 
-          `Join ${eventData.title} on ${eventData.date} at ${eventData.venue.name}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise. Book your tickets now!`
+          `Join ${eventData.title} on ${eventData.date} at ${venueName}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise. Book your tickets now!`
         )
       }
       
       // Update Open Graph image
       const ogImage = document.querySelector('meta[property="og:image"]')
-      if (ogImage && eventData.image) {
-        const fullImageUrl = eventData.image.startsWith('http') ? eventData.image : `https://www.theaniarchive.com${eventData.image}`
-        ogImage.setAttribute('content', fullImageUrl)
+      if (ogImage && imageUrl) {
+        ogImage.setAttribute('content', imageUrl)
       }
       
       // Update Twitter Card title
@@ -61,15 +73,14 @@ const DynamicTitle = () => {
       const twitterDescription = document.querySelector('meta[name="twitter:description"]')
       if (twitterDescription) {
         twitterDescription.setAttribute('content', 
-          `Join ${eventData.title} on ${eventData.date} at ${eventData.venue.name}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise.`
+          `Join ${eventData.title} on ${eventData.date} at ${venueName}. Experience epic anime and gaming activities including cosplay competitions, artist alley, retro gaming, TCG tournaments, and exclusive merchandise.`
         )
       }
       
       // Update Twitter Card image
       const twitterImage = document.querySelector('meta[name="twitter:image"]')
-      if (twitterImage && eventData.image) {
-        const fullImageUrl = eventData.image.startsWith('http') ? eventData.image : `https://www.theaniarchive.com${eventData.image}`
-        twitterImage.setAttribute('content', fullImageUrl)
+      if (twitterImage && imageUrl) {
+        twitterImage.setAttribute('content', imageUrl)
       }
       
       // Update canonical URL
@@ -112,8 +123,8 @@ const DynamicTitle = () => {
           "@context": "https://schema.org",
           "@type": "Event",
           "name": eventData.title,
-          "alternateName": ["AniArchive", "Ani Archive", `${eventData.city} Anime Event`],
-          "description": eventData.description,
+          "alternateName": ["AniArchive", "Ani Archive", `${cityName} Anime Event`],
+          "description": eventDescription,
           "startDate": `${isoDate}T${startTime}+00:00`,
           "endDate": `${isoDate}T${endTime}+00:00`,
           "eventSchedule": {
@@ -123,17 +134,17 @@ const DynamicTitle = () => {
           },
           "location": {
             "@type": "Place",
-            "name": eventData.venue.name,
+            "name": venueName,
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": eventData.venue.address,
-              "addressLocality": eventData.city.charAt(0).toUpperCase() + eventData.city.slice(1),
+              "streetAddress": venueAddress,
+              "addressLocality": cityName,
               "addressCountry": "GB"
             },
             "geo": {
               "@type": "GeoCoordinates",
-              "latitude": eventData.venue.coordinates.lat,
-              "longitude": eventData.venue.coordinates.lng
+              "latitude": venueLat,
+              "longitude": venueLng
             }
           },
           "organizer": {
@@ -158,8 +169,8 @@ const DynamicTitle = () => {
           "eventStatus": "https://schema.org/EventScheduled",
           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
           "category": ["Anime", "Gaming", "Cosplay", "Comics", "Anime Convention", "Gaming Convention", "Anime Event", "Tabletop Gaming", "TCG Tournament"],
-          "keywords": `aniarchive, ${eventData.title.toLowerCase()}, anime convention ${eventData.city}, gaming convention ${eventData.city}, cosplay competition UK, artist alley UK, retro gaming UK, TCG tournament UK`,
-          "image": eventData.image.startsWith('http') ? eventData.image : `https://www.theaniarchive.com${eventData.image}`,
+          "keywords": `aniarchive, ${eventData.title.toLowerCase()}, anime convention ${eventData.city || cityName.toLowerCase()}, gaming convention ${eventData.city || cityName.toLowerCase()}, cosplay competition UK, artist alley UK, retro gaming UK, TCG tournament UK`,
+          "image": imageUrl || "https://www.theaniarchive.com/images/logo.png",
           "url": currentSubdomain ? `https://${currentSubdomain}.theaniarchive.com/` : "https://www.theaniarchive.com",
           "performer": {
             "@type": "Organization",
