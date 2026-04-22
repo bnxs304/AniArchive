@@ -227,6 +227,10 @@ export const eventsData = {
         name: "Stanton Village Hall",
         address: "Stanton Village Hall, 157 Woodland Road, Burton Upon Trent DE15 9TJ",
         coordinates: { lat: 52.778188188110256, lng: -1.6059588824985027}
+        },
+      travelInfo: {
+        fromSwadlincote: "Swadlincote → Burton Upon Trent Station (~10min via 21E bus)",
+        localTransport: "Burton Upon Trent Town, Bus/Drive 21E (~10 min)"
       },
       description: "Join us for an exciting anime market in Burton Upon Trent! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
