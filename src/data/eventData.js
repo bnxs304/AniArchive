@@ -9,6 +9,7 @@ import nov8th25Image from '../images/08Nov25.png'
 import jan3rd26Image from '../images/03jan26.png'
 import feb15th26Image from '../images/15feb26.jpeg'
 import telfordmarket2026 from '../images/telfordmarket2026.jpeg'
+import burtonupontrentmarket2026 from '../images/02may2026.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -24,6 +25,14 @@ export const cityVariables = {
     name: 'Wolverhampton',
     subdomain: 'wolverhampton',
     coordinates: { lat: 52.5963, lng: -2.1337 },
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
+  burtonupontrent: {
+    name: 'Burton Upon Trent',
+    subdomain: 'burtonupontrent',
+    coordinates: { lat: 52.778188188110256, lng: -1.6059588824985027},
     timezone: 'Europe/London',
     currency: 'GBP',
     language: 'en-GB'
@@ -203,34 +212,47 @@ export const eventsData = {
       localTransport: "Walk (~20 min) from Stafford Town or  Bus/Drive (~5-10 min)"
     }
       */
-     telford: {
-      id: '04-apr-2026',
-      city: 'telford',
-      title: "Anime Market Telford 2026",
-      date: "2026-04-04",
-      time: "10:00 AM - 5:00 PM",
-      image: telfordmarket2026,
+    /* Burton Upon Trent Anime Market, 2nd and 3rd May 2026*/
+    burtonupontrent: {
+      id: '02-may-2026',
+      city: 'burtonupontrent',
+      title: "Anime Market Burton Upon Trent 2026",
+      date: "2026-05-02",
+      endDate: "2026-05-03",
+      time: "Sat 2 May: 10:00 AM - 4:00 PM; Sun 3 May: 11:00 AM - 3:00 PM",
+      image: burtonupontrentmarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-      name: "Meeting Point House",
-      address: "Meeting Point House, 100 New St, Telford TF3 4HS",
-      coordinates: { lat: 52.67461171265732, lng: -2.4425877658068185}
+        name: "Stanton Village Hall",
+        address: "Stanton Village Hall, 157 Woodland Road, Burton Upon Trent DE15 9TJ",
+        coordinates: { lat: 52.778188188110256, lng: -1.6059588824985027}
+      },
+      description: "Join us for an exciting anime market in Burton Upon Trent! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      announcements: [
+        "Tickets on sale now!",
+      ],
+      socialMedia: {
+        instagram: "https://www.instagram.com/theaniarchive",
+        facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+      },
+      ticketLink: "https://www.eventbrite.co.uk/e/burton-upon-trent-anime-market-tickets-1987964931625?aff=oddtdtcreator",
     },
-    description: "Join us for an exciting anime market at Meeting Point House! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
-    announcements: [
-      "Tickets on sale now!",
-    ],
-    socialMedia: {
-      instagram: "https://www.instagram.com/theaniarchive",
-      facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
-    },
-    ticketLink: "https://www.eventbrite.com/e/telford-anime-market-tickets-1985725154391?aff=oddtdtcreator&keep_tld=true",
-    }
+    
   }
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '04-apr-2026',
+    city: 'telford',
+    title: "Anime Market Telford 2026",
+    date: "2026-04-04",
+    time: "10:00 AM - 5:00 PM",
+    image: telfordmarket2026,
+    status: 'past',
+    highlights: ["Anime Market", "Merchandise Market"],
+  },
   {
     id: '15-feb-2026',
     city: 'stafford',
@@ -344,5 +366,11 @@ export const getPastEvents = () => {
   return pastEventsData.filter(event => event.status === 'past')
 }
 
-// Legacy export for backward compatibility - defaults to Leicester event
-export const eventData = eventsData.leicester
+/** Subdomains that have a row in `eventsData` (used by API sitemap, etc.) */
+export const getActiveSubdomains = () => Object.keys(eventsData)
+
+// Legacy export for backward compatibility — first active event in `eventsData`
+export const eventData =
+  Object.values(eventsData).find((e) => e && e.status === 'upcoming') ??
+  Object.values(eventsData)[0] ??
+  null

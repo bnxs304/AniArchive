@@ -12,6 +12,8 @@
     "dev:manchester": "vite --port 3004 --host",
     "dev:wolverhampton": "vite --port 3007 --host",
     "dev:stafford": "vite --port 3008 --host",
+    "dev:telford": "vite --port 3009 --host",
+    "dev:burtonupontrent": "vite --port 3010 --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",

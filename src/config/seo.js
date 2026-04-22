@@ -53,6 +53,14 @@ export const SEO_CONFIG = {
       canonical: "https://manchester.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    burtonupontrent: {
+      title: "AniArchive Burton Upon Trent | Premier Anime & Gaming Event",
+      description: "Join AniArchive Burton Upon Trent for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Burton Upon Trent.",
+      keywords: "aniarchive burtonupontrent, anime convention burtonupontrent, gaming convention burtonupontrent, Burton Upon Trent anime event, Burton Upon Trent gaming convention, anime event Burton Upon Trent, gaming event Burton Upon Trent",
+      canonical: "https://burtonupontrent.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }
   },
 

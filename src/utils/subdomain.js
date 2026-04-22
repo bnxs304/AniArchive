@@ -21,6 +21,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3007') return 'wolverhampton'
     if (port === '3008') return 'stafford'
     if (port === '3009') return 'telford'
+    if (port === '3010') return 'burtonupontrent'
     return null
   }
   
@@ -87,7 +88,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'leicester' ? '3005' :
                  city === 'wolverhampton' ? '3007' :
                  city === 'stafford' ? '3008' :
-                 city === 'telford' ? '3009' : '3000'
+                 city === 'telford' ? '3009' :
+                 city === 'burtonupontrent' ? '3010' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -253,6 +255,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Telford for an epic anime market.",
       keywords: "aniarchive telford, anime market telford, gaming market telford, Telford anime market, Telford gaming market, anime market Telford, gaming market Telford",
       canonical: "https://telford.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    burtonupontrent: {
+      title: "AniArchive Burton Upon Trent | Premier Anime & Gaming Event",
+      description: "Join AniArchive Burton Upon Trent for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Burton Upon Trent.",
+      keywords: "aniarchive burtonupontrent, anime convention burtonupontrent, gaming convention burtonupontrent, Burton Upon Trent anime event, Burton Upon Trent gaming convention, anime event Burton Upon Trent, gaming event Burton Upon Trent",
+      canonical: "https://burtonupontrent.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }
