@@ -233,7 +233,7 @@ export const eventsData = {
       },
       description: "Join us for an exciting anime market in Burton Upon Trent! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
-        "AniArchive: We are sorry to inform you that the Sunday 3rd May 2026 market has been cancelled due to unforeseen circumstances. Emails have been sent to all affected ticket holders please reach out to us if you have any questions.",
+        "AniArchive: We are sorry to inform you that the Sunday 3rd May 2026 market has been cancelled. Emails have been sent to all affected ticket holders please reach out to us if you have any questions.",
         "Tickets on sale now!",
       ],
       socialMedia: {
