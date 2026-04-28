@@ -218,8 +218,7 @@ export const eventsData = {
       city: 'burtonupontrent',
       title: "Anime Market Burton Upon Trent 2026",
       date: "2026-05-02",
-      endDate: "2026-05-03",
-      time: "Sat 2 May: 10:00 AM - 4:00 PM; Sun 3 May: 11:00 AM - 3:00 PM",
+      time: "Sat 2 May: 10:00 AM - 4:00 PM",
       image: burtonupontrentmarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
@@ -234,6 +233,7 @@ export const eventsData = {
       },
       description: "Join us for an exciting anime market in Burton Upon Trent! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
+        "AniArchive: We are sorry to inform you that the Sunday 3rd May 2026 market has been cancelled due to unforeseen circumstances. Emails have been sent to all affected ticket holders please reach out to us if you have any questions.",
         "Tickets on sale now!",
       ],
       socialMedia: {
