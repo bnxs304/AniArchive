@@ -61,6 +61,14 @@ export const SEO_CONFIG = {
       canonical: "https://burtonupontrent.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    halesowen: {
+      title: "AniArchive Halesowen | Premier Anime & Gaming Event",
+      description: "Join AniArchive Halesowen for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Halesowen.",
+      keywords: "aniarchive halesowen, anime convention halesowen, gaming convention halesowen, Halesowen anime event, Halesowen gaming convention, anime event Halesowen, gaming event Halesowen",
+      canonical: "https://halesowen.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }
   },
 

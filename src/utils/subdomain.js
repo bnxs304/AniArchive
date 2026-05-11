@@ -22,6 +22,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3008') return 'stafford'
     if (port === '3009') return 'telford'
     if (port === '3010') return 'burtonupontrent'
+    if (port === '3011') return 'halesowen'
     return null
   }
   
@@ -89,7 +90,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'wolverhampton' ? '3007' :
                  city === 'stafford' ? '3008' :
                  city === 'telford' ? '3009' :
-                 city === 'burtonupontrent' ? '3010' : '3000'
+                 city === 'burtonupontrent' ? '3010' :
+                 city === 'halesowen' ? '3011' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -263,6 +265,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Burton Upon Trent for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Burton Upon Trent.",
       keywords: "aniarchive burtonupontrent, anime convention burtonupontrent, gaming convention burtonupontrent, Burton Upon Trent anime event, Burton Upon Trent gaming convention, anime event Burton Upon Trent, gaming event Burton Upon Trent",
       canonical: "https://burtonupontrent.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    halesowen: {
+      title: "AniArchive Halesowen | Premier Anime & Gaming Event",
+      description: "Join AniArchive Halesowen for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Halesowen.",
+      keywords: "aniarchive halesowen, anime convention halesowen, gaming convention halesowen, Halesowen anime event, Halesowen gaming convention, anime event Halesowen, gaming event Halesowen",
+      canonical: "https://halesowen.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }

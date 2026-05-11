@@ -31,6 +31,23 @@ const generateGuestPDF = (formData) => {
     return null;
 };
 
+/** Web3Forms returns `message` at top level (e.g. 429) or under `body.message` (e.g. 400). */
+const getWeb3FormsErrorMessage = (data) => {
+    if (!data || typeof data !== 'object') return null
+    if (typeof data.message === 'string' && data.message.trim()) return data.message.trim()
+    if (data.body && typeof data.body.message === 'string' && data.body.message.trim()) {
+        return data.body.message.trim()
+    }
+    if (typeof data.error === 'string' && data.error.trim()) return data.error.trim()
+    return null
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+/** One retry helps on flaky mobile / hotel Wi‑Fi and Web3Forms 429 / 5xx. */
+const shouldRetryWeb3Forms = (httpStatus) =>
+    httpStatus === 429 || (httpStatus >= 502 && httpStatus <= 504)
+
 // Generic form submission function using Web3Forms
 export const submitForm = async (formData, pdfDataUri = null, pdfFilename = null) => {
     // Check if Web3Forms is properly configured
@@ -40,60 +57,92 @@ export const submitForm = async (formData, pdfDataUri = null, pdfFilename = null
         return { success: true, message: 'Mock email sent successfully (Web3Forms not configured)' };
     }
 
-    try {
-        // Prepare form data for Web3Forms
-        const formDataToSend = new FormData();
-        
-        // Add access key
-        formDataToSend.append('access_key', WEB3FORMS_ACCESS_KEY);
-        
-        // Add form data
-        Object.keys(formData).forEach(key => {
-            if (formData[key] !== null && formData[key] !== undefined) {
-                formDataToSend.append(key, formData[key]);
+    const maxAttempts = 2
+
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        try {
+            const formDataToSend = new FormData();
+
+            formDataToSend.append('access_key', WEB3FORMS_ACCESS_KEY);
+
+            Object.keys(formData).forEach((key) => {
+                if (formData[key] !== null && formData[key] !== undefined) {
+                    formDataToSend.append(key, formData[key]);
+                }
+            });
+
+            if (pdfDataUri && pdfFilename) {
+                const pdfResponse = await fetch(pdfDataUri);
+                const blob = await pdfResponse.blob();
+                formDataToSend.append('attachment', blob, pdfFilename);
             }
-        });
-        
-        // Add PDF attachment if provided
-        if (pdfDataUri && pdfFilename) {
-            // Convert data URI to blob
-            const response = await fetch(pdfDataUri);
-            const blob = await response.blob();
-            formDataToSend.append('attachment', blob, pdfFilename);
-        }
-        
-        // Submit to Web3Forms
-        const result = await fetch(WEB3FORMS_ENDPOINT, {
-            method: 'POST',
-            body: formDataToSend
-        });
-        
-        const response = await result.json();
-        
-        if (response.success) {
-            console.log('Form submitted successfully:', response);
-            return { success: true, message: 'Form submitted successfully!' };
-        } else {
-            console.error('Form submission failed:', response);
-            return { 
-                success: false, 
-                message: response.message || 'There was an error submitting your form. Please try again.' 
+
+            const result = await fetch(WEB3FORMS_ENDPOINT, {
+                method: 'POST',
+                body: formDataToSend,
+            });
+
+            const rawText = await result.text();
+            let response;
+            try {
+                response = rawText ? JSON.parse(rawText) : {};
+            } catch {
+                console.error('Web3Forms non-JSON response:', result.status, rawText?.slice(0, 500));
+                if (attempt < maxAttempts - 1 && shouldRetryWeb3Forms(result.status)) {
+                    await sleep(1000)
+                    continue
+                }
+                return {
+                    success: false,
+                    message: `Form service returned an invalid response (${result.status}). Please try again or contact us on Instagram @theaniarchive.`,
+                };
+            }
+
+            if (response.success) {
+                console.log('Form submitted successfully:', response);
+                return { success: true, message: 'Form submitted successfully!' };
+            }
+
+            const apiMsg = getWeb3FormsErrorMessage(response);
+            const status = result.status
+            if (attempt < maxAttempts - 1 && shouldRetryWeb3Forms(status)) {
+                console.warn(`Web3Forms attempt ${attempt + 1} failed (${status}), retrying once…`)
+                await sleep(1200)
+                continue
+            }
+
+            console.error('Form submission failed:', status, response);
+            return {
+                success: false,
+                message:
+                    apiMsg ||
+                    (result.ok
+                        ? 'There was an error submitting your form. Please try again.'
+                        : `Form service error (${status}). Please try again later.`),
+            };
+        } catch (error) {
+            console.error('Error submitting form:', error);
+
+            if (import.meta.env.DEV && attempt === maxAttempts - 1) {
+                console.log('Mock email sent with params:', formData);
+                return { success: true, message: 'Mock email sent successfully' };
+            }
+
+            if (attempt < maxAttempts - 1) {
+                console.warn(`Web3Forms attempt ${attempt + 1} network error, retrying once…`, error?.message)
+                await sleep(700)
+                continue
+            }
+
+            return {
+                success: false,
+                message:
+                    'Could not reach the form service (network issue). Please check your connection and try again, or message us on Instagram @theaniarchive.',
             };
         }
-    } catch (error) {
-        console.error('Error submitting form:', error);
-        
-        // Fallback for development
-        if (import.meta.env.DEV) {
-            console.log('Mock email sent with params:', formData);
-            return { success: true, message: 'Mock email sent successfully' };
-        }
-        
-        return { 
-            success: false, 
-            message: 'There was an error submitting your form. Please try again.' 
-        };
     }
+
+    return { success: false, message: 'There was an error submitting your form. Please try again.' };
 };
 
 // Volunteer application submission
@@ -110,7 +159,7 @@ export const submitVolunteerApplication = async (formData) => {
         'Work Experience': formData.workExperience,
         'Volunteer Description': formData.volunteerDescription,
         'Why Volunteer': formData.whyVolunteer,
-        'Availability': formData.availability.join(', '),
+        'Availability': Array.isArray(formData.availability) ? formData.availability.join(', ') : '',
         'Special Requirements': formData.specialRequirements || 'None',
         'Over 18': formData.over18 ? 'Yes' : 'No',
         'Submission Type': 'Volunteer Application',
@@ -128,15 +177,23 @@ export const submitVendorApplication = async (formData) => {
     const pdfDataUri = generateVendorPDF(formData);
     const pdfFilename = pdfDataUri ? `vendor_application_${formData.businessName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf` : null;
     
+    const productTypes = Array.isArray(formData.productServiceType)
+        ? formData.productServiceType.join(', ')
+        : (formData.productServiceType || '');
+
     const formDataToSend = {
         subject: 'New Vendor Application - AniArchive',
+        // Web3Forms reserved fields — improves deliverability and reply-to behaviour
+        name: formData.primaryContact,
+        from_name: `${formData.businessName} — ${formData.primaryContact}`,
+        email: formData.email,
+        replyto: formData.email,
         'Business Name': formData.businessName,
         'Primary Contact': formData.primaryContact,
-        email: formData.email,
         phone: formData.phoneNumber,
         'Website/Socials': formData.websiteSocials,
         'Event Name & Date': formData.eventNameDate,
-        'Product/Service Type': formData.productServiceType.join(', '),
+        'Product/Service Type': productTypes,
         'Product/Service Description': formData.productServiceDescription,
         'Special Requirements': formData.specialRequirements || 'None',
         'Submission Type': 'Vendor Application',
@@ -163,9 +220,9 @@ export const submitGuestApplication = async (formData) => {
         'Website/Socials': formData.websiteSocials,
         'Charges Fee': formData.chargesFee ? 'Yes' : 'No',
         'Fee Details': formData.chargesFee ? (formData.feeDetails || 'No details provided') : 'N/A',
-        'Guest Type': formData.guestType.join(', '),
+        'Guest Type': Array.isArray(formData.guestType) ? formData.guestType.join(', ') : '',
         'Guest Description': formData.guestDescription,
-        'Guest Availability': formData.guestAvailability.join(', '),
+        'Guest Availability': Array.isArray(formData.guestAvailability) ? formData.guestAvailability.join(', ') : '',
         'Special Requirements': formData.specialRequirements || 'None',
         'Submission Type': 'Guest Application',
         'Submission Date': new Date().toLocaleDateString(),

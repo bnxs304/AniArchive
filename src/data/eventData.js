@@ -10,6 +10,7 @@ import jan3rd26Image from '../images/03jan26.png'
 import feb15th26Image from '../images/15feb26.jpeg'
 import telfordmarket2026 from '../images/telfordmarket2026.jpeg'
 import burtonupontrentmarket2026 from '../images/02may2026.jpeg'
+import halesowenmarket2026 from '../images/23may2026.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -33,6 +34,14 @@ export const cityVariables = {
     name: 'Burton Upon Trent',
     subdomain: 'burtonupontrent',
     coordinates: { lat: 52.778188188110256, lng: -1.6059588824985027},
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
+  halesowen: {
+    name: 'Halesowen',
+    subdomain: 'halesowen',
+    coordinates: { lat: 52.46666666666666, lng: -2.0666666666666664},
     timezone: 'Europe/London',
     currency: 'GBP',
     language: 'en-GB'
@@ -212,41 +221,51 @@ export const eventsData = {
       localTransport: "Walk (~20 min) from Stafford Town or  Bus/Drive (~5-10 min)"
     }
       */
-    /* Burton Upon Trent Anime Market, 2nd and 3rd May 2026*/
-    burtonupontrent: {
+    
+    halesowen: {
       id: '02-may-2026',
-      city: 'burtonupontrent',
-      title: "Anime Market Burton Upon Trent 2026",
-      date: "2026-05-02",
-      time: "Sat 2 May: 10:00 AM - 4:00 PM",
-      image: burtonupontrentmarket2026,
+      city: 'halesowen',
+      title: "Anime Market Halesowen 2026",
+      date: "2026-05-23",
+      time: "Sat 23 May: 10:00 AM - 3:00 PM",
+      image: halesowenmarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-        name: "Stanton Village Hall",
-        address: "Stanton Village Hall, 157 Woodland Road, Burton Upon Trent DE15 9TJ",
-        coordinates: { lat: 52.778188188110256, lng: -1.6059588824985027}
-        },
-      travelInfo: {
-        fromSwadlincote: "Swadlincote → Burton Upon Trent Station (~10min via 21E bus)",
-        localTransport: "Burton Upon Trent Town, Bus/Drive 21E (~10 min)"
+        name: "Halesowen Libary",
+        address: "Halesowen Library, Queensway, The Cornbow, Halesowen B63 4AZ",
+        coordinates: { lat:52.448942, lng: -2.051849}
       },
-      description: "Join us for an exciting anime market in Burton Upon Trent! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      description: "Join us for an exciting anime market in Halesowen! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
-        "AniArchive: We are sorry to inform you that the Sunday 3rd May 2026 market has been cancelled. Emails have been sent to all affected ticket holders please reach out to us if you have any questions.",
         "Tickets on sale now!",
       ],
       socialMedia: {
         instagram: "https://www.instagram.com/theaniarchive",
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
-      ticketLink: "https://www.eventbrite.co.uk/e/burton-upon-trent-anime-market-tickets-1987964931625?aff=oddtdtcreator",
+      ticketLink: "https://www.eventbrite.com/e/halesowen-anime-market-dudley-tickets-1989168158509?aff=oddtdtcreator&keep_tld=true",
+      travelInfo: {
+        "By Train": "The nearest major station is Old Hill Railway Station, with connecting buses and taxis into Halesowen town centre.",
+        "By Bus": "Regular services run from Birmingham, Dudley, and surrounding towns directly to Halesowen Bus Station, just a short walk from the venue.",
+        "By Car": "Parking is available around Queensway Mall and The Cornbow shopping area, with easy access from the M5 motorway.",
+        "Walking & Local Access": "The venue is centrally located within Halesowen town centre, close to shops and food outlets."
+      }
     },
     
   }
 
-// Past events data
+// Past events dat
 export const pastEventsData = [
+  {
+    id: '02-may-2026',
+    city: 'burtonupontrent',
+    title: "Anime Market Burton Upon Trent 2026",
+    date: "2026-05-02",
+    time: "Sat 2 May: 10:00 AM - 4:00 PM",
+    image: burtonupontrentmarket2026,
+    status: 'past',
+  },
   {
     id: '04-apr-2026',
     city: 'telford',

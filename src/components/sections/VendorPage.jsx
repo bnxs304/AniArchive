@@ -43,6 +43,7 @@ const VendorPage = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
+    const [submitErrorMessage, setSubmitErrorMessage] = useState(null);
 
     const productServiceOptions = [
         'Anime Merchandise',
@@ -98,6 +99,7 @@ const VendorPage = () => {
         
         setIsSubmitting(true);
         setSubmitStatus(null);
+        setSubmitErrorMessage(null);
         
         try {
             const result = await submitVendorApplication(formData);
@@ -117,10 +119,12 @@ const VendorPage = () => {
                 });
             } else {
                 setSubmitStatus('error');
+                setSubmitErrorMessage(result.message || null);
             }
         } catch (error) {
             console.error('Error sending email:', error);
             setSubmitStatus('error');
+            setSubmitErrorMessage(error?.message || null);
         } finally {
             setIsSubmitting(false);
         }
@@ -261,7 +265,21 @@ const VendorPage = () => {
 
                             {submitStatus === 'error' && (
                                 <Alert severity="error" sx={{ mb: 3 }}>
-                                    There was an error submitting your application. Please try again.
+                                    {submitErrorMessage ? (
+                                        <>
+                                            Could not submit: {submitErrorMessage}
+                                            <Typography component="span" variant="body2" sx={{ display: 'block', mt: 1.5, opacity: 0.95 }}>
+                                                This is often a temporary network issue on mobile. Tap submit again in a moment, or reach out to us on Instagram @theaniarchive.
+                                            </Typography>
+                                        </>
+                                    ) : (
+                                        <>
+                                            There was an error submitting your application. Please try again.
+                                            <Typography component="span" variant="body2" sx={{ display: 'block', mt: 1.5, opacity: 0.95 }}>
+                                                If it keeps happening, message us on Instagram @theaniarchive so we can help.
+                                            </Typography>
+                                        </>
+                                    )}
                                 </Alert>
                             )}
 
