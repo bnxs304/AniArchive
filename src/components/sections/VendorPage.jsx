@@ -44,6 +44,7 @@ const VendorPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [submitErrorMessage, setSubmitErrorMessage] = useState(null);
+    const [submitErrorReason, setSubmitErrorReason] = useState(null);
 
     const productServiceOptions = [
         'Anime Merchandise',
@@ -100,6 +101,7 @@ const VendorPage = () => {
         setIsSubmitting(true);
         setSubmitStatus(null);
         setSubmitErrorMessage(null);
+        setSubmitErrorReason(null);
         
         try {
             const result = await submitVendorApplication(formData);
@@ -120,11 +122,13 @@ const VendorPage = () => {
             } else {
                 setSubmitStatus('error');
                 setSubmitErrorMessage(result.message || null);
+                setSubmitErrorReason(result.reason || null);
             }
         } catch (error) {
             console.error('Error sending email:', error);
             setSubmitStatus('error');
             setSubmitErrorMessage(error?.message || null);
+            setSubmitErrorReason(null);
         } finally {
             setIsSubmitting(false);
         }
@@ -264,8 +268,15 @@ const VendorPage = () => {
                             )}
 
                             {submitStatus === 'error' && (
-                                <Alert severity="error" sx={{ mb: 3 }}>
-                                    {submitErrorMessage ? (
+                                <Alert severity={submitErrorReason === 'spam' ? 'warning' : 'error'} sx={{ mb: 3 }}>
+                                    {submitErrorReason === 'spam' ? (
+                                        <>
+                                            We couldn't submit your application automatically.
+                                            <Typography component="span" variant="body2" sx={{ display: 'block', mt: 1.5, opacity: 0.95 }}>
+                                                {submitErrorMessage}
+                                            </Typography>
+                                        </>
+                                    ) : submitErrorMessage ? (
                                         <>
                                             Could not submit: {submitErrorMessage}
                                             <Typography component="span" variant="body2" sx={{ display: 'block', mt: 1.5, opacity: 0.95 }}>

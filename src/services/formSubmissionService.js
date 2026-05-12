@@ -42,6 +42,18 @@ const getWeb3FormsErrorMessage = (data) => {
     return null
 }
 
+// Web3Forms (via Akismet) sometimes flags legitimate applications as spam — most
+// often because of multiple URLs in the socials field or unusual business names.
+// When that happens we want to show a friendly, actionable message instead of
+// telling the visitor their submission "looks like spam".
+const isSpamRejection = (apiMsg) => {
+    if (!apiMsg || typeof apiMsg !== 'string') return false
+    return /spam/i.test(apiMsg)
+}
+
+const SPAM_FALLBACK_MESSAGE =
+    'Our form provider flagged this submission for review — this is usually a false positive when an application contains several links or unusual characters. Try removing extra links from the Website/Socials field and submit again, or message us on Instagram @theaniarchive and we\'ll get you sorted manually.'
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /** One retry helps on flaky mobile / hotel Wi‑Fi and Web3Forms 429 / 5xx. */
@@ -64,6 +76,9 @@ export const submitForm = async (formData, pdfDataUri = null, pdfFilename = null
             const formDataToSend = new FormData();
 
             formDataToSend.append('access_key', WEB3FORMS_ACCESS_KEY);
+            // Web3Forms honeypot — must be present and empty on real submissions.
+            // Helps Akismet trust the request and avoid false-positive spam rejections.
+            formDataToSend.append('botcheck', '');
 
             Object.keys(formData).forEach((key) => {
                 if (formData[key] !== null && formData[key] !== undefined) {
@@ -112,6 +127,11 @@ export const submitForm = async (formData, pdfDataUri = null, pdfFilename = null
             }
 
             console.error('Form submission failed:', status, response);
+
+            if (isSpamRejection(apiMsg)) {
+                return { success: false, message: SPAM_FALLBACK_MESSAGE, reason: 'spam' };
+            }
+
             return {
                 success: false,
                 message:
