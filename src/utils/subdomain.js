@@ -23,6 +23,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3009') return 'telford'
     if (port === '3010') return 'burtonupontrent'
     if (port === '3011') return 'halesowen'
+    if (port === '3012') return 'redditch'
     return null
   }
   
@@ -91,7 +92,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'stafford' ? '3008' :
                  city === 'telford' ? '3009' :
                  city === 'burtonupontrent' ? '3010' :
-                 city === 'halesowen' ? '3011' : '3000'
+                 city === 'halesowen' ? '3011' :
+                 city === 'redditch' ? '3012' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -273,6 +275,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Halesowen for an epic anime and gaming convention. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Halesowen.",
       keywords: "aniarchive halesowen, anime convention halesowen, gaming convention halesowen, Halesowen anime event, Halesowen gaming convention, anime event Halesowen, gaming event Halesowen",
       canonical: "https://halesowen.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    redditch: {
+      title: "AniArchive Redditch | Premier Anime Market",
+      description: "Join AniArchive Redditch for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Redditch.",
+      keywords: "aniarchive redditch, anime market redditch, gaming market redditch, Redditch anime market, Redditch gaming market, anime market Redditch, gaming market Redditch",
+      canonical: "https://redditch.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }

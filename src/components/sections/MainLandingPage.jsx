@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo, useCallback, memo } from 'react'
-import { Box, Typography, Card, CardContent, CardMedia, Button, Chip, Grid, Modal, IconButton, useTheme, useMediaQuery } from '@mui/material'
+import { Box, Typography, Card, CardContent, CardMedia, Button, Chip, Grid, Modal, IconButton, Container, useTheme, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { getUpcomingEvents, getOngoingEvents, getPastEvents, eventsData } from '../../data/eventData'
 import { getSubdomainUrl } from '../../utils/subdomain'
@@ -79,7 +79,7 @@ const MainLandingPage = () => {
     if (!event) {
       return (
         <Card sx={{ 
-          maxWidth: isMobile ? '100%' : 400,
+
           margin: '10px',
           borderRadius: '15px',
           background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
@@ -98,7 +98,6 @@ const MainLandingPage = () => {
     return (
       <Card 
         sx={{ 
-          maxWidth: isMobile ? '100%' : 400,
           margin: '10px',
           cursor: 'pointer',
           transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
@@ -224,7 +223,6 @@ const MainLandingPage = () => {
           '&:hover': {
             transform: 'translateY(-5px)',
           },
-          minHeight: isMobile ? '400px' : '500px',
         }}
         onClick={() => handleEventClick(event)}
       >
@@ -248,11 +246,13 @@ const MainLandingPage = () => {
             alt={event.title}
           />
           <CardContent sx={{ 
-            padding: isMobile ? '20px' : '40px',
+            flex: 1,
+            padding: { xs: '20px', md: '40px' },
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            width: isMobile ? '100%' : '50%',
+            textAlign: 'center',
+            order: { xs: 2, lg: 1 },
           }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Typography variant="h3" component="h3" sx={{ 
@@ -414,11 +414,19 @@ const MainLandingPage = () => {
   }, [activeTab, upcomingEvents, ongoingEvents, pastEvents, isMobile])
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      padding: isMobile ? '20px 20px' : '50px 50px',
-      
-    }}>
+    <main
+      id="main-landing-page"
+      className="main-landing-page"
+      role="main"
+      aria-label="The Anime Archive"
+    >
+      <Box sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+      }}>
+        <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
       {/* Hero Section */}
       <Box sx={{
          textAlign: 'center', 
@@ -428,6 +436,7 @@ const MainLandingPage = () => {
          backdropFilter: 'blur(15px)',
          boxShadow: colors.shadow.light,
          border:'1px solid rgba(255,255,255,0.2)',
+         
          }}>
         <Typography variant="h1" sx={{ 
           fontSize: activeTab === 'upcoming' ? (isMobile ? '2rem' : '3rem') : (isMobile ? '2.5rem' : '4rem'),
@@ -565,6 +574,7 @@ const MainLandingPage = () => {
           </Button>
         </Box>
       </Box>
+        </Container>
 
       {/* Event Modal for Past Events */}
       <Modal
@@ -705,7 +715,8 @@ const MainLandingPage = () => {
           </Box>
         </Box>
       </Modal>
-    </Box>
+      </Box>
+    </main>
   )
 }
 

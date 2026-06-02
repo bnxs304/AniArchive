@@ -11,6 +11,7 @@ import feb15th26Image from '../images/15feb26.jpeg'
 import telfordmarket2026 from '../images/telfordmarket2026.jpeg'
 import burtonupontrentmarket2026 from '../images/02may2026.jpeg'
 import halesowenmarket2026 from '../images/23may2026.jpeg'
+import redditchmarket2026 from '../images/20june26.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -45,7 +46,15 @@ export const cityVariables = {
     timezone: 'Europe/London',
     currency: 'GBP',
     language: 'en-GB'
-  }
+  },
+  redditch: {
+    name: 'Redditch',
+    subdomain: 'redditch',
+    coordinates: { lat: 52.309086, lng: -1.940272},
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
 }
 
 // Event status management utilities
@@ -222,41 +231,44 @@ export const eventsData = {
     }
       */
     
-    halesowen: {
-      id: '02-may-2026',
-      city: 'halesowen',
-      title: "Anime Market Halesowen 2026",
-      date: "2026-05-23",
-      time: "Sat 23 May: 10:00 AM - 3:00 PM",
-      image: halesowenmarket2026,
+    redditch: {
+      id: '20-june-2026',
+      city: 'redditch',
+      title: "Anime Market Redditch 2026",
+      date: "2026-06-20",
+      time: "10:00 AM - 3:00 PM",
+      image: redditchmarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-        name: "Halesowen Libary",
-        address: "Halesowen Library, Queensway, The Cornbow, Halesowen B63 4AZ",
-        coordinates: { lat:52.448942, lng: -2.051849}
+        name: "Arrow Vale Sports Centre",
+        address: "Arrow Vale Sports Centre, Matchborough Way, Redditch B98 0GF",
+        coordinates: { lat:52.297509, lng: -1.896357}
       },
-      description: "Join us for an exciting anime market in Halesowen! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      description: "Join us for an exciting anime market in Redditch! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
         "Tickets on sale now!",
+        "Vendor, Voulenteer and Guest applications available for this event!"
       ],
       socialMedia: {
         instagram: "https://www.instagram.com/theaniarchive",
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
-      ticketLink: "https://www.eventbrite.com/e/halesowen-anime-market-dudley-tickets-1989168158509?aff=oddtdtcreator&keep_tld=true",
-      travelInfo: {
-        "By Train": "The nearest major station is Old Hill Railway Station, with connecting buses and taxis into Halesowen town centre.",
-        "By Bus": "Regular services run from Birmingham, Dudley, and surrounding towns directly to Halesowen Bus Station, just a short walk from the venue.",
-        "By Car": "Parking is available around Queensway Mall and The Cornbow shopping area, with easy access from the M5 motorway.",
-        "Walking & Local Access": "The venue is centrally located within Halesowen town centre, close to shops and food outlets."
-      }
-    },
-    
+      ticketLink: "https://www.eventbrite.com/e/1990824591946?aff=oddtdtcreator",
+    }
   }
 
-// Past events dat
+// Past events data
 export const pastEventsData = [
+  {
+    id: '02-may-2026',
+    city: 'halesowen',
+    title: "Anime Market Halesowen 2026",
+    date: "2026-05-23",
+    time: "Sat 23 May: 10:00 AM - 3:00 PM",
+    image: halesowenmarket2026,
+    status: 'past',
+  },
   {
     id: '02-may-2026',
     city: 'burtonupontrent',
