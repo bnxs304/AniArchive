@@ -15,6 +15,7 @@
     "dev:telford": "vite --port 3009 --host",
     "dev:burtonupontrent": "vite --port 3010 --host",
     "dev:redditch": "vite --port 3012 --host",
+    "dev:warwick": "vite --port 3013 --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",

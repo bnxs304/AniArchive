@@ -24,6 +24,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3010') return 'burtonupontrent'
     if (port === '3011') return 'halesowen'
     if (port === '3012') return 'redditch'
+    if (port === '3013') return 'warwick'
     return null
   }
   
@@ -93,7 +94,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'telford' ? '3009' :
                  city === 'burtonupontrent' ? '3010' :
                  city === 'halesowen' ? '3011' :
-                 city === 'redditch' ? '3012' : '3000'
+                 city === 'redditch' ? '3012' :
+                 city === 'warwick' ? '3013' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -283,6 +285,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Redditch for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Redditch.",
       keywords: "aniarchive redditch, anime market redditch, gaming market redditch, Redditch anime market, Redditch gaming market, anime market Redditch, gaming market Redditch",
       canonical: "https://redditch.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    warwick: {
+      title: "AniArchive Warwick | Premier Anime Event",
+      description: "Join AniArchive Warwick for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Warwick.",
+      keywords: "aniarchive warwick, anime market warwick, gaming market warwick, Warwick anime market, Warwick gaming market, anime market Warwick, gaming market Warwick",
+      canonical: "https://warwick.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }
