@@ -260,8 +260,8 @@ export const eventsData = {
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
         name: "Waterwells Primary Academy",
-        address: "Waterwells Primary Academy, Waterwells Rd, Gloucester GL2 9PY",
-        coordinates: { lat: 51.86111111111111, lng: -2.2416666666666668}
+        address: "Waterwells Primary Academy, Boulmer Avenue, Quedgeley, Gloucester GL2 2FX",
+        coordinates: { lat: 51.818284, lng: -2.264546}
       },
       description: "Join us for an exciting anime market in Gloucester! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
