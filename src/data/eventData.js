@@ -249,7 +249,7 @@ export const eventsData = {
     }
       */
     
-    Gloucester: {
+    gloucester: {
       id: '19-july-2026',
       city: 'gloucester',
       title: "Anime Market Gloucester 2026",
@@ -272,7 +272,7 @@ export const eventsData = {
         instagram: "https://www.instagram.com/theaniarchive",
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
-      ticketLink: "https://www.eventbrite.com/e/warwick-anime-market-tickets-1992350392657?aff=oddtdtcreator",
+      ticketLink: "https://www.eventbrite.com/e/1993469583186?aff=oddtdtcreator",
     }
   }
 
