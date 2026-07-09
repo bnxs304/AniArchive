@@ -25,6 +25,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3011') return 'halesowen'
     if (port === '3012') return 'redditch'
     if (port === '3013') return 'warwick'
+    if (port === '3014') return 'gloucester'
     return null
   }
   
@@ -95,7 +96,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'burtonupontrent' ? '3010' :
                  city === 'halesowen' ? '3011' :
                  city === 'redditch' ? '3012' :
-                 city === 'warwick' ? '3013' : '3000'
+                 city === 'warwick' ? '3013' :
+                 city === 'gloucester' ? '3014' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -293,6 +295,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Warwick for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Warwick.",
       keywords: "aniarchive warwick, anime market warwick, gaming market warwick, Warwick anime market, Warwick gaming market, anime market Warwick, gaming market Warwick",
       canonical: "https://warwick.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    }
+    gloucester: {
+      title: "AniArchive Gloucester | Premier Anime Market",
+      description: "Join AniArchive Gloucester for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Gloucester.",
+      keywords: "aniarchive gloucester, anime market gloucester, gaming market gloucester, Gloucester anime market, Gloucester gaming market, anime market Gloucester, gaming market Gloucester",
+      canonical: "https://gloucester.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     }

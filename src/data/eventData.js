@@ -13,6 +13,7 @@ import burtonupontrentmarket2026 from '../images/02may2026.jpeg'
 import halesowenmarket2026 from '../images/23may2026.jpeg'
 import redditchmarket2026 from '../images/20june26.jpeg'
 import warwickmarket2026 from '../images/04july26.png'
+import gloucestermarket2026 from '../images/19july26.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -60,6 +61,14 @@ export const cityVariables = {
     name: 'Warwick',
     subdomain: 'warwick',
     coordinates: { lat: 52.29166666666666, lng: -1.8966666666666667},
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
+  gloucester: {
+    name: 'Gloucester',
+    subdomain: 'gloucester',
+    coordinates: { lat: 51.86111111111111, lng: -2.2416666666666668},
     timezone: 'Europe/London',
     currency: 'GBP',
     language: 'en-GB'
@@ -240,21 +249,21 @@ export const eventsData = {
     }
       */
     
-    warwick: {
-      id: '04-july-2026',
-      city: 'warwick',
-      title: "Anime Market Warwick 2026",
-      date: "2026-07-04",
+    Gloucester: {
+      id: '19-july-2026',
+      city: 'gloucester',
+      title: "Anime Market Gloucester 2026",
+      date: "2026-07-19",
       time: "10:00 AM - 3:00 PM",
-      image: warwickmarket2026,
+      image: gloucestermarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-        name: "Myton School",
-        address: "Myton School, Myton Rd, Warwick CV34 6PJ",
-        coordinates: { lat: 52.279297, lng: -1.564489}
+        name: "Waterwells Primary Academy",
+        address: "Waterwells Primary Academy, Waterwells Rd, Gloucester GL2 9PY",
+        coordinates: { lat: 51.86111111111111, lng: -2.2416666666666668}
       },
-      description: "Join us for an exciting anime market in Warwick! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      description: "Join us for an exciting anime market in Gloucester! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
         "Tickets on sale now!",
         "Vendor applications available for this event!"
@@ -269,6 +278,15 @@ export const eventsData = {
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '04-july-2026',
+    city:'warwick',
+    title: "Anime Market Warwick 2026",
+    date: "2026-07-04",
+    time: "10:00 AM - 3:00 PM",
+    image: warwickmarket2026,
+    status: 'past',
+  },
   {
     id: '20-june-2026',
     city: 'redditch',
