@@ -297,7 +297,7 @@ export const getSubdomainSEOConfig = (subdomain) => {
       canonical: "https://warwick.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
-    }
+    },
     gloucester: {
       title: "AniArchive Gloucester | Premier Anime Market",
       description: "Join AniArchive Gloucester for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Gloucester.",
@@ -305,7 +305,7 @@ export const getSubdomainSEOConfig = (subdomain) => {
       canonical: "https://gloucester.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
-    }
+    },
   }
 
   return seoConfigs[subdomain] || null
