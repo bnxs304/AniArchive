@@ -267,7 +267,8 @@ export const eventsData = {
       description: "Join us for an exciting anime market in Kidderminster! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
         "Tickets on sale now!",
-        "Vendor applications available for this event!"
+        "Limited 2 for 1 Tickets available!",
+        "Limited Vip Tickets available includes free gift!"
       ],
       socialMedia: {
         instagram: "https://www.instagram.com/theaniarchive",
