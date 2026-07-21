@@ -14,7 +14,7 @@ import halesowenmarket2026 from '../images/23may2026.jpeg'
 import redditchmarket2026 from '../images/20june26.jpeg'
 import warwickmarket2026 from '../images/04july26.png'
 import gloucestermarket2026 from '../images/19july26.jpeg'
-import kidderminstermarket2026 from '../images/01aug26.jpeg'
+import kidderminstermarket2026 from '../images/1aug26.jpeg'
 
 // City-specific variables
 export const cityVariables = {
