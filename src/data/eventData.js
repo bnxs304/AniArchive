@@ -14,6 +14,7 @@ import halesowenmarket2026 from '../images/23may2026.jpeg'
 import redditchmarket2026 from '../images/20june26.jpeg'
 import warwickmarket2026 from '../images/04july26.png'
 import gloucestermarket2026 from '../images/19july26.jpeg'
+import kidderminstermarket2026 from '../images/01aug26.jpeg'
 
 // City-specific variables
 export const cityVariables = {
@@ -249,21 +250,21 @@ export const eventsData = {
     }
       */
     
-    gloucester: {
-      id: '19-july-2026',
-      city: 'gloucester',
-      title: "Anime Market Gloucester 2026",
-      date: "2026-07-19",
+    kidderminster: {
+      id: '01-aug-2026',
+      city: 'kidderminster',
+      title: "Anime Market Kidderminster 2026",
+      date: "2026-08-01",
       time: "10:00 AM - 3:00 PM",
-      image: gloucestermarket2026,
+      image: kidderminstermarket2026,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-        name: "Waterwells Primary Academy",
-        address: "Waterwells Primary Academy, Boulmer Avenue, Quedgeley, Gloucester GL2 2FX",
-        coordinates: { lat: 51.818284, lng: -2.264546}
+        name: "King Charles I School and Sixth Form Centre",
+        address: "King Charles I School and Sixth Form Centre, Kidderminster",
+        coordinates: { lat: 52.38383789742837, lng: -2.232896030183297}
       },
-      description: "Join us for an exciting anime market in Gloucester! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      description: "Join us for an exciting anime market in Kidderminster! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
         "Tickets on sale now!",
         "Vendor applications available for this event!"
@@ -272,12 +273,22 @@ export const eventsData = {
         instagram: "https://www.instagram.com/theaniarchive",
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
-      ticketLink: "https://www.eventbrite.com/e/1993469583186?aff=oddtdtcreator",
+      ticketLink: "https://www.eventbrite.co.uk/e/kidderminster-anime-market-tickets-1994696254192?aff=oddtdtcreator",
     }
   }
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '19-july-2026',
+    city: 'gloucester',
+    title: "Anime Market Gloucester 2026",
+    date: "2026-07-19",
+    time: "10:00 AM - 3:00 PM",
+    image: gloucestermarket2026,
+    status: 'past',
+    highlights: ["Anime Market", "Merchandise Market"],
+  },
   {
     id: '04-july-2026',
     city:'warwick',
@@ -286,6 +297,7 @@ export const pastEventsData = [
     time: "10:00 AM - 3:00 PM",
     image: warwickmarket2026,
     status: 'past',
+    highlights: ["Anime Market", "Merchandise Market"],
   },
   {
     id: '20-june-2026',

@@ -26,6 +26,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3012') return 'redditch'
     if (port === '3013') return 'warwick'
     if (port === '3014') return 'gloucester'
+    if (port === '3015') return 'kidderminster'
     return null
   }
   
@@ -97,7 +98,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'halesowen' ? '3011' :
                  city === 'redditch' ? '3012' :
                  city === 'warwick' ? '3013' :
-                 city === 'gloucester' ? '3014' : '3000'
+                 city === 'gloucester' ? '3014' :
+                 city === 'kidderminster' ? '3015' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -303,6 +305,14 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Gloucester for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Gloucester.",
       keywords: "aniarchive gloucester, anime market gloucester, gaming market gloucester, Gloucester anime market, Gloucester gaming market, anime market Gloucester, gaming market Gloucester",
       canonical: "https://gloucester.theaniarchive.com/",
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
+    },
+    kidderminster: {
+      title: "AniArchive Kidderminster | Premier Anime Market",
+      description: "Join AniArchive Kidderminster for an epic anime market. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in Kidderminster.",
+      keywords: "aniarchive kidderminster, anime market kidderminster, gaming market kidderminster, Kidderminster anime market, Kidderminster gaming market, anime market Kidderminster, gaming market Kidderminster",
+      canonical: "https://kidderminster.theaniarchive.com/",
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     },
