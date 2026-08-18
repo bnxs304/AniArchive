@@ -15,6 +15,8 @@ import redditchmarket2026 from '../images/20june26.jpeg'
 import warwickmarket2026 from '../images/04july26.png'
 import gloucestermarket2026 from '../images/19july26.jpeg'
 import kidderminstermarket2026 from '../images/1aug26.jpeg'
+import stafford31aug26 from '../images/31aug26.png'
+import telford29aug26 from '../images/29aug26.png'
 
 // City-specific variables
 export const cityVariables = {
@@ -250,36 +252,73 @@ export const eventsData = {
     }
       */
     
-    kidderminster: {
-      id: '01-aug-2026',
-      city: 'kidderminster',
-      title: "Anime Market Kidderminster 2026",
-      date: "2026-08-01",
+    telford: {
+      id: '29-aug-2026',
+      city: 'telford',
+      title: "Anime Market Telford 2026",
+      date: "2026-08-29",
       time: "10:00 AM - 3:00 PM",
-      image: kidderminstermarket2026,
+      image: telford29aug26,
       status: 'upcoming',
       highlights: ["Anime Market", "Merchandise Market"],
       venue: {
-        name: "King Charles I School and Sixth Form Centre",
-        address: "King Charles I School and Sixth Form Centre, Kidderminster",
-        coordinates: { lat: 52.38383789742837, lng: -2.232896030183297}
+        name: "Meeting Point House",
+        address: "Meeting Point House, Telford, TH3 4HS",
+        coordinates: { lat: 52.674316, lng: -2.447189}
       },
-      description: "Join us for an exciting anime market in Kidderminster! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      description: "Join us for an exciting anime market in Telford! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
       announcements: [
         "Tickets on sale now!",
-        "Limited 2 for 1 Tickets available!",
-        "Limited Vip Tickets available includes free gift!"
       ],
       socialMedia: {
         instagram: "https://www.instagram.com/theaniarchive",
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
-      ticketLink: "https://www.eventbrite.co.uk/e/kidderminster-anime-market-tickets-1994696254192?aff=oddtdtcreator",
+      ticketLink: "https://www.eventbrite.com/e/1998356143018?aff=oddtdtcreator",
+    },
+
+    stafford: {
+      id: '31-aug-2026',
+      city: 'stafford',
+      title: "Anime Market Stafford 2026",
+      date: "2026-08-31",
+      time: "10:00 AM - 3:00 PM",
+      image: stafford31aug26,
+      status: 'upcoming',
+      highlights: ["Anime Market", "Merchandise Market", "Bank Holiday Special"],
+      venue: {
+        name: "SRFC Venue",
+        address: "6 Marston Rd, Stafford ST16 3BS",
+        coordinates: { lat: 52.819475, lng: -2.117075}
+      },
+      description: "Join us for an exciting anime market in Stafford! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      announcements: [
+        "Tickets on sale now!",
+        "Limited Vip Tickets available includes free gift!",
+      ],
+      socialMedia: {
+        instagram: "https://www.instagram.com/theaniarchive",
+        facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+      },
+      ticketLink: "https://www.eventbrite.com/e/1998357095868?aff=oddtdtcreator",
+      travelInfo: {
+        fromBirmingham: "Birmingham New Street → Stafford Station (~1h 10min via CrossCountry)",
+        localTransport: "Walk (~20 min) from Stafford Town or  Bus/Drive (~5-10 min)"
+      }
     }
-  }
+}
 
 // Past events data
 export const pastEventsData = [
+  {
+    id: '01-aug-2026',
+    city: 'kidderminster',
+    title: "Anime Market Kidderminster 2026",
+    date: "2026-08-01",
+    time: "10:00 AM - 3:00 PM",
+    image: kidderminstermarket2026,
+    status: 'past',
+  },
   {
     id: '19-july-2026',
     city: 'gloucester',
