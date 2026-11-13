@@ -320,7 +320,7 @@ export const eventsData = {
       },
       ticketLink: 'https://www.eventbrite.com/e/stourbridge-anime-market-tickets-2004816976545?aff=oddtdtcreator',
     },
-    
+
     coventry: {
       id: '29-nov-2026',
       city: 'coventry',
@@ -344,7 +344,7 @@ export const eventsData = {
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
       ticketLink: 'https://www.eventbrite.com/e/coventry-anime-market-tickets-2004817105932?aff=oddtdtcreator',
-    },
+    }
 }
 
 // Past events data
