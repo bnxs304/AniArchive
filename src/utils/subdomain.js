@@ -205,22 +205,8 @@ export const getSubdomainSEOConfig = (subdomain) => {
       description: "Join AniArchive Coventry for an epic anime and gaming convention at The Box Fargo Village. Experience retro gaming, cosplay competitions, artist alley, TCG tournaments, and exclusive merchandise in the heart of Coventry.",
       keywords: "aniarchive coventry, anime convention coventry, gaming convention coventry, Coventry anime event, Coventry gaming convention, Midlands anime event, The Box Fargo Village, anime event Coventry, gaming event Coventry",
       canonical: "https://coventry.theaniarchive.com/",
-      ogImage: "https://www.theaniarchive.com/images/aug2nd25.png",
-      twitterImage: "https://www.theaniarchive.com/images/aug2nd25.png",
-      structuredData: {
-        eventStatus: "https://schema.org/EventScheduled",
-        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-        location: {
-          "@type": "Place",
-          "name": "The Box at Fargo Village",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Far Gosford Street, Coventry, UK. CV1 5ED",
-            "addressLocality": "Coventry",
-            "addressCountry": "GB"
-          }
-        }
-      }
+      ogImage: "https://www.theaniarchive.com/images/logo.png",
+      twitterImage: "https://www.theaniarchive.com/images/logo.png"
     },
     birmingham: {
       title: "AniArchive Birmingham | Premier Anime & Gaming Event",
@@ -318,7 +304,7 @@ export const getSubdomainSEOConfig = (subdomain) => {
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     },
-    
+
   }
 
   return seoConfigs[subdomain] || null

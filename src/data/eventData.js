@@ -79,6 +79,22 @@ export const cityVariables = {
     currency: 'GBP',
     language: 'en-GB'
   },
+  stourbridge: {
+    name: 'Stourbridge',
+    subdomain: 'stourbridge',
+    coordinates: { lat: 52.45497372934855, lng: -2.1386291727872333},
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
+  coventry: {
+    name: 'Coventry',
+    subdomain: 'coventry',
+    coordinates: { lat: 52.408179870899914, lng: -1.4938118363939707},
+    timezone: 'Europe/London',
+    currency: 'GBP',
+    language: 'en-GB'
+  },
 }
 
 // Event status management utilities
@@ -304,6 +320,7 @@ export const eventsData = {
       },
       ticketLink: 'https://www.eventbrite.com/e/stourbridge-anime-market-tickets-2004816976545?aff=oddtdtcreator',
     },
+    
     coventry: {
       id: '29-nov-2026',
       city: 'coventry',
