@@ -18,6 +18,7 @@
     "dev:warwick": "vite --port 3013 --host",
     "dev:gloucester": "vite --port 3014 --host",
     "dev:kidderminster": "vite --port 3015 --host",
+    "dev:stourbridge": "vite --port 3016 --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",

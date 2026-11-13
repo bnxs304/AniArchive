@@ -18,6 +18,8 @@ import kidderminstermarket2026 from '../images/1aug26.jpeg'
 import stafford31aug26 from '../images/31aug26.png'
 import telford29aug26 from '../images/29aug26.png'
 import warwickmarket21nov26 from '../images/21nov26.png'
+import stourbridge28nov26 from '../images/28nov26.png'
+import coventry29nov26 from '../images/29nov26.png'
 
 // City-specific variables
 export const cityVariables = {
@@ -276,6 +278,55 @@ export const eventsData = {
         facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
       },
       ticketLink: 'https://www.eventbrite.com/e/warwick-anime-market-tickets-2004544624934?aff=oddtdtcreator',
+    },
+
+    stourbridge: {
+      id: '28-nov-2026',
+      city: 'stourbridge',
+      title: "Anime Market Stourbridge 2026",
+      date: "2026-11-28",
+      time: "10:00 AM - 3:00 PM",
+      image: stourbridge28nov26,
+      status: 'upcoming',
+      highlights: ["Anime Market", "Merchandise Market"],
+      venue: {
+        name: "Redhill School",
+        address: "Redhill School, Junction Road, Stourbridge, DY8 1JX",
+        coordinates: { lat: 52.45497372934855, lng: -2.1386291727872333}
+      },
+      description: "Join us for an exciting anime market in Stourbridge! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      announcements: [
+        "Tickets on sale now!",
+      ],
+      socialMedia: {
+        instagram: "https://www.instagram.com/theaniarchive",
+        facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+      },
+      ticketLink: 'https://www.eventbrite.com/e/stourbridge-anime-market-tickets-2004816976545?aff=oddtdtcreator',
+    },
+    coventry: {
+      id: '29-nov-2026',
+      city: 'coventry',
+      title: "Anime Market Coventry 2026",
+      date: "2026-11-29",
+      time: "10:00 AM - 3:00 PM",
+      image: coventry29nov26,
+      status: 'upcoming',
+      highlights: ["Anime Market", "Merchandise Market"],
+      venue: {
+        name: "The Box At Fargo Village",
+        address: "The Box At Fargo Village, Far Gosford Street, Coventry, CV1 5ED",
+        coordinates: { lat:52.408179870899914, lng: -1.4938118363939707}
+      },
+      description: "Join us for an exciting anime market in Coventry! Immerse yourself in a one a kind shopping experience with a variety of merchandise.",
+      announcements: [
+        "Tickets on sale now!",
+      ],
+      socialMedia: {
+        instagram: "https://www.instagram.com/theaniarchive",
+        facebook: "https://www.facebook.com/share/1X5nn3uunk/?mibextid=wwXIfr"
+      },
+      ticketLink: 'https://www.eventbrite.com/e/coventry-anime-market-tickets-2004817105932?aff=oddtdtcreator',
     },
 }
 

@@ -27,6 +27,7 @@ export const getCurrentSubdomain = () => {
     if (port === '3013') return 'warwick'
     if (port === '3014') return 'gloucester'
     if (port === '3015') return 'kidderminster'
+    if (port === '3016') return 'stourbridge'
     return null
   }
   
@@ -99,7 +100,8 @@ export const getSubdomainUrl = (city) => {
                  city === 'redditch' ? '3012' :
                  city === 'warwick' ? '3013' :
                  city === 'gloucester' ? '3014' :
-                 city === 'kidderminster' ? '3015' : '3000'
+                 city === 'kidderminster' ? '3015' :
+                 city === 'stourbridge' ? '3016' : '3000'
     return `${protocol}//${hostname}:${port}`
   }
   
@@ -316,6 +318,7 @@ export const getSubdomainSEOConfig = (subdomain) => {
       ogImage: "https://www.theaniarchive.com/images/logo.png",
       twitterImage: "https://www.theaniarchive.com/images/logo.png"
     },
+    
   }
 
   return seoConfigs[subdomain] || null
